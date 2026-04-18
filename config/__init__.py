@@ -1,0 +1,1 @@
+"""GridSentinel — Config package."""

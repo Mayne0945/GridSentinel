@@ -1,0 +1,25 @@
+FROM python:3.11-slim
+
+# System deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Install poetry
+RUN pip install --no-cache-dir poetry==1.8.2
+
+# Copy dependency spec
+COPY pyproject.toml poetry.lock* ./
+
+# Install deps (no virtualenv inside container — cleaner)
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi --no-root
+
+# Copy full source
+COPY . .
+
+# Default: override per-service in docker-compose.yml
+CMD ["python", "--version"]

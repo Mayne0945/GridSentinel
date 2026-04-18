@@ -1,0 +1,48 @@
+fleet:
+  size: 500                    # Total buses across all depots
+  depots: 5                    # Number of depots
+  buses_per_depot: 100         # Must equal size / depots
+  battery_capacity_kwh: 300
+  max_charge_rate_kw: 150
+  depot_chargers: 40           # Charger points per depot
+
+schedule:
+  source: "tfl"                # "tfl" or "rea_vaya"
+  shifts: 3
+  earliest_departure: "05:00"
+  latest_return: "23:00"
+
+degradation:
+  new_bus_soh: 1.0
+  oldest_bus_soh: 0.78
+  cycle_count_range: [0, 2000]
+  # Temperature multipliers (Arrhenius-informed, NASA battery dataset)
+  temp_multiplier:
+    below_15c: 1.2
+    range_15_35c: 1.0
+    range_35_45c: 1.4
+    above_45c: 2.0
+
+mpc:
+  horizon_steps: 48            # 4-hour horizon at 5-min resolution
+  solver_backend: "OSQP"       # or ECOS
+  max_solve_time_s: 2.0        # Per depot solver
+
+kinesis:
+  stream_name: "gridsentinel-telemetry"
+  shards: 5                    # One per depot — must equal fleet.depots
+  late_record_slack_s: 10      # Watermark window
+
+digital_twin:
+  v_min_pu: 0.95
+  v_max_pu: 1.05
+  transformer_limit_pct: 0.80  # Max % of rated transformer capacity
+
+bft:
+  mad_threshold_k: 3           # z-score threshold for Byzantine detection
+  trust_decay_minor: 0.02      # Isolated spike (likely transient noise)
+  trust_decay_standard: 0.10   # Spike + fails depot meter cross-validation
+  trust_decay_coordinated: 0.20 # Coordinated attack across 3+ buses
+  trust_recovery_per_window: 0.01
+  trust_recovery_burst: 0.05   # Bonus after 5 consecutive clean readings
+  trust_blacklist_threshold: 0.5

@@ -1,0 +1,554 @@
+version: "3.9"
+
+# ---------------------------------------------------------------------------
+# GridSentinel — Full Stack
+# docker-compose up starts the entire pipeline.
+# Fleet scale is controlled by config/fleet.yaml — no code changes required.
+# ---------------------------------------------------------------------------
+
+x-python-base: &python-base
+  build:
+    context: .
+    dockerfile: Dockerfile.python
+  volumes:
+    - ./config:/app/config:ro
+  environment:
+    - CONFIG_PATH=/app/config/fleet.yaml
+    - AWS_ENDPOINT_URL=http://localstack:4566
+    - AWS_DEFAULT_REGION=eu-west-1
+    - AWS_ACCESS_KEY_ID=test
+    - AWS_SECRET_ACCESS_KEY=test
+    - INFLUXDB_URL=http://influxdb:8086
+    - INFLUXDB_TOKEN=gridsentinel-token
+    - INFLUXDB_ORG=gridsentinel
+    - INFLUXDB_BUCKET=telemetry
+    - REDIS_URL=redis://redis:6379
+  restart: unless-stopped
+  networks:
+    - gridsentinel
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # Infrastructure
+  # ---------------------------------------------------------------------------
+
+  localstack:
+    image: localstack/localstack:3.4
+    container_name: gs-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=kinesis
+      - DEFAULT_REGION=eu-west-1
+      - KINESIS_PROVIDER=kinesalite
+      - EAGER_SERVICE_LOADING=1
+    volumes:
+      - localstack_data:/var/lib/localstack
+      - ./scripts/localstack-init.sh:/etc/localstack/init/ready.d/init.sh:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gridsentinel
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: gs-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 5
+    networks:
+      - gridsentinel
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: gs-influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=gridsentinel
+      - DOCKER_INFLUXDB_INIT_ORG=gridsentinel
+      - DOCKER_INFLUXDB_INIT_BUCKET=telemetry
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=gridsentinel-token
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+    healthcheck:
+      test: ["CMD", "influx", "ping"]
+      interval: 10s
+      retries: 5
+    networks:
+      - gridsentinel
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: gs-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=gridsentinel
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  # ---------------------------------------------------------------------------
+  # Phase 1 — Ingestion & BFT
+  # ---------------------------------------------------------------------------
+
+  fleet-sim:
+    <<: *python-base
+    container_name: gs-fleet-sim
+    command: python -m fleet_sim.main
+    depends_on:
+      localstack:
+        condition: service_healthy
+
+  producer-entso-e:
+    <<: *python-base
+    container_name: gs-producer-entso-e
+    command: python -m ingestion.producer_entso_e
+    depends_on:
+      localstack:
+        condition: service_healthy
+
+  producer-weather:
+    <<: *python-base
+    container_name: gs-producer-weather
+    command: python -m ingestion.producer_weather
+    depends_on:
+      localstack:
+        condition: service_healthy
+
+  producer-fleet:
+    <<: *python-base
+    container_name: gs-producer-fleet
+    command: python -m ingestion.producer_fleet
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # One alignment + BFT consumer per depot (depot_id 0-4)
+  align-bft-depot-0:
+    <<: *python-base
+    container_name: gs-align-bft-d0
+    command: python -m ingestion.consumer_align --depot-id 0
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=0
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  align-bft-depot-1:
+    <<: *python-base
+    container_name: gs-align-bft-d1
+    command: python -m ingestion.consumer_align --depot-id 1
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=1
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  align-bft-depot-2:
+    <<: *python-base
+    container_name: gs-align-bft-d2
+    command: python -m ingestion.consumer_align --depot-id 2
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=2
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  align-bft-depot-3:
+    <<: *python-base
+    container_name: gs-align-bft-d3
+    command: python -m ingestion.consumer_align --depot-id 3
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=3
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  align-bft-depot-4:
+    <<: *python-base
+    container_name: gs-align-bft-d4
+    command: python -m ingestion.consumer_align --depot-id 4
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=4
+    depends_on:
+      localstack:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  # ---------------------------------------------------------------------------
+  # Phase 2 — Forecasting
+  # ---------------------------------------------------------------------------
+
+  forecasting:
+    <<: *python-base
+    container_name: gs-forecasting
+    command: python -m forecasting.main
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # Phase 3 — MPC (one solver per depot)
+  # ---------------------------------------------------------------------------
+
+  mpc-depot-0:
+    <<: *python-base
+    container_name: gs-mpc-d0
+    command: python -m mpc.depot.solver --depot-id 0
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=0
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  mpc-depot-1:
+    <<: *python-base
+    container_name: gs-mpc-d1
+    command: python -m mpc.depot.solver --depot-id 1
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=1
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  mpc-depot-2:
+    <<: *python-base
+    container_name: gs-mpc-d2
+    command: python -m mpc.depot.solver --depot-id 2
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=2
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  mpc-depot-3:
+    <<: *python-base
+    container_name: gs-mpc-d3
+    command: python -m mpc.depot.solver --depot-id 3
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=3
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  mpc-depot-4:
+    <<: *python-base
+    container_name: gs-mpc-d4
+    command: python -m mpc.depot.solver --depot-id 4
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=4
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  mpc-coordinator:
+    <<: *python-base
+    container_name: gs-mpc-coordinator
+    command: python -m mpc.coordinator.coordinator
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # Phase 4 — Digital Twin (one per depot)
+  # ---------------------------------------------------------------------------
+
+  digital-twin-depot-0:
+    <<: *python-base
+    container_name: gs-dt-d0
+    command: python -m digital_twin.main --depot-id 0
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=0
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  digital-twin-depot-1:
+    <<: *python-base
+    container_name: gs-dt-d1
+    command: python -m digital_twin.main --depot-id 1
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=1
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  digital-twin-depot-2:
+    <<: *python-base
+    container_name: gs-dt-d2
+    command: python -m digital_twin.main --depot-id 2
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=2
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  digital-twin-depot-3:
+    <<: *python-base
+    container_name: gs-dt-d3
+    command: python -m digital_twin.main --depot-id 3
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=3
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  digital-twin-depot-4:
+    <<: *python-base
+    container_name: gs-dt-d4
+    command: python -m digital_twin.main --depot-id 4
+    environment:
+      - CONFIG_PATH=/app/config/fleet.yaml
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_DEFAULT_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=gridsentinel-token
+      - INFLUXDB_ORG=gridsentinel
+      - INFLUXDB_BUCKET=telemetry
+      - REDIS_URL=redis://redis:6379
+      - DEPOT_ID=4
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gridsentinel
+
+  # ---------------------------------------------------------------------------
+  # Phase 5 — API + Dashboard
+  # ---------------------------------------------------------------------------
+
+  api:
+    <<: *python-base
+    container_name: gs-api
+    command: uvicorn dashboard.api:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      influxdb:
+        condition: service_healthy
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: gs-dashboard
+    ports:
+      - "3002:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    networks:
+      - gridsentinel
+
+volumes:
+  localstack_data:
+  redis_data:
+  influxdb_data:
+  grafana_data:
+
+networks:
+  gridsentinel:
+    driver: bridge

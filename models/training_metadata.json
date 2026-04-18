@@ -1,0 +1,30 @@
+{
+  "horizon": 288,
+  "feature_count": 26,
+  "train_rows": 16992,
+  "cal_rows": 8640,
+  "train_start": "2023-01-01",
+  "train_end_cutoff": "2023-02-28",
+  "best_params": {
+    "n_estimators": 200,
+    "max_depth": 7,
+    "learning_rate": 0.06054365855469246,
+    "subsample": 0.8832290311184181,
+    "colsample_bytree": 0.608233797718321,
+    "min_child_weight": 10
+  },
+  "best_cv_mae": 2.586,
+  "final_mae": 2.6942,
+  "mae_h1_5min": 2.5958,
+  "mae_h144_12h": 2.617,
+  "mae_h288_24h": 2.6634,
+  "conformal": {
+    "empirical_coverage": 0.8,
+    "target_coverage": 0.8,
+    "mean_interval_width_eur": 8.619933715793824
+  },
+  "elapsed_s": 2799.9,
+  "n_optuna_trials": 3,
+  "n_cv_folds": 3,
+  "saved_at": "2026-04-16T16:09:13.731226+00:00"
+}

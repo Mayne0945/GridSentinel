@@ -103,6 +103,33 @@ class BftConfig(BaseModel):
     trust_blacklist_threshold: float = 0.50
 
 
+class MarketConfig(BaseModel):
+    """
+    Safety circuit breaker for external energy market API outages.
+
+    If the ENTSO-E API goes dark, the consumer_align pipeline falls back
+    to Last Known Good (LKG) data. If LKG is also stale or missing, the
+    system uses emergency_base_price instead of 0.0.
+
+    Why not 0.0?
+    A zero spot price tells the MPC that electricity is free — which is a
+    silent command to charge at maximum power. At 100 buses that is a
+    grid event, not a billing issue.
+
+    emergency_base_price is set high enough (0.25 EUR/kWh) that the MPC
+    will only charge buses with hard departure constraints and stop all
+    speculative arbitrage until live data returns.
+
+    max_stale_window_s controls how long LKG data is trusted before
+    confidence drops to 0.0 and emergency_base_price activates.
+    """
+
+    emergency_base_price: float = 0.25  # EUR/kWh — forces MPC into safety mode
+    max_stale_window_s: int = 3600  # 1 hour — beyond this, LKG is untrusted
+    currency: str = "EUR"
+    market_region: str = "10Y1001A1001A635"  # Germany/Lux — standard test zone
+
+
 # ─── Root settings ─────────────────────────────────────────────────────────────
 
 
@@ -114,6 +141,7 @@ class Settings(BaseModel):
     kinesis: KinesisConfig
     digital_twin: DigitalTwinConfig
     bft: BftConfig
+    market: MarketConfig = Field(default_factory=MarketConfig)
 
 
 # ─── Loader ───────────────────────────────────────────────────────────────────
@@ -147,7 +175,6 @@ def _load_settings() -> Settings:
 settings: Settings = _load_settings()
 
 
-# Add this at the absolute bottom of config/settings.py
 def get_config():
-    """Adapter for Claude's scripts that expect a get_config() factory."""
+    """Adapter for scripts that expect a get_config() factory."""
     return settings

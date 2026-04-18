@@ -6,13 +6,14 @@ Implements the Byzantine Fault Detection layer.
 Called once per 5-minute canonical window per depot.
 Receives an aggregated snapshot from consumer_align.py and:
 
-  1. Runs the MAD consensus filter on SoC and power readings
-  2. Cross-validates charger cluster against depot meter
-  3. Applies contextual Trust Ledger decay (three tiers from config)
-  4. Blacklists sensors below trust threshold
-  5. Emits a Clean Truth snapshot (Byzantine sensors replaced with
+  1. Checks price_metadata.confidence — tags MPC mode before any filtering
+  2. Runs the MAD consensus filter on SoC and power readings
+  3. Cross-validates charger cluster against depot meter
+  4. Applies contextual Trust Ledger decay (three tiers from config)
+  5. Blacklists sensors below trust threshold
+  6. Emits a Clean Truth snapshot (Byzantine sensors replaced with
      weighted interpolation from trusted neighbours)
-  6. Writes trust scores and Clean Truth to InfluxDB + Redis
+  7. Writes trust scores and Clean Truth to InfluxDB + Redis
 
 The Math — MAD Filter:
   For each sensor cluster (all bus SoC readings in one depot):
@@ -25,7 +26,7 @@ The Math — MAD Filter:
 
   where k = mad_threshold_k from config (default 3).
 
-  The 1.4826 consistency constant makes MAD equivalent to σ for
+  The 1.4826 consistency constant makes MAD equivalent to sigma for
   Gaussian-distributed data, so k=3 means "3 standard deviations".
 
 Contextual Trust Ledger decay (v2.0):
@@ -37,6 +38,12 @@ Contextual Trust Ledger decay (v2.0):
   Recovery:
     - +0.01 per clean window (slow, steady)
     - +0.05 burst bonus after 5 consecutive clean windows
+
+MPC Mode tagging (v2.1):
+  The Clean Truth snapshot now carries an mpc_mode field:
+    - "normal":   price_confidence >= 0.5 — full arbitrage allowed
+    - "safety":   price_confidence == 0.0 — departure-critical charging only
+  The MPC reads this field and restricts its objective accordingly.
 """
 
 from __future__ import annotations
@@ -53,7 +60,7 @@ from config.settings import settings
 
 log = logging.getLogger(__name__)
 
-# MAD consistency constant — makes MAD ≡ σ for Gaussian data
+# MAD consistency constant — makes MAD equivalent to sigma for Gaussian data
 MAD_CONSISTENCY = 1.4826
 
 
@@ -62,14 +69,14 @@ class BFTGatekeeper:
     Per-depot BFT filter. One instance per align-bft-depot-N container.
 
     State:
-      trust_scores:      bus_id → float (0.0–1.0, starts at 1.0)
-      clean_streak:      bus_id → int (consecutive clean windows)
-      flagged_history:   bus_id → list of recent flag timestamps
+      trust_scores:  bus_id -> float (0.0-1.0, starts at 1.0)
+      clean_streak:  bus_id -> int (consecutive clean windows)
     """
 
     def __init__(self, depot_id: int) -> None:
         self.depot_id = depot_id
         self.cfg = settings.bft
+        self.market_cfg = settings.market
         self.trust_scores: dict[str, float] = defaultdict(lambda: 1.0)
         self.clean_streak: dict[str, int] = defaultdict(int)
         self._redis = self._connect_redis()
@@ -77,13 +84,16 @@ class BFTGatekeeper:
 
         log.info(
             "BFT Gatekeeper ready | depot=%d | k=%.1f | "
-            "decay=[minor=%.2f std=%.2f coord=%.2f] | blacklist=%.2f",
+            "decay=[minor=%.2f std=%.2f coord=%.2f] | blacklist=%.2f | "
+            "emergency_price=%.4f EUR/kWh | max_stale=%ds",
             depot_id,
             self.cfg.mad_threshold_k,
             self.cfg.trust_decay_minor,
             self.cfg.trust_decay_standard,
             self.cfg.trust_decay_coordinated,
             self.cfg.trust_blacklist_threshold,
+            self.market_cfg.emergency_base_price,
+            self.market_cfg.max_stale_window_s,
         )
 
     # ─── External connections ─────────────────────────────────────────────────
@@ -123,33 +133,64 @@ class BFTGatekeeper:
             )
             return None
 
+    # ─── Price confidence check ───────────────────────────────────────────────
+
+    def _resolve_mpc_mode(self, snapshot: dict) -> str:
+        """
+        Determine MPC operating mode from price_metadata.confidence.
+
+        Returns:
+          "normal"  — confidence >= 0.5 — live or fresh LKG price
+                      Full arbitrage optimisation allowed.
+          "safety"  — confidence == 0.0 — stale or missing price data
+                      MPC must restrict to departure-critical charging only.
+                      Emergency price is already active in the snapshot.
+
+        This is the firewall between a data outage and a grid event.
+        The BFT layer is the last component that sees price_metadata
+        before the clean truth reaches the MPC — so it is the right
+        place to enforce this gate.
+        """
+        confidence = snapshot.get("price_metadata", {}).get("confidence", 1.0)
+        source = snapshot.get("price_metadata", {}).get("source", "live")
+
+        if confidence == 0.0:
+            log.warning(
+                "BFT | depot=%d | price_confidence=0.0 (source=%s) | "
+                "MPC mode -> SAFETY (departure-critical charging only)",
+                self.depot_id,
+                source,
+            )
+            return "safety"
+
+        if confidence < 1.0:
+            log.info(
+                "BFT | depot=%d | price_confidence=%.1f (source=%s) | "
+                "MPC mode -> NORMAL (LKG price — arbitrage allowed with caution)",
+                self.depot_id,
+                confidence,
+                source,
+            )
+
+        return "normal"
+
     # ─── MAD Filter ───────────────────────────────────────────────────────────
 
-    def _mad_filter(
-        self,
-        values: dict[str, float],
-    ) -> dict[str, bool]:
+    def _mad_filter(self, values: dict[str, float]) -> dict[str, bool]:
         """
-        Apply MAD consensus filter to a dict of {bus_id: value}.
-
+        Apply MAD consensus filter to {bus_id: value}.
         Returns {bus_id: is_flagged}.
-
-        For small clusters (<3 sensors), MAD is unreliable — skip filtering.
-        This protects against false positives at depot startup when only
-        a few buses have reported.
+        Skips clusters smaller than 3 sensors — MAD is unreliable on tiny sets.
         """
         flagged: dict[str, bool] = {bid: False for bid in values}
-
         readings = np.array(list(values.values()), dtype=float)
+
         if len(readings) < 3:
             return flagged
 
         med = np.median(readings)
         mad = np.median(np.abs(readings - med))
 
-        # Degenerate case: all readings identical (MAD = 0)
-        # This itself is suspicious — could be a flatline attack.
-        # Flag all as minor if cluster is large enough to have variance.
         if mad < 1e-6:
             if len(readings) > 5:
                 log.debug(
@@ -157,13 +198,10 @@ class BFTGatekeeper:
                     self.depot_id,
                     len(readings),
                 )
-            return flagged  # Can't score without variance — pass through
+            return flagged
 
         scaled_mad = MAD_CONSISTENCY * mad
-        bus_ids = list(values.keys())
-        arr_vals = list(values.values())
-
-        for bus_id, val in zip(bus_ids, arr_vals):
+        for bus_id, val in zip(values.keys(), values.values()):
             z_score = abs(val - med) / scaled_mad
             if z_score > self.cfg.mad_threshold_k:
                 flagged[bus_id] = True
@@ -187,27 +225,18 @@ class BFTGatekeeper:
     ) -> bool:
         """
         Cross-validate charger cluster against depot meter.
-
-        If reported aggregate power diverges from the depot meter by more
-        than 20%, the charger cluster is lying.
-
-        The depot meter is the ground-truth anchor — a single, harder-to-
-        compromise measurement at the substation connection point.
-
-        Returns True if the cluster fails cross-validation.
+        >20% divergence = cluster is lying.
+        The depot meter is the ground-truth anchor.
         """
         if abs(depot_meter_kw) < 5.0:
-            # Meter near zero — no meaningful cross-validation possible
             return False
 
         reported_total = sum(b.get("mean_power_kw", 0.0) for b in buses)
-
         if abs(depot_meter_kw) < 1e-6:
             return False
 
         divergence = abs(reported_total - depot_meter_kw) / abs(depot_meter_kw)
-
-        if divergence > 0.20:  # >20% divergence = cross-validation fail
+        if divergence > 0.20:
             log.warning(
                 "Depot meter mismatch | depot=%d | reported=%.1fkW | meter=%.1fkW | div=%.1f%%",
                 self.depot_id,
@@ -221,21 +250,7 @@ class BFTGatekeeper:
 
     # ─── Contextual Trust Ledger ──────────────────────────────────────────────
 
-    def _classify_attack(
-        self,
-        flagged_bus_ids: set[str],
-        meter_fails: bool,
-    ) -> str:
-        """
-        Classify the severity of detected Byzantine behaviour.
-
-        Returns one of: "minor", "standard", "coordinated"
-
-        Classification logic:
-          coordinated: 3+ buses flagged simultaneously (designed to beat averaging)
-          standard:    1–2 buses flagged AND depot meter cross-validation fails
-          minor:       1–2 buses flagged, meter OK (likely transient sensor noise)
-        """
+    def _classify_attack(self, flagged_bus_ids: set[str], meter_fails: bool) -> str:
         n = len(flagged_bus_ids)
         if n == 0:
             return "none"
@@ -251,18 +266,6 @@ class BFTGatekeeper:
         flagged_ids: set[str],
         attack_class: str,
     ) -> None:
-        """
-        Apply contextual decay and recovery to the Trust Ledger.
-
-        Decay rates from fleet.yaml bft section:
-          minor:       -0.02  (transient noise — gentle decay)
-          standard:    -0.10  (confirmed Byzantine — significant decay)
-          coordinated: -0.20  (coordinated attack — aggressive decay)
-
-        Recovery:
-          +0.01 per clean window
-          +0.05 burst after 5 consecutive clean windows
-        """
         cfg = self.cfg
         decay_map = {
             "minor": cfg.trust_decay_minor,
@@ -273,13 +276,11 @@ class BFTGatekeeper:
 
         for bus in buses:
             bus_id = bus["bus_id"]
-
             if bus_id in flagged_ids:
                 self.trust_scores[bus_id] = max(0.0, self.trust_scores[bus_id] - decay)
                 self.clean_streak[bus_id] = 0
-
                 log.info(
-                    "Trust decay | depot=%d | bus=%s | class=%s | " "decay=%.2f | score=%.3f",
+                    "Trust decay | depot=%d | bus=%s | class=%s | decay=%.2f | score=%.3f",
                     self.depot_id,
                     bus_id,
                     attack_class,
@@ -287,15 +288,11 @@ class BFTGatekeeper:
                     self.trust_scores[bus_id],
                 )
             else:
-                # Clean reading — apply recovery
                 self.clean_streak[bus_id] += 1
                 recovery = cfg.trust_recovery_per_window
-
-                # Burst bonus after 5 consecutive clean windows
                 if self.clean_streak[bus_id] >= 5 and self.trust_scores[bus_id] < 1.0:
                     recovery += cfg.trust_recovery_burst
-                    self.clean_streak[bus_id] = 0  # Reset streak after burst
-
+                    self.clean_streak[bus_id] = 0
                 self.trust_scores[bus_id] = min(1.0, self.trust_scores[bus_id] + recovery)
 
     # ─── Clean Truth emission ─────────────────────────────────────────────────
@@ -304,14 +301,13 @@ class BFTGatekeeper:
         self,
         snapshot: dict,
         flagged_ids: set[str],
+        mpc_mode: str,
     ) -> dict:
         """
-        Build Clean Truth snapshot by replacing Byzantine bus readings
-        with weighted interpolation from trusted neighbours.
-
-        Blacklisted buses (trust < threshold) are completely excluded.
-        Their SoC/power contribution is replaced by the depot-level mean
-        of trusted buses.
+        Build Clean Truth snapshot.
+        Byzantine bus readings replaced with weighted interpolation from trusted neighbours.
+        Blacklisted buses completely excluded and interpolated.
+        mpc_mode injected here — the MPC reads this field directly.
         """
         buses = snapshot["buses"]
         blacklisted = {
@@ -321,15 +317,10 @@ class BFTGatekeeper:
         }
 
         trusted_buses = [b for b in buses if b["bus_id"] not in blacklisted]
-
         if not trusted_buses:
-            log.warning(
-                "depot=%d — all buses blacklisted! Emitting empty Clean Truth.",
-                self.depot_id,
-            )
-            trusted_buses = buses  # Fail open — better than no data
+            log.warning("depot=%d — all buses blacklisted! Failing open.", self.depot_id)
+            trusted_buses = buses
 
-        # Mean SoC and power from trusted buses (used to replace blacklisted)
         trusted_mean_soc = sum(b["mean_soc_pct"] for b in trusted_buses) / len(trusted_buses)
         trusted_mean_power = sum(b["mean_power_kw"] for b in trusted_buses) / len(trusted_buses)
 
@@ -337,7 +328,6 @@ class BFTGatekeeper:
         for bus in buses:
             bid = bus["bus_id"]
             if bid in blacklisted:
-                # Replace with interpolated values from trusted neighbours
                 clean_buses.append(
                     {
                         **bus,
@@ -363,12 +353,12 @@ class BFTGatekeeper:
             "blacklisted_ids": list(blacklisted),
             "clean_bus_count": len(trusted_buses),
             "bft_passed": True,
+            "mpc_mode": mpc_mode,  # "normal" | "safety"
         }
 
     # ─── Output sinks ─────────────────────────────────────────────────────────
 
     def _write_to_influx(self, clean_truth: dict, attack_class: str) -> None:
-        """Write BFT metrics and trust scores to InfluxDB."""
         if not self._influx:
             return
         try:
@@ -380,22 +370,24 @@ class BFTGatekeeper:
             org = os.environ.get("INFLUXDB_ORG", "gridsentinel")
             ts = clean_truth["canonical_timestamp"]
 
-            # BFT window summary
             p = (
                 Point("bft_window")
                 .tag("depot_id", str(self.depot_id))
                 .tag("attack_class", attack_class)
+                .tag("mpc_mode", clean_truth.get("mpc_mode", "normal"))
                 .field("flagged_count", len(clean_truth["flagged_bus_ids"]))
                 .field("blacklisted_count", len(clean_truth["blacklisted_ids"]))
                 .field("clean_bus_count", clean_truth["clean_bus_count"])
                 .field("spot_price", clean_truth["spot_price"])
+                .field(
+                    "price_confidence", clean_truth.get("price_metadata", {}).get("confidence", 1.0)
+                )
                 .field("temperature_c", clean_truth["temperature_c"])
                 .field("depot_meter_kw", clean_truth["depot_meter_kw"])
                 .time(ts)
             )
             write_api.write(bucket=bucket, org=org, record=p)
 
-            # Per-bus trust scores
             for bus in clean_truth["buses"]:
                 tp = (
                     Point("bft_trust")
@@ -413,9 +405,9 @@ class BFTGatekeeper:
 
     def _write_to_redis(self, clean_truth: dict) -> None:
         """
-        Publish Clean Truth snapshot to Redis for MPC consumption.
+        Publish Clean Truth to Redis for MPC consumption.
         Key: gridsentinel:clean_truth:{depot_id}
-        TTL: 90 seconds (1.5× window size — MPC reads every 5 min)
+        TTL: 90s (1.5x window — MPC reads every 5 min)
         """
         if not self._redis:
             return
@@ -423,12 +415,7 @@ class BFTGatekeeper:
             key = f"gridsentinel:clean_truth:{self.depot_id}"
             data = json.dumps(clean_truth)
             self._redis.setex(key, 90, data)
-
-            # Publish to pub/sub channel for real-time consumers
-            self._redis.publish(
-                f"gridsentinel:bft:{self.depot_id}",
-                data,
-            )
+            self._redis.publish(f"gridsentinel:bft:{self.depot_id}", data)
         except Exception as exc:
             log.warning("Redis write error | depot=%d | %s", self.depot_id, exc)
 
@@ -442,7 +429,7 @@ class BFTGatekeeper:
             snapshot: Output of consumer_align.aggregate_window()
 
         Returns:
-            Clean Truth snapshot with trust scores and BFT metadata.
+            Clean Truth snapshot with trust scores, BFT metadata, and mpc_mode.
         """
         buses = snapshot.get("buses", [])
         depot_meter = snapshot.get("depot_meter_kw", 0.0)
@@ -452,52 +439,53 @@ class BFTGatekeeper:
             log.warning("depot=%d | Empty window at %s — skipping BFT.", self.depot_id, ts)
             return snapshot
 
-        # Step 1 — MAD filter on SoC values
+        # Step 1 — Resolve MPC mode from price confidence BEFORE filtering
+        # This runs first so the mode is set regardless of sensor state
+        mpc_mode = self._resolve_mpc_mode(snapshot)
+
+        # Step 2 — MAD filter on SoC and power
         soc_values = {b["bus_id"]: b["mean_soc_pct"] for b in buses}
         power_values = {b["bus_id"]: b["mean_power_kw"] for b in buses}
-
         soc_flagged = self._mad_filter(soc_values)
         power_flagged = self._mad_filter(power_values)
-
-        # Union: flagged on either SoC or power
         flagged_ids = {bid for bid, flag in {**soc_flagged, **power_flagged}.items() if flag}
 
-        # Step 2 — Depot meter cross-validation
+        # Step 3 — Depot meter cross-validation
         meter_fails = self._meter_cross_validation_fails(buses, depot_meter)
 
-        # Step 3 — Classify attack severity
+        # Step 4 — Classify attack severity
         attack_class = self._classify_attack(flagged_ids, meter_fails)
 
-        # Step 4 — Update Trust Ledger
+        # Step 5 — Update Trust Ledger
         self._update_trust_scores(buses, flagged_ids, attack_class)
 
-        # Step 5 — Build Clean Truth snapshot
-        clean_truth = self._build_clean_truth(snapshot, flagged_ids)
+        # Step 6 — Build Clean Truth with mpc_mode injected
+        clean_truth = self._build_clean_truth(snapshot, flagged_ids, mpc_mode)
 
-        # Step 6 — Log summary
-        n_flagged = len(flagged_ids)
-        blacklist = settings.bft.trust_blacklist_threshold
-
-        if n_flagged:
+        # Step 7 — Log summary
+        if flagged_ids:
             log.warning(
-                "BFT | depot=%d | ts=%s | FLAGGED=%d | class=%s | meter_fail=%s",
+                "BFT | depot=%d | ts=%s | FLAGGED=%d | class=%s | " "meter_fail=%s | mpc_mode=%s",
                 self.depot_id,
                 ts[:16],
-                n_flagged,
+                len(flagged_ids),
                 attack_class,
                 meter_fails,
+                mpc_mode,
             )
         else:
             log.info(
-                "BFT | depot=%d | ts=%s | ✓ CLEAN | buses=%d | price=£%.2f | temp=%.1f°C",
+                "BFT | depot=%d | ts=%s | CLEAN | buses=%d | "
+                "price=%.2f EUR/MWh | confidence=%.1f | mpc_mode=%s",
                 self.depot_id,
                 ts[:16],
                 len(buses),
                 snapshot.get("spot_price", 0.0),
-                snapshot.get("temperature_c", 0.0),
+                snapshot.get("price_metadata", {}).get("confidence", 1.0),
+                mpc_mode,
             )
 
-        # Step 7 — Emit to sinks
+        # Step 8 — Emit to sinks
         self._write_to_influx(clean_truth, attack_class)
         self._write_to_redis(clean_truth)
 

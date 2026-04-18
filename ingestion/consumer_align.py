@@ -29,7 +29,7 @@ logging.basicConfig(
 log = logging.getLogger("ingestion.consumer_align")
 
 WINDOW_SECONDS = 300  # 5-minute canonical windows
-POLL_INTERVAL_S = 1  # How often to poll Kinesis shard
+POLL_INTERVAL_S = 1
 LATE_SLACK_S = settings.kinesis.late_record_slack_s  # 10s watermark
 
 
@@ -37,9 +37,6 @@ LATE_SLACK_S = settings.kinesis.late_record_slack_s  # 10s watermark
 
 
 def get_all_shard_iterators(client: Any, stream_name: str) -> list[str]:
-    """
-    Grab LATEST iterators for ALL shards.
-    """
     try:
         resp = client.list_shards(StreamName=stream_name)
         shards = resp.get("Shards", [])
@@ -60,7 +57,7 @@ def get_all_shard_iterators(client: Any, stream_name: str) -> list[str]:
         return iterators
     except Exception as exc:
         log.error("CRITICAL: Failed to get shard iterators: %s", exc)
-        raise  # Crash loudly so we can see it in the logs
+        raise
 
 
 def wait_for_stream(client: Any, stream_name: str, max_wait_s: int = 60) -> None:
@@ -139,18 +136,94 @@ def aggregate_window(
     prev_entso: dict | None,
     prev_weather: dict | None,
 ) -> dict:
-    entso = buf.entso_price or prev_entso or {}
-    spot_price = entso.get("spot_price", 0.0)
+    """
+    Aggregate one 5-minute window into a canonical snapshot.
 
+    Price Safety Logic (the "Zero-Price" fix):
+    -------------------------------------------
+    We never inject 0.0 as a spot price. A zero price silently tells the
+    MPC that electricity is free — which triggers maximum charging on all
+    buses simultaneously. At 100 buses that is a grid event.
+
+    Three-tier price resolution:
+      1. Live data (buf.entso_price)        → confidence 1.0, source "live"
+      2. Last Known Good (prev_entso)       → confidence 0.5, source "lkg_buffer"
+         - If LKG age > max_stale_window_s → confidence 0.0, emergency price
+      3. No data at all                     → confidence 0.0, emergency price
+
+    The emergency_base_price (0.25 EUR/kWh) is high enough to stop
+    speculative arbitrage but low enough to allow departure-critical charging.
+    """
+    market_cfg = settings.market
+
+    # ── Price source resolution ───────────────────────────────────────────────
+    if buf.entso_price:
+        # Tier 1: live data
+        spot_price = buf.entso_price.get("spot_price", market_cfg.emergency_base_price)
+        price_confidence = 1.0
+        price_source = "live"
+
+    elif prev_entso:
+        # Tier 2: Last Known Good — check staleness
+        lkg_timestamp = prev_entso.get("event_timestamp") or prev_entso.get("ingestion_timestamp")
+        if lkg_timestamp:
+            try:
+                lkg_ts = datetime.fromisoformat(lkg_timestamp)
+                if lkg_ts.tzinfo is None:
+                    lkg_ts = lkg_ts.replace(tzinfo=UTC)
+                lkg_age_s = (buf.window_start - lkg_ts).total_seconds()
+            except (ValueError, TypeError):
+                lkg_age_s = market_cfg.max_stale_window_s + 1  # treat as stale
+        else:
+            lkg_age_s = market_cfg.max_stale_window_s + 1
+
+        if lkg_age_s <= market_cfg.max_stale_window_s:
+            # LKG is fresh enough to trust
+            spot_price = prev_entso.get("spot_price", market_cfg.emergency_base_price)
+            price_confidence = 0.5
+            price_source = "lkg_buffer"
+            log.warning(
+                "Price | depot=%d | using LKG data (age=%.0fs) | confidence=0.5",
+                depot_id,
+                lkg_age_s,
+            )
+        else:
+            # LKG is too old — switch to emergency price
+            spot_price = market_cfg.emergency_base_price
+            price_confidence = 0.0
+            price_source = "emergency_default"
+            log.error(
+                "Price | depot=%d | LKG is STALE (age=%.0fs > max=%ds) | "
+                "EMERGENCY PRICE ACTIVE: %.4f EUR/kWh",
+                depot_id,
+                lkg_age_s,
+                market_cfg.max_stale_window_s,
+                market_cfg.emergency_base_price,
+            )
+
+    else:
+        # Tier 3: no data at all — emergency price
+        spot_price = market_cfg.emergency_base_price
+        price_confidence = 0.0
+        price_source = "emergency_default"
+        log.error(
+            "Price | depot=%d | NO ENTSO-E DATA — EMERGENCY PRICE ACTIVE: %.4f EUR/kWh",
+            depot_id,
+            market_cfg.emergency_base_price,
+        )
+
+    # ── Weather ───────────────────────────────────────────────────────────────
     wx = buf.weather or prev_weather or {}
     temperature_c = wx.get("temperature_c", 21.0)
     solar_irradiance_wm2 = wx.get("solar_irradiance_wm2", 0.0)
     wind_speed_kmh = wx.get("wind_speed_kmh", 10.0)
 
+    # ── Depot meter ───────────────────────────────────────────────────────────
     meter = buf.depot_meter or {}
     meter_kw = meter.get("aggregate_power_kw", 0.0)
     chargers = meter.get("active_chargers", 0)
 
+    # ── Bus aggregation ───────────────────────────────────────────────────────
     buses = []
     for bus_id, records in buf.bus_records.items():
         if not records:
@@ -178,6 +251,11 @@ def aggregate_window(
         "canonical_timestamp": buf.window_start.isoformat(),
         "depot_id": depot_id,
         "spot_price": spot_price,
+        "price_metadata": {
+            "confidence": price_confidence,
+            "is_stale": buf.entso_price is None,
+            "source": price_source,
+        },
         "temperature_c": temperature_c,
         "solar_irradiance_wm2": solar_irradiance_wm2,
         "wind_speed_kmh": wind_speed_kmh,
@@ -215,7 +293,6 @@ def run(depot_id: int) -> None:
 
     iterators = get_all_shard_iterators(kinesis, stream_name)
     bft = BFTGatekeeper(depot_id=depot_id)
-
     prev_entso: dict | None = None
     prev_weather: dict | None = None
     windows: dict[datetime, WindowBuffer] = {}
@@ -258,6 +335,7 @@ def run(depot_id: int) -> None:
                         if not accepted:
                             total_late_drop += 1
 
+                        # Update LKG caches immediately on receipt
                         if source == "entso_e":
                             prev_entso = record
                         elif source == "open_meteo":
@@ -275,10 +353,14 @@ def run(depot_id: int) -> None:
                 total_windows += 1
 
                 log.info(
-                    "Window closed | ts=%s | buses=%d | records=%d",
+                    "Window closed | ts=%s | buses=%d | records=%d | "
+                    "price=%.2f EUR/MWh | price_confidence=%.1f | source=%s",
                     ws.strftime("%H:%M"),
                     len(snapshot["buses"]),
                     snapshot["record_count"],
+                    snapshot["spot_price"],
+                    snapshot["price_metadata"]["confidence"],
+                    snapshot["price_metadata"]["source"],
                 )
                 bft.process(snapshot)
 

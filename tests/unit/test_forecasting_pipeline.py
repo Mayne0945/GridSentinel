@@ -196,18 +196,16 @@ class TestBuildFeatures:
         df = _make_raw_df(n_rows=100)
         x_out = build_features(df)
         for col, default_val in FLEET_FEATURE_DEFAULTS.items():
-            assert (x_out[col] == default_val).all(), (
-                f"Fleet feature '{col}' should be {default_val}, got {x_out[col].unique()}"
-            )
+            assert (
+                x_out[col] == default_val
+            ).all(), f"Fleet feature '{col}' should be {default_val}, got {x_out[col].unique()}"
 
     def test_temporal_sin_cos_magnitude_is_one(self):
         df = _make_raw_df(n_rows=50)
         x_out = build_features(df)
         for prefix in ["hour", "dow", "month"]:
             mag = np.sqrt(x_out[f"sin_{prefix}"] ** 2 + x_out[f"cos_{prefix}"] ** 2)
-            assert np.allclose(mag, 1.0, atol=1e-5), (
-                f"sin/cos magnitude for {prefix} is not 1.0"
-            )
+            assert np.allclose(mag, 1.0, atol=1e-5), f"sin/cos magnitude for {prefix} is not 1.0"
 
     def test_is_weekend_correct_on_known_date(self):
         # 2023-01-07 is a Saturday
@@ -457,9 +455,7 @@ class TestConformalCalibration:
     def test_perfect_model_has_near_zero_quantiles(self):
         model, x_cal, y_cal = self._make_perfect_model()
         q = calibrate_conformal(model, x_cal, y_cal, coverage=0.80)
-        assert q.max() < 1e-4, (
-            f"Perfect model should have ~zero residuals, got max={q.max():.4f}"
-        )
+        assert q.max() < 1e-4, f"Perfect model should have ~zero residuals, got max={q.max():.4f}"
 
     def test_noisy_model_has_positive_quantiles(self):
         model, x_cal, y_cal = self._make_noisy_model(noise_std=5.0)

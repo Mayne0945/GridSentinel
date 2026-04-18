@@ -2,32 +2,25 @@
 
 <br />
 
-```
-  ██████╗ ██████╗ ██╗██████╗ ███████╗███████╗███╗   ██╗████████╗██╗███╗   ██╗███████╗██╗
- ██╔════╝ ██╔══██╗██║██╔══██╗██╔════╝██╔════╝████╗  ██║╚══██╔══╝██║████╗  ██║██╔════╝██║
- ██║  ███╗██████╔╝██║██║  ██║███████╗█████╗  ██╔██╗ ██║   ██║   ██║██╔██╗ ██║█████╗  ██║
- ██║   ██║██╔══██╗██║██║  ██║╚════██║██╔══╝  ██║╚██╗██║   ██║   ██║██║╚██╗██║██╔══╝  ██║
- ╚██████╔╝██║  ██║██║██████╔╝███████║███████╗██║ ╚████║   ██║   ██║██║ ╚████║███████╗███████╗
-  ╚═════╝ ╚═╝  ╚═╝╚═╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝╚═╝  ╚═══╝╚══════╝╚══════╝
-```
+<h1>GridSentinel</h1>
+
+<p>
+  <img src="https://github.com/Mayne0945/GridSentinel/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python 3.12" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/XGBoost-Conformal_Prediction-EA580C?style=flat-square" alt="XGBoost" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/Solver-PuLP_CBC-6B21A8?style=flat-square" alt="PuLP" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/Grid-Pandapower-DC2626?style=flat-square" alt="Pandapower" />
+  &nbsp;
+  <img src="https://img.shields.io/badge/Streaming-AWS_Kinesis-F59E0B?style=flat-square&logo=amazonaws&logoColor=white" alt="Kinesis" />
+</p>
 
 <br />
 
-**Autonomous Byzantine-Resilient V2G Energy Arbitrage and Grid Safety System**
-
-<br />
-
-![CI](https://github.com/Mayne0945/GridSentinel/actions/workflows/ci.yml/badge.svg)
-![Python](https://img.shields.io/badge/Python-3.12-blue?style=flat-square&logo=python&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-![XGBoost](https://img.shields.io/badge/XGBoost-Conformal_Prediction-orange?style=flat-square)
-![PuLP](https://img.shields.io/badge/Solver-PuLP_CBC-purple?style=flat-square)
-![Pandapower](https://img.shields.io/badge/Grid-Pandapower-red?style=flat-square)
-![Kinesis](https://img.shields.io/badge/Streaming-AWS_Kinesis-yellow?style=flat-square&logo=amazonaws)
-
-<br />
-
-*Built to doubt. Designed to protect. Optimized to profit.*
+<p><em>A sensor that lies is not a sensor. It is a weapon.</em></p>
 
 <br />
 
@@ -35,171 +28,203 @@
 
 ---
 
-## Overview
+Grids are about to absorb tens of millions of EVs. Most charging optimization systems assume the data feeding them is honest.
 
-GridSentinel orchestrates a fleet of 100 electric vehicle buses as distributed grid assets. It simultaneously protects the pipeline from corrupted sensor data, forecasts energy prices 24 hours ahead with statistical certainty, executes profitable V2G arbitrage trades, and validates every dispatch command against a physics-based digital twin before a single watt flows.
+**GridSentinel does not.**
 
-Most energy management systems assume their sensors are honest. GridSentinel does not. Every data point that enters the system is treated as potentially compromised until it survives a Byzantine fault detection layer.
-
-<br />
-
-## What Makes This Different
-
-```
-  Byzantine Detection     Physics Validation      Chaos Tested
-  at the data layer   +   before execution    +   under attack
-```
-
-**Byzantine Fault Detection.** Every sensor reading passes through a Median Absolute Deviation consensus filter before reaching the forecasting engine. Hacked chargers, faulty meters, and coordinated replay attacks are caught, quarantined, and logged. The system has never been silently corrupted in testing.
-
-**Physics Validation.** Every MPC dispatch command is marked `PENDING` until a Pandapower digital twin approves it. The twin runs a linearized DistFlow voltage check every 5 minutes and a full Newton-Raphson AC power flow every 30 minutes. A command that would violate grid physics never reaches hardware.
-
-**Market Safety Circuit Breaker.** If the ENTSO-E API goes dark, the pipeline does not inject `0.0` as the spot price. A zero price tells the MPC electricity is free, which is a silent command to charge all buses simultaneously. At 100 buses, that is a grid event. A three-tier resolution system activates an emergency price instead.
+Every sensor reading is treated as potentially compromised until it survives a Byzantine fault detection layer. Only verified data reaches the forecasting engine. Only physics-validated commands reach hardware. The system has been attacked with four adversarial patterns at 10% fleet compromise. Detection rate: 100%. The clean truth stream has never been corrupted.
 
 <br />
 
-## Architecture
-
-```
-  DATA SOURCES             INGESTION              INTELLIGENCE            SAFETY             OUTPUT
-  ============             =========              ============            ======             ======
-
-  ENTSO-E Prices  ──►
-  Weather API     ──►   Kinesis Stream  ──►   BFT Gatekeeper  ──►   Forecasting   ──►
-  Fleet Telemetry ──►   + Alignment         (MAD Consensus)        (XGBoost+CP)
-  (fleet_sim)           (5-min windows)                                  |
-                                                                         v
-                                                                    MPC Dispatch   ──►   Digital Twin   ──►   Hardware
-                                                                    (LP, PuLP)          (Pandapower)          APPROVED /
-                                                                                                              CURTAILED /
-                                                                                                              REJECTED
-```
+---
 
 <br />
 
-## Pipeline Stages
+## The Pipeline
 
-### Stage 1 · The Senses
+```
+  ┌─────────────────────────────────────────────────────────────────────────────────────┐
+  │                                                                                     │
+  │   ENTSO-E ──►                                                                       │
+  │   Weather ──►  Temporal Alignment  ──►  Byzantine Filter  ──►  Probabilistic        │
+  │   Fleet   ──►  5-min Kinesis             MAD Consensus         Forecasting          │
+  │                windows                   Trust Ledger          XGBoost + CP         │
+  │                                          Clean Truth           24h PI               │
+  │                                                                     │               │
+  │                                                                     ▼               │
+  │                                              Digital Twin  ◄──  MPC Dispatch        │
+  │                                              Pandapower         LP Solver           │
+  │                                              DistFlow + AC      0.78s               │
+  │                                              0.057s                                 │
+  │                                                  │                                  │
+  │                                     APPROVED / CURTAILED / REJECTED                 │
+  │                                                                                     │
+  └─────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-Three Kinesis producers stream data continuously: ENTSO-E day-ahead prices (hourly), Open-Meteo weather data (15-minute), and fleet telemetry from 100 EV buses (5-second). A temporal alignment module reconciles all three into a unified 5-minute canonical window. Late records within a 10-second watermark are accepted; beyond that they are dropped and logged as a metric.
-
-**Price safety:** If the market API fails, the pipeline resolves price in three tiers: live data (confidence 1.0), Last Known Good within one hour (confidence 0.5), or emergency base price of 0.25 EUR/kWh (confidence 0.0). The emergency price is high enough to stop speculative arbitrage but low enough to allow departure-critical charging.
+Six stages. Each with a defined contract. Each failing independently without corrupting the next.
 
 <br />
 
-### Stage 2 · The Filter
+---
 
-The BFT Gatekeeper applies a Median Absolute Deviation consensus filter to every sensor cluster in every window.
+<br />
+
+## Four Decisions That Define This System
+
+<br />
+
+### 1 · We Deleted 4,800 Variables and the Solver Got 260x Faster
+
+The original MPC dispatch used binary variables to enforce charge/discharge exclusivity: one binary per bus per time step, across 100 buses and 48 horizon steps. That is 4,800 binary variables. The problem was a Mixed-Integer Linear Program. Solve time: **204 seconds**. A 5-minute cycle budget.
+
+The insight was that simultaneous charge and discharge is self-penalizing when the objective already includes a degradation cost term. Charging and immediately discharging costs battery life on both directions and produces zero net energy. Adding a 0.50 EUR/kW simultaneous-use penalty to the objective makes overlap strictly worse than doing nothing. The binaries became unnecessary.
+
+We removed them entirely. The problem became a pure LP.
+
+Solve time: **0.78 seconds**.
+
+The physics are identical. The formulation is cleaner. The system now re-solves every 5 minutes with 174 seconds to spare.
+
+<br />
+
+### 2 · The Linear Model Was Optimistic. The AC Model Was Not.
+
+The linearized DistFlow approximation estimated depot voltage at **0.9673 p.u.** under full charging load. The full Newton-Raphson AC power flow returned **0.9530 p.u.** A difference of 0.0143 p.u. The safety floor is 0.95 p.u.
+
+Without the full AC check, the system believed it had 0.0173 p.u. of headroom. It had 0.003.
+
+GridSentinel runs both. The linearized model runs every 5 minutes for speed. The full AC power flow runs every 30 minutes for accuracy. When they disagree, the AC result wins. The fast path exists to catch obvious violations instantly. The deep check exists because linearization is an approximation, and approximations accumulate error in exactly the conditions where precision matters most.
+
+<br />
+
+### 3 · A Zero Default Price Is Not a Bug. It Is a Grid Event.
+
+The original ingestion layer defaulted to `spot_price = 0.0` when the ENTSO-E market API was unavailable. A zero spot price tells the MPC that electricity is free. The MPC responds rationally: it charges everything, immediately, at maximum power. At 100 buses drawing 150 kW each, that is 15 MW of unplanned load on a distribution network designed for a fraction of that.
+
+The fix was not to add a null check. The fix was to design a three-tier resolution system that makes the failure mode explicit and safe.
+
+| Tier | Condition | Confidence | Behaviour |
+|---|---|---|---|
+| Live | Market API responding | 1.0 | Full arbitrage optimization |
+| Last Known Good | API down, cache age < 1h | 0.5 | Arbitrage continues with caution |
+| Emergency | No data or cache stale | 0.0 | MPC shifts to safety mode. Departure-critical charging only. |
+
+The emergency base price of 0.25 EUR/kWh is not arbitrary. It is calibrated to be above the degradation cost floor (0.03 EUR/kWh), making speculative charging unprofitable. The system fails expensive. Not free.
+
+The BFT Gatekeeper reads `price_confidence` from every snapshot and injects `mpc_mode: safety` into the clean truth when confidence reaches zero. The MPC never sees the raw failure. It sees a mode flag.
+
+<br />
+
+### 4 · The Training Pipeline and the Serving Pipeline Were Using Different Features
+
+The inference engine contained its own `build_feature_matrix` function. The training pipeline used `build_features` from `feature_builder.py`. Both functions built a 26-column feature matrix. The column names were different. `sin_hour` in one. `hour_sin` in the other. Fleet features present in training, absent in serving.
+
+The model loaded. It ran. It produced predictions. They were wrong. Silently.
+
+This is training-serving skew. It is one of the most common and least visible failure modes in production ML systems. The model does not crash. It does not warn you. It returns a number that looks plausible and is quietly disconnected from reality.
+
+The architectural fix: inference imports `build_features` directly from `feature_builder.py`. One function. One definition. One source of truth. If the feature contract ever drifts, the system raises a hard `ValueError` listing exactly which columns diverged, with the instruction to retrain or revert.
+
+The bug is now structurally impossible.
+
+<br />
+
+---
+
+<br />
+
+## The Math
+
+### Byzantine Fault Detection
 
 $$\text{MAD} = \text{median}\left(|x_i - \text{median}(X)|\right)$$
 
-A sensor $x_i$ is flagged Byzantine if:
+$$\text{Flag Byzantine if} \quad \frac{|x_i - \text{median}(X)|}{1.4826 \times \text{MAD}} > 3$$
 
-$$\frac{|x_i - \text{median}(X)|}{1.4826 \times \text{MAD}} > k \quad (k = 3)$$
+The 1.4826 consistency constant preserves equivalence with $\sigma$ for Gaussian-distributed clean data. MAD is chosen over standard deviation because a single extreme outlier pulls $\sigma$ toward the lie. The median does not move.
 
-The 1.4826 consistency constant makes MAD equivalent to $\sigma$ for Gaussian-distributed data. MAD is chosen over standard deviation because a hacked sensor transmitting an extreme value pulls the mean toward the lie. The median stays anchored.
+A second validation cross-checks the charger cluster against the depot master meter. If reported aggregate power diverges more than 20% from the substation measurement, the cluster fails regardless of its MAD score. The meter is the ground truth anchor.
 
-**Contextual Trust Ledger decay:**
+**Trust Ledger decay:** -0.02 for isolated noise, -0.10 for confirmed Byzantine, -0.20 for coordinated attacks involving 3 or more buses simultaneously. Recovery is slow by design: +0.01 per clean window, with a +0.05 burst after 5 consecutive clean readings.
 
-| Attack Class | Condition | Trust Decay |
+<br />
+
+### Probabilistic Forecasting
+
+$$\hat{y} \pm q_{1-\alpha} \quad \text{where} \quad q_{1-\alpha} = \text{quantile}_{1-\alpha}\left(\{|y_i - \hat{y}_i|\}_{i=1}^{n}\right)$$
+
+288 XGBoost models. One per 5-minute horizon step. Walk-forward cross-validation. Optuna hyperparameter search. Conformal Prediction calibration for 80% coverage intervals.
+
+| Metric | Value | What It Means |
 |---|---|---|
-| `minor` | Isolated spike, MAD flag only | -0.02 |
-| `standard` | MAD flag + depot meter cross-validation failure | -0.10 |
-| `coordinated` | 3 or more buses flagged simultaneously | -0.20 |
+| MAE at h=1 (5 min) | 2.5958 EUR/MWh | Near-term forecast error |
+| MAE at h=288 (24 h) | 2.6634 EUR/MWh | Long-range forecast error |
+| Horizon degradation | 0.068 EUR/MWh | How much accuracy we lose over 24 hours |
+| Conformal coverage | 0.800 | Exactly 80% of true prices fall inside the interval |
 
-Sensors below trust score 0.50 are blacklisted. Their readings are replaced with weighted interpolation from trusted neighbours. Clean Truth is written to Redis (TTL 90s) and InfluxDB for the dashboard.
-
-<br />
-
-### Stage 3 · The Eyes
-
-An XGBoost `MultiOutputRegressor` trains 288 separate models, one per 5-minute horizon step across a 24-hour window. Walk-forward cross-validation prevents data leakage. Hyperparameters are tuned via Optuna.
-
-A Conformal Prediction wrapper produces calibrated 80% prediction intervals:
-
-$$\hat{y} \pm q_{1-\alpha}$$
-
-Where $q_{1-\alpha}$ is the $(1-\alpha)$ quantile of calibration residuals. At $\alpha = 0.20$, empirical coverage on held-out data is exactly **0.800**. The intervals are not just wide. They are statistically honest.
-
-**Training results:**
-
-| Metric | Value |
-|---|---|
-| MAE at h=1 (5 min) | 2.5958 EUR/MWh |
-| MAE at h=144 (12 h) | 2.6170 EUR/MWh |
-| MAE at h=288 (24 h) | 2.6634 EUR/MWh |
-| Conformal coverage | 0.800 (target: 0.80) |
-| Mean PI width | +/- 4.310 EUR/MWh |
-
-The arbitrage window scanner identifies charge/discharge pairs where the discharge **lower bound** exceeds the charge **upper bound**. The trade is profitable even in the worst-case scenario of both intervals simultaneously.
+The horizon degradation figure is the result that matters. Most forecasting models degrade significantly at longer horizons. GridSentinel loses 0.068 EUR/MWh across a full 24-hour window. That near-flatness is what makes a 4-hour rolling MPC viable. The optimizer trusts the long-range price signal almost as much as the short one.
 
 <br />
 
-### Stage 4 · The Brain
-
-A rolling 4-hour Model Predictive Controller solves a Linear Program every 5 minutes across all 100 buses.
-
-**Objective — Minimise Net Cost:**
+### MPC Dispatch
 
 $$\min \sum_{t=1}^{T} \left[ \lambda_t \cdot P_t^{net} + \sum_b c_{deg}(SoC_b) \cdot (P_t^{ch} + P_t^{dis}) \cdot \Delta t + \text{penalty} \cdot (P_t^{ch} + P_t^{dis}) \right]$$
 
-Where $c_{deg}$ is 0.03 EUR/kWh in the 20-80% SoC comfort zone and 0.12 EUR/kWh outside it. The penalty term (0.50 EUR/kW) replaces binary charge/discharge exclusivity constraints, converting the problem from MILP to LP and reducing solve time from 204 seconds to **0.78 seconds**.
+$\lambda_t$ is the conservative lower-bound price from the prediction interval. If the trade is not profitable under the worst-case price, it does not happen.
 
-**Hard constraints:**
+$c_{deg}$ is 0.03 EUR/kWh in the 20-80% SoC comfort zone and 0.12 EUR/kWh outside it. The optimizer knows that deep cycling kills batteries faster. It balances this against profit, automatically.
 
-| Constraint | Description |
-|---|---|
-| $SoC_{b,t_{dep}} \geq SoC_{required}$ | Bus must reach required SoC before departure. Non-negotiable. |
-| $SoC_{min} \leq SoC_{b,t} \leq SoC_{max}$ | Battery bounds (10%-95%) |
-| $\|P_{b,t} - P_{b,t-1}\| \leq \Delta P_{max}$ | Ramp rate (30% of rated power per step) |
-| $\sum_b P_{b,t} \leq P_{transformer}$ | Depot transformer ceiling (4 MVA) |
-
-All commands leave the MPC marked `PENDING`. Nothing executes without Digital Twin approval.
+Hard constraints: departure SoC (non-negotiable regardless of profit), battery bounds, ramp rate, transformer ceiling.
 
 <br />
 
-### Stage 5 · The Body
-
-Every dispatch command passes through a Pandapower 4-bus radial distribution grid model before execution.
-
-**Linearized DistFlow (fast path, every 5 min):**
+### Grid Safety
 
 $$V_{depot} \approx V_{substation} - \sum_{lines}(R \cdot P + X \cdot Q)$$
 
-Checked against: $0.95 \leq V_{depot} \leq 1.05$ p.u.
+Validated against $0.95 \leq V_{depot} \leq 1.05$ p.u. at every dispatch cycle. Commands exceeding the voltage envelope are curtailed in 10% steps. Commands below 10 kW are rejected. The hardware never receives a command that has not passed this gate.
 
-**Full Newton-Raphson AC power flow (deep check, every 30 min)** catches non-linear effects the linearized model misses.
+<br />
 
-**Validation output per command:** `APPROVED` · `CURTAILED` · `REJECTED`
+---
 
-**Validation results (synthetic fleet, 4 MVA transformer):**
+<br />
 
+## Chaos Engineering
+
+```bash
+# Coordinated attack: 10% fleet compromise
+python chaos/main.py --attack coordinated --pct 10
+
+# All four adversarial patterns
+python chaos/main.py --attack flatline      # sensors frozen at last reading
+python chaos/main.py --attack spike         # extreme isolated outliers
+python chaos/main.py --attack coordinated   # synchronized multi-bus spoofing
+python chaos/main.py --attack replay        # yesterday's legitimate data, injected today
 ```
-  V_mid-feeder   :  0.9677 p.u.
-  V_depot        :  0.9530 p.u.   (limit floor: 0.95)
-  Transformer    :  100.0%
-  Approved       :  100 commands
-  Curtailed      :  0
-  Rejected       :  0
-  Validation time:  0.057s
-```
+
+The coordinated attack is the hardest to detect. Ten buses simultaneously reporting a plausible but fabricated SoC is designed to fool simple averaging. MAD catches it because ten buses lying in the same direction creates asymmetry in the cluster that the median does not share.
+
+Detection rate across all four patterns: **100%**. The attack is caught within one 5-minute window. The MPC never sees the corrupted data.
+
+<br />
+
+---
 
 <br />
 
 ## Quick Start
 
 ```bash
-# Clone
 git clone https://github.com/Mayne0945/GridSentinel.git
 cd GridSentinel
-
-# Install
 poetry install
 
-# Full stack
+# Full stack with LocalStack Kinesis
 docker-compose up
 
-# Manual pipeline (single-shot)
+# Manual end-to-end
 python fleet_sim/main.py --buses 100 --duration 24h
 python forecasting/inference.py --input data/clean_truth/latest.parquet
 python mpc/dispatch.py --forecast data/forecasts/latest_forecast.json
@@ -208,38 +233,20 @@ python digital_twin/validate.py --dispatch data/dispatch/latest_dispatch.json
 
 <br />
 
-## Chaos Demo
-
-```bash
-# Terminal 1 — start the pipeline
-docker-compose up
-
-# Terminal 2 — inject coordinated attack (10% fleet compromise)
-python chaos/main.py --attack coordinated --pct 10
-
-# The BFT layer catches the attack within one 5-minute window.
-# Trust scores drop in real time. Clean Truth is unaffected.
-# The attack never reaches the MPC.
-```
-
-Attack types available: `flatline` · `spike` · `coordinated` · `replay`
-
-<br />
-
 ## Tech Stack
 
 | Layer | Technology |
 |---|---|
 | Streaming | AWS Kinesis (LocalStack for development) |
-| Fleet Simulation | Python, stochastic modelling (Rea Vaya / TFL schedules) |
-| BFT Filter | Python, MAD consensus, Redis pub/sub |
+| Fleet Simulation | Python, stochastic modelling on Rea Vaya and TFL route schedules |
+| BFT Filter | Python, MAD consensus filter, Redis pub/sub |
 | Forecasting | XGBoost, MAPIE (Conformal Prediction), Optuna |
-| MPC Optimizer | PuLP (CBC solver, pure LP) |
+| MPC Optimizer | PuLP with CBC backend, pure LP formulation |
 | Digital Twin | Pandapower, linearized DistFlow |
-| Storage | InfluxDB (time-series), Redis (real-time) |
-| Monitoring | Grafana |
+| Storage | InfluxDB for time-series, Redis for real-time clean truth |
+| Observability | Grafana |
 | Configuration | Pydantic v2, YAML |
-| CI/CD | GitHub Actions (Ruff, Mypy, pytest, Docker) |
+| CI/CD | GitHub Actions: Ruff, Mypy, pytest, Docker build |
 
 <br />
 
@@ -247,21 +254,21 @@ Attack types available: `flatline` · `spike` · `coordinated` · `replay`
 
 ```
 GridSentinel/
-  fleet_sim/          Stochastic EV fleet simulator (Rea Vaya / TFL routes)
-  ingestion/          Kinesis producers, temporal alignment, market safety
-  bft/                Byzantine Fault Detection gatekeeper + trust ledger
-  forecasting/        XGBoost + Conformal Prediction forecasting engine
-  mpc/                Model Predictive Controller (LP formulation)
-  digital_twin/       Pandapower physics validation gateway
-  chaos/              Attacker scripts (flatline, spike, coordinated, replay)
-  dashboard/          React God-View dashboard (Phase 5)
-  monitoring/         Grafana + InfluxDB configuration
-  api/                REST API (chaos toggle endpoint)
-  config/             Pydantic v2 settings, fleet.yaml
-  data/               Runtime data (forecasts, dispatch, validated)
-  models/             Trained XGBoost artifacts
-  tests/              Unit + integration test suite
-  docs/               Chaos Report, architecture diagrams
+  fleet_sim/       Stochastic EV fleet simulator on real transit route schedules
+  ingestion/       Kinesis producers, temporal alignment, market safety circuit breaker
+  bft/             Byzantine Fault Detection gatekeeper and contextual trust ledger
+  forecasting/     XGBoost forecasting engine with Conformal Prediction calibration
+  mpc/             Model Predictive Controller, LP formulation, dispatch output
+  digital_twin/    Pandapower physics validation gateway
+  chaos/           Adversarial attack scripts for BFT verification
+  dashboard/       React God-View dashboard (Phase 5)
+  monitoring/      Grafana and InfluxDB configuration
+  api/             REST API for chaos toggle and dashboard integration
+  config/          Pydantic v2 settings and fleet.yaml
+  data/            Runtime artifacts: forecasts, dispatch commands, validated output
+  models/          Trained XGBoost model artifacts and conformal quantiles
+  tests/           Unit and integration test suite
+  docs/            Chaos Report and architecture documentation
 ```
 
 <br />
@@ -269,23 +276,20 @@ GridSentinel/
 ## Roadmap
 
 - [x] Phase 1 · Multi-source ingestion, temporal alignment, Byzantine fault detection
-- [x] Phase 2 · Probabilistic forecasting with calibrated uncertainty intervals
-- [x] Phase 3 · LP dispatch with departure constraints and degradation cost
-- [x] Phase 4 · Physics-based Digital Twin validation (DistFlow + AC power flow)
-- [x] Market safety circuit breaker (zero-price vulnerability patched)
+- [x] Phase 2 · Probabilistic forecasting with calibrated 80% prediction intervals
+- [x] Phase 3 · LP dispatch with hard departure constraints and degradation cost
+- [x] Phase 4 · Physics-based Digital Twin with DistFlow and AC power flow validation
+- [x] Market safety circuit breaker closing the zero-price vulnerability
 - [ ] Phase 5 · React Chaos Dashboard with live God-View and Chaos Toggle
-- [ ] Production retrain on full 2023-2024 ENTSO-E data (50 Optuna trials)
-- [ ] Wire BFT fleet output to MPC fleet state (currently synthetic fleet)
+- [ ] Production retrain on full 2023-2024 ENTSO-E data with 50 Optuna trials
+- [ ] Wire BFT fleet output to MPC fleet state replacing synthetic fleet
 
 <br />
 
 ---
 
 <div align="center">
-
-*GridSentinel is a portfolio project demonstrating production-grade distributed systems, probabilistic ML, and power systems engineering.*
-*It is not affiliated with any utility or grid operator.*
-
 <br />
-
+<sub>GridSentinel is a portfolio project demonstrating production-grade distributed systems, applied mathematics, and power systems engineering. Not affiliated with any utility or grid operator.</sub>
+<br /><br />
 </div>

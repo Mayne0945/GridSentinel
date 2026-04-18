@@ -85,6 +85,7 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 addopts = "--cov=. --cov-report=term-missing --cov-report=html"
 filterwarnings = ["ignore::DeprecationWarning"]
+pythonpath = ["."]
 
 [tool.coverage.run]
 omit = ["tests/*", "*/main.py", "dashboard/*"]

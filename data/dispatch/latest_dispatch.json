@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-17T19:50:09.292119+00:00",
+  "generated_at": "2026-04-18T08:57:51.854725+00:00",
   "horizon_steps": 48,
   "step_minutes": 5,
   "solver_status": "Optimal",
-  "solve_time_s": 0.776,
+  "solve_time_s": 0.784,
   "objective_value": 17165.6378,
   "expected_profit_eur": -3.99,
   "total_discharge_kw": 0.0,
@@ -34515,8 +34515,8 @@
   },
   "meta": {
     "active_buses": 100,
-    "total_elapsed_s": 2.324,
-    "solve_time_s": 0.776,
+    "total_elapsed_s": 1.507,
+    "solve_time_s": 0.784,
     "price_now_eur_mwh": 11.98,
     "transformer_limit_kw": 4000.0,
     "action_counts": {

@@ -15,19 +15,19 @@ The depot meter is the BFT layer's ground-truth anchor:
   - If Byzantine buses over-report draw, the meter reveals the true total
   - If Byzantine buses under-report (flatline), the meter shows real draw
 """
+
 from __future__ import annotations
 
 import asyncio
 import logging
 import random
-from datetime import datetime, timezone
-from typing import List
+from datetime import UTC, datetime
 
+from config.settings import settings
 from fleet_sim.bus import EVBus
 from fleet_sim.kinesis_writer import KinesisWriter
-from fleet_sim.models import AttackType, BusTelemetry, DepotMeterReading
+from fleet_sim.models import AttackType, DepotMeterReading
 from fleet_sim.route_loader import load_routes
-from config.settings import settings
 
 log = logging.getLogger(__name__)
 
@@ -48,8 +48,8 @@ class Depot:
 
     def __init__(self, depot_id: int, writer: KinesisWriter) -> None:
         self.depot_id = depot_id
-        self.writer   = writer
-        self.buses:   List[EVBus] = []
+        self.writer = writer
+        self.buses: list[EVBus] = []
         self._byzantine_ids: set[str] = set()
 
     # ─── Fleet initialisation ─────────────────────────────────────────────────
@@ -61,10 +61,10 @@ class Depot:
         Buses are spread across the full SoH range to represent a realistic
         mixed-age fleet (some new buses at 100% SoH, some older at 78%).
         """
-        cfg    = settings.fleet
-        deg    = settings.degradation
+        cfg = settings.fleet
+        deg = settings.degradation
         routes = load_routes(settings.schedule.source)
-        n      = cfg.buses_per_depot
+        n = cfg.buses_per_depot
 
         log.info(
             "Depot %d — building fleet of %d buses (SoH %.0f%%–%.0f%%)",
@@ -81,12 +81,11 @@ class Depot:
             # Bus 0 is the newest (0 cycles), Bus N-1 is the oldest (2000 cycles)
             cycle_count = int(
                 deg.cycle_count_range[0]
-                + (i / max(n - 1, 1))
-                * (deg.cycle_count_range[1] - deg.cycle_count_range[0])
+                + (i / max(n - 1, 1)) * (deg.cycle_count_range[1] - deg.cycle_count_range[0])
             )
 
             route = routes[i % len(routes)]
-            bus   = EVBus(
+            bus = EVBus(
                 bus_id=bus_id,
                 depot_id=self.depot_id,
                 route=route,
@@ -102,7 +101,7 @@ class Depot:
         self,
         attack_type: AttackType,
         pct: float = 0.10,
-    ) -> List[str]:
+    ) -> list[str]:
         """
         Inject a Byzantine attack on pct% of this depot's fleet.
 
@@ -119,8 +118,8 @@ class Depot:
         the mean, as its central estimate.
         """
         n_targets = max(1, int(len(self.buses) * pct))
-        targets   = random.sample(self.buses, n_targets)
-        affected  = []
+        targets = random.sample(self.buses, n_targets)
+        affected = []
 
         for bus in targets:
             bus.inject_byzantine(attack_type)
@@ -147,7 +146,7 @@ class Depot:
 
     # ─── MPC command passthrough ──────────────────────────────────────────────
 
-    def apply_v2g_commands(self, commands: List[dict]) -> None:
+    def apply_v2g_commands(self, commands: list[dict]) -> None:
         """
         Apply V2G dispatch commands from the MPC depot solver.
 
@@ -188,7 +187,7 @@ class Depot:
 
         return DepotMeterReading(
             depot_id=self.depot_id,
-            event_timestamp=datetime.now(timezone.utc),
+            event_timestamp=datetime.now(UTC),
             aggregate_power_kw=round(actual_grid_kw, 2),
             active_chargers=active_chargers,
         )
@@ -235,8 +234,10 @@ class Depot:
 
         log.info("Depot %d — starting %d bus coroutines.", self.depot_id, len(self.buses))
 
-        bus_tasks       = [asyncio.create_task(b.run(), name=b.bus_id) for b in self.buses]
-        telemetry_task  = asyncio.create_task(self._emit_telemetry(), name=f"depot_{self.depot_id}_emit")
+        bus_tasks = [asyncio.create_task(b.run(), name=b.bus_id) for b in self.buses]
+        telemetry_task = asyncio.create_task(
+            self._emit_telemetry(), name=f"depot_{self.depot_id}_emit"
+        )
 
         try:
             await asyncio.gather(*bus_tasks, telemetry_task)

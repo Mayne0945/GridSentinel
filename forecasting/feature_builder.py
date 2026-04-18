@@ -59,8 +59,8 @@ import logging
 import math
 import os
 from collections import deque
-from dataclasses import asdict, dataclass, field
-from datetime import datetime, timezone
+from dataclasses import asdict, dataclass
+from datetime import UTC, datetime
 from typing import Any
 
 import redis
@@ -74,12 +74,14 @@ log = logging.getLogger(__name__)
 # Data structures
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class FeatureVector:
     """
     One 5-minute feature snapshot for a single depot.
     All fields are float — XGBoost requires no non-numeric input.
     """
+
     # Identity (not fed to model — used for labelling and joining)
     canonical_timestamp: str
     depot_id: int
@@ -88,18 +90,18 @@ class FeatureVector:
     # --- Temporal ---
     sin_hour: float = 0.0
     cos_hour: float = 0.0
-    sin_dow: float = 0.0           # day of week
+    sin_dow: float = 0.0  # day of week
     cos_dow: float = 0.0
     sin_month: float = 0.0
     cos_month: float = 0.0
 
     # --- Price ---
     spot_price_eur_mwh: float = 0.0
-    price_lag_1: float = 0.0       # 5 min ago
-    price_lag_3: float = 0.0       # 15 min ago
-    price_lag_6: float = 0.0       # 30 min ago
-    price_lag_12: float = 0.0      # 1 hour ago
-    price_lag_288: float = 0.0     # 24 hours ago
+    price_lag_1: float = 0.0  # 5 min ago
+    price_lag_3: float = 0.0  # 15 min ago
+    price_lag_6: float = 0.0  # 30 min ago
+    price_lag_12: float = 0.0  # 1 hour ago
+    price_lag_288: float = 0.0  # 24 hours ago
     price_rolling_mean_6h: float = 0.0
     price_rolling_std_6h: float = 0.0
     price_rolling_mean_24h: float = 0.0
@@ -133,6 +135,7 @@ class FeatureVector:
 # ---------------------------------------------------------------------------
 # Rolling window — O(1) append, no Pandas dependency at inference time
 # ---------------------------------------------------------------------------
+
 
 class RollingWindow:
     """
@@ -179,6 +182,7 @@ class RollingWindow:
 # Feature builder
 # ---------------------------------------------------------------------------
 
+
 class FeatureBuilder:
     """
     Subscribes to one depot's Clean Truth channel and emits feature vectors.
@@ -189,7 +193,7 @@ class FeatureBuilder:
     """
 
     # 5-min windows per period
-    WINDOWS_PER_6H  = 72
+    WINDOWS_PER_6H = 72
     WINDOWS_PER_24H = 288
 
     # Peak hours for GB electricity market (BST-aligned)
@@ -197,13 +201,13 @@ class FeatureBuilder:
 
     def __init__(self, depot_id: int) -> None:
         self.depot_id = depot_id
-        self.cfg      = get_config()
+        self.cfg = get_config()
 
         self._redis_url = os.environ.get("REDIS_URL", "redis://localhost:6379")
         self._r: redis.Redis | None = None
 
         # Rolling price windows
-        self._price_6h  = RollingWindow(maxlen=self.WINDOWS_PER_6H)
+        self._price_6h = RollingWindow(maxlen=self.WINDOWS_PER_6H)
         self._price_24h = RollingWindow(maxlen=self.WINDOWS_PER_24H)
 
         # Full 24h price history for lag-288 lookup (kept separate for clarity)
@@ -238,15 +242,15 @@ class FeatureBuilder:
         dow   ∈ [0, 6]   → period = 7   (0=Monday per isoweekday)
         month ∈ [1, 12]  → period = 12
         """
-        hour_rad  = 2 * math.pi * ts.hour / 24
-        dow_rad   = 2 * math.pi * ts.weekday() / 7
+        hour_rad = 2 * math.pi * ts.hour / 24
+        dow_rad = 2 * math.pi * ts.weekday() / 7
         month_rad = 2 * math.pi * (ts.month - 1) / 12
 
         return {
-            "sin_hour":  math.sin(hour_rad),
-            "cos_hour":  math.cos(hour_rad),
-            "sin_dow":   math.sin(dow_rad),
-            "cos_dow":   math.cos(dow_rad),
+            "sin_hour": math.sin(hour_rad),
+            "cos_hour": math.cos(hour_rad),
+            "sin_dow": math.sin(dow_rad),
+            "cos_dow": math.cos(dow_rad),
             "sin_month": math.sin(month_rad),
             "cos_month": math.cos(month_rad),
         }
@@ -265,7 +269,7 @@ class FeatureBuilder:
         Only buses that passed BFT (is_byzantine=False) contribute to the
         fleet aggregates. Byzantine buses are counted separately as a signal.
         """
-        clean  = [b for b in buses if not b.get("is_byzantine", False)]
+        clean = [b for b in buses if not b.get("is_byzantine", False)]
         flagged = [b for b in buses if b.get("is_byzantine", False)]
 
         if not clean:
@@ -274,23 +278,23 @@ class FeatureBuilder:
                 self.depot_id,
             )
             return {
-                "fleet_mean_soc_pct":    50.0,
-                "fleet_min_soc_pct":     20.0,
-                "fleet_available_kw":    0.0,
-                "clean_bus_count":       0,
-                "byzantine_bus_count":   len(flagged),
+                "fleet_mean_soc_pct": 50.0,
+                "fleet_min_soc_pct": 20.0,
+                "fleet_available_kw": 0.0,
+                "clean_bus_count": 0,
+                "byzantine_bus_count": len(flagged),
             }
 
-        socs        = [b.get("soc_pct", 50.0) for b in clean]
-        mean_soc    = sum(socs) / len(socs)
-        min_soc     = min(socs)
+        socs = [b.get("soc_pct", 50.0) for b in clean]
+        mean_soc = sum(socs) / len(socs)
+        min_soc = min(socs)
 
         # Dispatchable discharge capacity:
         # Buses with SoC > 20% can discharge down to 20% floor
         # Available kWh = (soc - 0.20) * capacity per bus
         # Convert to kW assuming 1-hour dispatch window
         battery_kwh = self.cfg.fleet.battery_capacity_kwh
-        max_dis_kw  = self.cfg.fleet.max_charge_rate_kw
+        max_dis_kw = self.cfg.fleet.max_charge_rate_kw
 
         available_kw = sum(
             min(
@@ -302,10 +306,10 @@ class FeatureBuilder:
         )
 
         return {
-            "fleet_mean_soc_pct":  round(mean_soc, 2),
-            "fleet_min_soc_pct":   round(min_soc, 2),
-            "fleet_available_kw":  round(max(available_kw, 0.0), 1),
-            "clean_bus_count":     len(clean),
+            "fleet_mean_soc_pct": round(mean_soc, 2),
+            "fleet_min_soc_pct": round(min_soc, 2),
+            "fleet_available_kw": round(max(available_kw, 0.0), 1),
+            "clean_bus_count": len(clean),
             "byzantine_bus_count": len(flagged),
         }
 
@@ -319,10 +323,10 @@ class FeatureBuilder:
         Call this AFTER reading current lags, BEFORE updating for next window.
         """
         # Read lags from history BEFORE appending current price
-        lag_1   = self._price_history.get(1)    # previous window
-        lag_3   = self._price_history.get(3)
-        lag_6   = self._price_history.get(6)
-        lag_12  = self._price_history.get(12)
+        lag_1 = self._price_history.get(1)  # previous window
+        lag_3 = self._price_history.get(3)
+        lag_6 = self._price_history.get(6)
+        lag_12 = self._price_history.get(12)
         lag_288 = self._price_history.get(288)  # 24h ago (0.0 if < 24h data)
 
         # Now append current price
@@ -331,15 +335,15 @@ class FeatureBuilder:
         self._price_24h.append(price)
 
         return {
-            "price_lag_1":            lag_1,
-            "price_lag_3":            lag_3,
-            "price_lag_6":            lag_6,
-            "price_lag_12":           lag_12,
-            "price_lag_288":          lag_288,
-            "price_rolling_mean_6h":  round(self._price_6h.mean(), 4),
-            "price_rolling_std_6h":   round(self._price_6h.std(), 4),
+            "price_lag_1": lag_1,
+            "price_lag_3": lag_3,
+            "price_lag_6": lag_6,
+            "price_lag_12": lag_12,
+            "price_lag_288": lag_288,
+            "price_rolling_mean_6h": round(self._price_6h.mean(), 4),
+            "price_rolling_std_6h": round(self._price_6h.std(), 4),
             "price_rolling_mean_24h": round(self._price_24h.mean(), 4),
-            "price_rolling_std_24h":  round(self._price_24h.std(), 4),
+            "price_rolling_std_24h": round(self._price_24h.std(), 4),
         }
 
     # ------------------------------------------------------------------
@@ -358,16 +362,16 @@ class FeatureBuilder:
         """
         ts_str = clean_truth.get("canonical_timestamp", "")
         try:
-            ts = datetime.fromisoformat(ts_str).replace(tzinfo=timezone.utc)
+            ts = datetime.fromisoformat(ts_str).replace(tzinfo=UTC)
         except (ValueError, TypeError):
-            ts = datetime.now(tz=timezone.utc)
+            ts = datetime.now(tz=UTC)
             log.warning("Depot %d: could not parse timestamp '%s'", self.depot_id, ts_str)
 
         # Temporal features
         time_feats = self._encode_time(ts)
 
         # Grid-proxy features
-        is_peak   = float(ts.hour in self.PEAK_HOURS)
+        is_peak = float(ts.hour in self.PEAK_HOURS)
         is_weekend = float(ts.weekday() >= 5)
 
         # Price features
@@ -376,48 +380,48 @@ class FeatureBuilder:
 
         # Weather features
         weather = clean_truth.get("weather", {})
-        temp    = float(weather.get("temperature_c", 15.0))
-        solar   = float(weather.get("solar_irradiance_wm2", 0.0))
-        wind    = float(weather.get("wind_speed_kmh", 0.0))
+        temp = float(weather.get("temperature_c", 15.0))
+        solar = float(weather.get("solar_irradiance_wm2", 0.0))
+        wind = float(weather.get("wind_speed_kmh", 0.0))
 
         # Fleet features
         buses = clean_truth.get("buses", [])
         fleet_feats = self._extract_fleet_features(buses)
 
         vector = FeatureVector(
-            canonical_timestamp = ts_str,
-            depot_id            = self.depot_id,
+            canonical_timestamp=ts_str,
+            depot_id=self.depot_id,
             # temporal
-            sin_hour   = time_feats["sin_hour"],
-            cos_hour   = time_feats["cos_hour"],
-            sin_dow    = time_feats["sin_dow"],
-            cos_dow    = time_feats["cos_dow"],
-            sin_month  = time_feats["sin_month"],
-            cos_month  = time_feats["cos_month"],
+            sin_hour=time_feats["sin_hour"],
+            cos_hour=time_feats["cos_hour"],
+            sin_dow=time_feats["sin_dow"],
+            cos_dow=time_feats["cos_dow"],
+            sin_month=time_feats["sin_month"],
+            cos_month=time_feats["cos_month"],
             # price
-            spot_price_eur_mwh      = price,
-            price_lag_1             = price_feats["price_lag_1"],
-            price_lag_3             = price_feats["price_lag_3"],
-            price_lag_6             = price_feats["price_lag_6"],
-            price_lag_12            = price_feats["price_lag_12"],
-            price_lag_288           = price_feats["price_lag_288"],
-            price_rolling_mean_6h   = price_feats["price_rolling_mean_6h"],
-            price_rolling_std_6h    = price_feats["price_rolling_std_6h"],
-            price_rolling_mean_24h  = price_feats["price_rolling_mean_24h"],
-            price_rolling_std_24h   = price_feats["price_rolling_std_24h"],
+            spot_price_eur_mwh=price,
+            price_lag_1=price_feats["price_lag_1"],
+            price_lag_3=price_feats["price_lag_3"],
+            price_lag_6=price_feats["price_lag_6"],
+            price_lag_12=price_feats["price_lag_12"],
+            price_lag_288=price_feats["price_lag_288"],
+            price_rolling_mean_6h=price_feats["price_rolling_mean_6h"],
+            price_rolling_std_6h=price_feats["price_rolling_std_6h"],
+            price_rolling_mean_24h=price_feats["price_rolling_mean_24h"],
+            price_rolling_std_24h=price_feats["price_rolling_std_24h"],
             # weather
-            temperature_c        = temp,
-            solar_irradiance_wm2 = solar,
-            wind_speed_kmh       = wind,
+            temperature_c=temp,
+            solar_irradiance_wm2=solar,
+            wind_speed_kmh=wind,
             # fleet
-            fleet_mean_soc_pct   = fleet_feats["fleet_mean_soc_pct"],
-            fleet_min_soc_pct    = fleet_feats["fleet_min_soc_pct"],
-            fleet_available_kw   = fleet_feats["fleet_available_kw"],
-            clean_bus_count      = fleet_feats["clean_bus_count"],
-            byzantine_bus_count  = fleet_feats["byzantine_bus_count"],
+            fleet_mean_soc_pct=fleet_feats["fleet_mean_soc_pct"],
+            fleet_min_soc_pct=fleet_feats["fleet_min_soc_pct"],
+            fleet_available_kw=fleet_feats["fleet_available_kw"],
+            clean_bus_count=fleet_feats["clean_bus_count"],
+            byzantine_bus_count=fleet_feats["byzantine_bus_count"],
             # grid proxy
-            is_peak_hour = is_peak,
-            is_weekend   = is_weekend,
+            is_peak_hour=is_peak,
+            is_weekend=is_weekend,
         )
 
         self._windows_processed += 1
@@ -439,7 +443,7 @@ class FeatureBuilder:
             return
 
         payload = json.dumps(asdict(vector))
-        key     = f"gridsentinel:features:{self.depot_id}"
+        key = f"gridsentinel:features:{self.depot_id}"
 
         self._r.setex(key, 90, payload)
         self._r.publish(key, payload)
@@ -466,7 +470,7 @@ class FeatureBuilder:
         """
         self._connect()
 
-        in_channel  = f"gridsentinel:bft:{self.depot_id}"
+        in_channel = f"gridsentinel:bft:{self.depot_id}"
         out_channel = f"gridsentinel:features:{self.depot_id}"
 
         pubsub = self._r.pubsub()
@@ -474,7 +478,9 @@ class FeatureBuilder:
 
         log.info(
             "Depot %d | FeatureBuilder subscribed | in=%s out=%s",
-            self.depot_id, in_channel, out_channel,
+            self.depot_id,
+            in_channel,
+            out_channel,
         )
 
         for message in pubsub.listen():
@@ -493,5 +499,7 @@ class FeatureBuilder:
             except Exception as e:
                 log.error(
                     "Depot %d: feature extraction failed — %s",
-                    self.depot_id, e, exc_info=True,
+                    self.depot_id,
+                    e,
+                    exc_info=True,
                 )

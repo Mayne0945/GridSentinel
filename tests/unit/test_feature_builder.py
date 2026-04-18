@@ -15,16 +15,16 @@ Tests cover:
 from __future__ import annotations
 
 import math
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytest
 
 from forecasting.feature_builder import FeatureBuilder, FeatureVector, RollingWindow
 
-
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
+
 
 def make_clean_truth(
     timestamp: str = "2026-04-16T07:30:00+00:00",
@@ -43,9 +43,9 @@ def make_clean_truth(
 
     buses = [
         {
-            "bus_id":      f"D0_BUS_{i:03d}",
-            "soc_pct":     soc,
-            "power_kw":    -85.0,
+            "bus_id": f"D0_BUS_{i:03d}",
+            "soc_pct": soc,
+            "power_kw": -85.0,
             "is_byzantine": f"D0_BUS_{i:03d}" in byzantine_bus_ids,
         }
         for i, soc in enumerate(bus_socs)
@@ -53,12 +53,12 @@ def make_clean_truth(
 
     return {
         "canonical_timestamp": timestamp,
-        "depot_id":            0,
-        "spot_price_eur_mwh":  price,
+        "depot_id": 0,
+        "spot_price_eur_mwh": price,
         "weather": {
-            "temperature_c":        temperature_c,
+            "temperature_c": temperature_c,
             "solar_irradiance_wm2": solar,
-            "wind_speed_kmh":       wind,
+            "wind_speed_kmh": wind,
         },
         "buses": buses,
     }
@@ -66,7 +66,7 @@ def make_clean_truth(
 
 def make_builder(depot_id: int = 0) -> FeatureBuilder:
     builder = FeatureBuilder(depot_id=depot_id)
-    builder._connect = lambda: None   # Skip Redis in unit tests
+    builder._connect = lambda: None  # Skip Redis in unit tests
     builder._r = None
     return builder
 
@@ -74,6 +74,7 @@ def make_builder(depot_id: int = 0) -> FeatureBuilder:
 # ---------------------------------------------------------------------------
 # RollingWindow tests
 # ---------------------------------------------------------------------------
+
 
 class TestRollingWindow:
     def test_mean_of_single_value(self):
@@ -143,10 +144,11 @@ class TestRollingWindow:
 # Temporal encoding tests
 # ---------------------------------------------------------------------------
 
+
 class TestTemporalEncoding:
     def test_sin_cos_magnitude_is_one(self):
         """sin² + cos² must equal 1 for any valid cyclical encoding."""
-        ts = datetime(2026, 4, 16, 7, 30, tzinfo=timezone.utc)
+        ts = datetime(2026, 4, 16, 7, 30, tzinfo=UTC)
         feats = FeatureBuilder._encode_time(ts)
         assert (feats["sin_hour"] ** 2 + feats["cos_hour"] ** 2) == pytest.approx(1.0, rel=1e-6)
         assert (feats["sin_dow"] ** 2 + feats["cos_dow"] ** 2) == pytest.approx(1.0, rel=1e-6)
@@ -154,14 +156,14 @@ class TestTemporalEncoding:
 
     def test_midnight_has_zero_sin_hour(self):
         """Hour 0 → sin(0) = 0, cos(0) = 1."""
-        ts = datetime(2026, 4, 16, 0, 0, tzinfo=timezone.utc)
+        ts = datetime(2026, 4, 16, 0, 0, tzinfo=UTC)
         feats = FeatureBuilder._encode_time(ts)
         assert feats["sin_hour"] == pytest.approx(0.0, abs=1e-9)
         assert feats["cos_hour"] == pytest.approx(1.0, rel=1e-6)
 
     def test_noon_has_zero_cos_hour(self):
         """Hour 12 → sin(π) ≈ 0, cos(π) = -1."""
-        ts = datetime(2026, 4, 16, 12, 0, tzinfo=timezone.utc)
+        ts = datetime(2026, 4, 16, 12, 0, tzinfo=UTC)
         feats = FeatureBuilder._encode_time(ts)
         assert feats["sin_hour"] == pytest.approx(0.0, abs=1e-6)
         assert feats["cos_hour"] == pytest.approx(-1.0, rel=1e-6)
@@ -171,21 +173,23 @@ class TestTemporalEncoding:
         Monday (weekday=0) and Sunday (weekday=6) should be close in
         cyclical space — their Euclidean distance should be small.
         """
-        monday = datetime(2026, 4, 13, 12, 0, tzinfo=timezone.utc)  # Monday
-        sunday = datetime(2026, 4, 19, 12, 0, tzinfo=timezone.utc)  # Sunday
+        monday = datetime(2026, 4, 13, 12, 0, tzinfo=UTC)  # Monday
+        sunday = datetime(2026, 4, 19, 12, 0, tzinfo=UTC)  # Sunday
         m = FeatureBuilder._encode_time(monday)
         s = FeatureBuilder._encode_time(sunday)
         dist = math.sqrt((m["sin_dow"] - s["sin_dow"]) ** 2 + (m["cos_dow"] - s["cos_dow"]) ** 2)
         # Distance Monday↔Sunday ≈ 2*sin(π/7) ≈ 0.867
         # Distance Monday↔Wednesday ≈ 2*sin(2π/7) ≈ 1.56
         # So Monday↔Sunday should be less than Monday↔Wednesday
-        wednesday = datetime(2026, 4, 15, 12, 0, tzinfo=timezone.utc)
+        wednesday = datetime(2026, 4, 15, 12, 0, tzinfo=UTC)
         w = FeatureBuilder._encode_time(wednesday)
-        dist_mon_wed = math.sqrt((m["sin_dow"] - w["sin_dow"]) ** 2 + (m["cos_dow"] - w["cos_dow"]) ** 2)
+        dist_mon_wed = math.sqrt(
+            (m["sin_dow"] - w["sin_dow"]) ** 2 + (m["cos_dow"] - w["cos_dow"]) ** 2
+        )
         assert dist < dist_mon_wed
 
     def test_all_six_temporal_features_present(self):
-        ts = datetime(2026, 4, 16, 9, 0, tzinfo=timezone.utc)
+        ts = datetime(2026, 4, 16, 9, 0, tzinfo=UTC)
         feats = FeatureBuilder._encode_time(ts)
         required = {"sin_hour", "cos_hour", "sin_dow", "cos_dow", "sin_month", "cos_month"}
         assert required == set(feats.keys())
@@ -195,26 +199,25 @@ class TestTemporalEncoding:
 # Fleet feature extraction tests
 # ---------------------------------------------------------------------------
 
+
 class TestFleetFeatureExtraction:
     def setup_method(self):
         self.builder = make_builder()
 
     def test_mean_soc_correct(self):
-        buses = [{"soc_pct": 60.0, "is_byzantine": False},
-                 {"soc_pct": 80.0, "is_byzantine": False}]
+        buses = [{"soc_pct": 60.0, "is_byzantine": False}, {"soc_pct": 80.0, "is_byzantine": False}]
         feats = self.builder._extract_fleet_features(buses)
         assert feats["fleet_mean_soc_pct"] == pytest.approx(70.0)
 
     def test_min_soc_correct(self):
-        buses = [{"soc_pct": 30.0, "is_byzantine": False},
-                 {"soc_pct": 80.0, "is_byzantine": False}]
+        buses = [{"soc_pct": 30.0, "is_byzantine": False}, {"soc_pct": 80.0, "is_byzantine": False}]
         feats = self.builder._extract_fleet_features(buses)
         assert feats["fleet_min_soc_pct"] == pytest.approx(30.0)
 
     def test_byzantine_buses_excluded_from_mean(self):
         buses = [
             {"soc_pct": 80.0, "is_byzantine": False},
-            {"soc_pct": 5.0,  "is_byzantine": True},   # Byzantine — should be ignored
+            {"soc_pct": 5.0, "is_byzantine": True},  # Byzantine — should be ignored
         ]
         feats = self.builder._extract_fleet_features(buses)
         assert feats["fleet_mean_soc_pct"] == pytest.approx(80.0)
@@ -222,8 +225,8 @@ class TestFleetFeatureExtraction:
     def test_byzantine_count_correct(self):
         buses = [
             {"soc_pct": 80.0, "is_byzantine": False},
-            {"soc_pct": 5.0,  "is_byzantine": True},
-            {"soc_pct": 5.0,  "is_byzantine": True},
+            {"soc_pct": 5.0, "is_byzantine": True},
+            {"soc_pct": 5.0, "is_byzantine": True},
         ]
         feats = self.builder._extract_fleet_features(buses)
         assert feats["byzantine_bus_count"] == 2
@@ -251,6 +254,7 @@ class TestFleetFeatureExtraction:
 # ---------------------------------------------------------------------------
 # Price lag and rolling window integration tests
 # ---------------------------------------------------------------------------
+
 
 class TestPriceLagsAndWindows:
     def setup_method(self):
@@ -284,6 +288,7 @@ class TestPriceLagsAndWindows:
 # ---------------------------------------------------------------------------
 # Full process() pipeline test
 # ---------------------------------------------------------------------------
+
 
 class TestFullPipeline:
     def setup_method(self):
@@ -337,8 +342,8 @@ class TestFullPipeline:
     def test_byzantine_buses_excluded_from_fleet_mean(self):
         # 9 clean buses at 80%, 1 byzantine at 5%
         socs = [80.0] * 9 + [5.0]
-        byz  = {"D0_BUS_009"}
-        ct   = make_clean_truth(bus_socs=socs, byzantine_bus_ids=byz)
+        byz = {"D0_BUS_009"}
+        ct = make_clean_truth(bus_socs=socs, byzantine_bus_ids=byz)
         result = self.builder.process(ct)
         # Mean should be ~80%, not dragged down to ~76% by the byzantine reading
         assert result.fleet_mean_soc_pct > 79.0
@@ -386,7 +391,7 @@ class TestFullPipeline:
         """Feed 3 windows and verify lag-1 and lag-3 are correct."""
         prices = [60.0, 70.0, 75.0, 80.0]
         for p in prices:
-            ct     = make_clean_truth(price=p)
+            ct = make_clean_truth(price=p)
             result = self.builder.process(ct)
 
         # After 3 windows: lag-1 should be 70.0 (read before appending 80.0)

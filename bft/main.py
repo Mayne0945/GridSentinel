@@ -10,6 +10,7 @@ This module exists for:
   1. Direct testing: python -m bft.main --depot-id 0
   2. Future: standalone BFT service if the pipeline is split
 """
+
 from __future__ import annotations
 
 import argparse
@@ -29,7 +30,8 @@ log = logging.getLogger("bft.main")
 def main() -> None:
     parser = argparse.ArgumentParser(description="GridSentinel BFT standalone")
     parser.add_argument(
-        "--depot-id", type=int,
+        "--depot-id",
+        type=int,
         default=int(os.environ.get("DEPOT_ID", 0)),
     )
     args = parser.parse_args()
@@ -43,6 +45,7 @@ def main() -> None:
     # In standalone mode, run the full consumer_align pipeline
     # which calls BFTGatekeeper internally
     from ingestion.consumer_align import run
+
     run(depot_id=args.depot_id)
 
 

@@ -14,6 +14,7 @@ One Kinesis shard handles 1,000 records/second → 50× headroom per depot.
 Retry: adaptive backoff via botocore.config (max 3 attempts).
 Failed records in a PutRecords batch are logged and counted as a metric.
 """
+
 from __future__ import annotations
 
 import json
@@ -29,8 +30,8 @@ from config.settings import settings
 log = logging.getLogger(__name__)
 
 # Kinesis hard limits
-MAX_BATCH_SIZE   = 500         # PutRecords max records per call
-MAX_RECORD_BYTES = 1_000_000   # 1 MB per record
+MAX_BATCH_SIZE = 500  # PutRecords max records per call
+MAX_RECORD_BYTES = 1_000_000  # 1 MB per record
 
 
 class KinesisWriter:
@@ -45,11 +46,11 @@ class KinesisWriter:
     """
 
     def __init__(self) -> None:
-        cfg                = settings.kinesis
-        self._stream_name  = cfg.stream_name
+        cfg = settings.kinesis
+        self._stream_name = cfg.stream_name
         self._endpoint_url = "http://localstack:4566"
-        self._session      = aioboto3.Session()
-        self._client: Any  = None
+        self._session = aioboto3.Session()
+        self._client: Any = None
 
     async def start(self) -> None:
         """
@@ -107,14 +108,17 @@ class KinesisWriter:
                 if len(payload) > MAX_RECORD_BYTES:
                     log.warning(
                         "Record exceeds 1MB limit — skipped | key=%s | size=%d",
-                        partition_key, len(payload),
+                        partition_key,
+                        len(payload),
                     )
                     continue
 
-                kinesis_records.append({
-                    "Data":         payload,
-                    "PartitionKey": partition_key,
-                })
+                kinesis_records.append(
+                    {
+                        "Data": payload,
+                        "PartitionKey": partition_key,
+                    }
+                )
             except Exception as e:
                 log.error(f"Failed to serialize record: {e}")
                 continue
@@ -136,12 +140,11 @@ class KinesisWriter:
         before the init script finishes creating the stream.
         """
         import asyncio
+
         waited = 0
         while waited < max_wait_s:
             try:
-                resp   = await self._client.describe_stream_summary(
-                    StreamName=self._stream_name
-                )
+                resp = await self._client.describe_stream_summary(StreamName=self._stream_name)
                 status = resp["StreamDescriptionSummary"]["StreamStatus"]
                 if status == "ACTIVE":
                     log.info("Stream %s is ACTIVE — ready to write.", self._stream_name)
@@ -150,7 +153,8 @@ class KinesisWriter:
             except Exception:
                 log.info(
                     "Stream %s not found yet — retrying in %ds...",
-                    self._stream_name, poll_interval_s,
+                    self._stream_name,
+                    poll_interval_s,
                 )
             await asyncio.sleep(poll_interval_s)
             waited += poll_interval_s
@@ -167,7 +171,7 @@ class KinesisWriter:
     ) -> None:
         """Internal: send one batch of ≤ 500 records."""
         try:
-            response     = await self._client.put_records(
+            response = await self._client.put_records(
                 StreamName=self._stream_name,
                 Records=batch,
             )
@@ -176,18 +180,22 @@ class KinesisWriter:
             if failed_count:
                 log.warning(
                     "Kinesis partial failure | key=%s | failed=%d/%d",
-                    partition_key, failed_count, len(batch),
+                    partition_key,
+                    failed_count,
+                    len(batch),
                 )
             else:
                 log.debug(
                     "Kinesis OK | key=%s | records=%d",
-                    partition_key, len(batch),
+                    partition_key,
+                    len(batch),
                 )
 
         except Exception as exc:
             log.error(
                 "Kinesis put_records error | key=%s | error=%s",
-                partition_key, exc,
+                partition_key,
+                exc,
             )
 
 

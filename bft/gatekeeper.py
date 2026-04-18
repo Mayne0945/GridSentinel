@@ -38,14 +38,14 @@ Contextual Trust Ledger decay (v2.0):
     - +0.01 per clean window (slow, steady)
     - +0.05 burst bonus after 5 consecutive clean windows
 """
+
 from __future__ import annotations
 
 import json
 import logging
 import os
 from collections import defaultdict
-from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any
 
 import numpy as np
 
@@ -68,12 +68,12 @@ class BFTGatekeeper:
     """
 
     def __init__(self, depot_id: int) -> None:
-        self.depot_id      = depot_id
-        self.cfg           = settings.bft
-        self.trust_scores:  dict[str, float] = defaultdict(lambda: 1.0)
-        self.clean_streak:  dict[str, int]   = defaultdict(int)
-        self._redis         = self._connect_redis()
-        self._influx        = self._connect_influx()
+        self.depot_id = depot_id
+        self.cfg = settings.bft
+        self.trust_scores: dict[str, float] = defaultdict(lambda: 1.0)
+        self.clean_streak: dict[str, int] = defaultdict(int)
+        self._redis = self._connect_redis()
+        self._influx = self._connect_influx()
 
         log.info(
             "BFT Gatekeeper ready | depot=%d | k=%.1f | "
@@ -88,9 +88,10 @@ class BFTGatekeeper:
 
     # ─── External connections ─────────────────────────────────────────────────
 
-    def _connect_redis(self) -> Optional[Any]:
+    def _connect_redis(self) -> Any | None:
         try:
             import redis
+
             r = redis.Redis.from_url(
                 os.environ.get("REDIS_URL", "redis://redis:6379"),
                 decode_responses=True,
@@ -99,12 +100,15 @@ class BFTGatekeeper:
             log.info("BFT depot=%d — Redis connected.", self.depot_id)
             return r
         except Exception as exc:
-            log.warning("BFT depot=%d — Redis unavailable (%s). Continuing without.", self.depot_id, exc)
+            log.warning(
+                "BFT depot=%d — Redis unavailable (%s). Continuing without.", self.depot_id, exc
+            )
             return None
 
-    def _connect_influx(self) -> Optional[Any]:
+    def _connect_influx(self) -> Any | None:
         try:
             from influxdb_client import InfluxDBClient
+
             client = InfluxDBClient(
                 url=os.environ.get("INFLUXDB_URL", "http://influxdb:8086"),
                 token=os.environ.get("INFLUXDB_TOKEN", "gridsentinel-token"),
@@ -114,7 +118,9 @@ class BFTGatekeeper:
             log.info("BFT depot=%d — InfluxDB connected.", self.depot_id)
             return client
         except Exception as exc:
-            log.warning("BFT depot=%d — InfluxDB unavailable (%s). Continuing without.", self.depot_id, exc)
+            log.warning(
+                "BFT depot=%d — InfluxDB unavailable (%s). Continuing without.", self.depot_id, exc
+            )
             return None
 
     # ─── MAD Filter ───────────────────────────────────────────────────────────
@@ -138,8 +144,8 @@ class BFTGatekeeper:
         if len(readings) < 3:
             return flagged
 
-        med  = np.median(readings)
-        mad  = np.median(np.abs(readings - med))
+        med = np.median(readings)
+        mad = np.median(np.abs(readings - med))
 
         # Degenerate case: all readings identical (MAD = 0)
         # This itself is suspicious — could be a flatline attack.
@@ -148,13 +154,14 @@ class BFTGatekeeper:
             if len(readings) > 5:
                 log.debug(
                     "depot=%d MAD=0 — possible flatline attack on %d sensors",
-                    self.depot_id, len(readings),
+                    self.depot_id,
+                    len(readings),
                 )
             return flagged  # Can't score without variance — pass through
 
         scaled_mad = MAD_CONSISTENCY * mad
-        bus_ids    = list(values.keys())
-        arr_vals   = list(values.values())
+        bus_ids = list(values.keys())
+        arr_vals = list(values.values())
 
         for bus_id, val in zip(bus_ids, arr_vals):
             z_score = abs(val - med) / scaled_mad
@@ -162,7 +169,11 @@ class BFTGatekeeper:
                 flagged[bus_id] = True
                 log.debug(
                     "MAD flag | depot=%d | bus=%s | val=%.2f | median=%.2f | z=%.2f",
-                    self.depot_id, bus_id, val, med, z_score,
+                    self.depot_id,
+                    bus_id,
+                    val,
+                    med,
+                    z_score,
                 )
 
         return flagged
@@ -171,7 +182,7 @@ class BFTGatekeeper:
 
     def _meter_cross_validation_fails(
         self,
-        buses:          list[dict],
+        buses: list[dict],
         depot_meter_kw: float,
     ) -> bool:
         """
@@ -196,7 +207,7 @@ class BFTGatekeeper:
 
         divergence = abs(reported_total - depot_meter_kw) / abs(depot_meter_kw)
 
-        if divergence > 0.20:   # >20% divergence = cross-validation fail
+        if divergence > 0.20:  # >20% divergence = cross-validation fail
             log.warning(
                 "Depot meter mismatch | depot=%d | reported=%.1fkW | meter=%.1fkW | div=%.1f%%",
                 self.depot_id,
@@ -213,7 +224,7 @@ class BFTGatekeeper:
     def _classify_attack(
         self,
         flagged_bus_ids: set[str],
-        meter_fails:     bool,
+        meter_fails: bool,
     ) -> str:
         """
         Classify the severity of detected Byzantine behaviour.
@@ -236,7 +247,7 @@ class BFTGatekeeper:
 
     def _update_trust_scores(
         self,
-        buses:       list[dict],
+        buses: list[dict],
         flagged_ids: set[str],
         attack_class: str,
     ) -> None:
@@ -254,8 +265,8 @@ class BFTGatekeeper:
         """
         cfg = self.cfg
         decay_map = {
-            "minor":       cfg.trust_decay_minor,
-            "standard":    cfg.trust_decay_standard,
+            "minor": cfg.trust_decay_minor,
+            "standard": cfg.trust_decay_standard,
             "coordinated": cfg.trust_decay_coordinated,
         }
         decay = decay_map.get(attack_class, 0.0)
@@ -264,16 +275,16 @@ class BFTGatekeeper:
             bus_id = bus["bus_id"]
 
             if bus_id in flagged_ids:
-                self.trust_scores[bus_id] = max(
-                    0.0, self.trust_scores[bus_id] - decay
-                )
+                self.trust_scores[bus_id] = max(0.0, self.trust_scores[bus_id] - decay)
                 self.clean_streak[bus_id] = 0
 
                 log.info(
-                    "Trust decay | depot=%d | bus=%s | class=%s | "
-                    "decay=%.2f | score=%.3f",
-                    self.depot_id, bus_id, attack_class,
-                    decay, self.trust_scores[bus_id],
+                    "Trust decay | depot=%d | bus=%s | class=%s | " "decay=%.2f | score=%.3f",
+                    self.depot_id,
+                    bus_id,
+                    attack_class,
+                    decay,
+                    self.trust_scores[bus_id],
                 )
             else:
                 # Clean reading — apply recovery
@@ -281,20 +292,17 @@ class BFTGatekeeper:
                 recovery = cfg.trust_recovery_per_window
 
                 # Burst bonus after 5 consecutive clean windows
-                if self.clean_streak[bus_id] >= 5 and \
-                   self.trust_scores[bus_id] < 1.0:
+                if self.clean_streak[bus_id] >= 5 and self.trust_scores[bus_id] < 1.0:
                     recovery += cfg.trust_recovery_burst
-                    self.clean_streak[bus_id] = 0   # Reset streak after burst
+                    self.clean_streak[bus_id] = 0  # Reset streak after burst
 
-                self.trust_scores[bus_id] = min(
-                    1.0, self.trust_scores[bus_id] + recovery
-                )
+                self.trust_scores[bus_id] = min(1.0, self.trust_scores[bus_id] + recovery)
 
     # ─── Clean Truth emission ─────────────────────────────────────────────────
 
     def _build_clean_truth(
         self,
-        snapshot:    dict,
+        snapshot: dict,
         flagged_ids: set[str],
     ) -> dict:
         """
@@ -305,9 +313,10 @@ class BFTGatekeeper:
         Their SoC/power contribution is replaced by the depot-level mean
         of trusted buses.
         """
-        buses         = snapshot["buses"]
-        blacklisted   = {
-            bid for bid, score in self.trust_scores.items()
+        buses = snapshot["buses"]
+        blacklisted = {
+            bid
+            for bid, score in self.trust_scores.items()
             if score < self.cfg.trust_blacklist_threshold
         }
 
@@ -318,42 +327,42 @@ class BFTGatekeeper:
                 "depot=%d — all buses blacklisted! Emitting empty Clean Truth.",
                 self.depot_id,
             )
-            trusted_buses = buses   # Fail open — better than no data
+            trusted_buses = buses  # Fail open — better than no data
 
         # Mean SoC and power from trusted buses (used to replace blacklisted)
-        trusted_mean_soc   = (
-            sum(b["mean_soc_pct"]  for b in trusted_buses) / len(trusted_buses)
-        )
-        trusted_mean_power = (
-            sum(b["mean_power_kw"] for b in trusted_buses) / len(trusted_buses)
-        )
+        trusted_mean_soc = sum(b["mean_soc_pct"] for b in trusted_buses) / len(trusted_buses)
+        trusted_mean_power = sum(b["mean_power_kw"] for b in trusted_buses) / len(trusted_buses)
 
         clean_buses = []
         for bus in buses:
             bid = bus["bus_id"]
             if bid in blacklisted:
                 # Replace with interpolated values from trusted neighbours
-                clean_buses.append({
-                    **bus,
-                    "mean_soc_pct":   round(trusted_mean_soc,   2),
-                    "mean_power_kw":  round(trusted_mean_power, 2),
-                    "interpolated":   True,
-                    "trust_score":    round(self.trust_scores.get(bid, 0.0), 4),
-                })
+                clean_buses.append(
+                    {
+                        **bus,
+                        "mean_soc_pct": round(trusted_mean_soc, 2),
+                        "mean_power_kw": round(trusted_mean_power, 2),
+                        "interpolated": True,
+                        "trust_score": round(self.trust_scores.get(bid, 0.0), 4),
+                    }
+                )
             else:
-                clean_buses.append({
-                    **bus,
-                    "interpolated": False,
-                    "trust_score":  round(self.trust_scores.get(bid, 1.0), 4),
-                })
+                clean_buses.append(
+                    {
+                        **bus,
+                        "interpolated": False,
+                        "trust_score": round(self.trust_scores.get(bid, 1.0), 4),
+                    }
+                )
 
         return {
             **snapshot,
-            "buses":           clean_buses,
+            "buses": clean_buses,
             "flagged_bus_ids": list(flagged_ids),
             "blacklisted_ids": list(blacklisted),
             "clean_bus_count": len(trusted_buses),
-            "bft_passed":      True,
+            "bft_passed": True,
         }
 
     # ─── Output sinks ─────────────────────────────────────────────────────────
@@ -363,24 +372,25 @@ class BFTGatekeeper:
         if not self._influx:
             return
         try:
-            from influxdb_client.client.write_api import SYNCHRONOUS
             from influxdb_client import Point
+            from influxdb_client.client.write_api import SYNCHRONOUS
+
             write_api = self._influx.write_api(write_options=SYNCHRONOUS)
-            bucket    = os.environ.get("INFLUXDB_BUCKET", "telemetry")
-            org       = os.environ.get("INFLUXDB_ORG",    "gridsentinel")
-            ts        = clean_truth["canonical_timestamp"]
+            bucket = os.environ.get("INFLUXDB_BUCKET", "telemetry")
+            org = os.environ.get("INFLUXDB_ORG", "gridsentinel")
+            ts = clean_truth["canonical_timestamp"]
 
             # BFT window summary
             p = (
                 Point("bft_window")
-                .tag("depot_id",    str(self.depot_id))
+                .tag("depot_id", str(self.depot_id))
                 .tag("attack_class", attack_class)
-                .field("flagged_count",   len(clean_truth["flagged_bus_ids"]))
+                .field("flagged_count", len(clean_truth["flagged_bus_ids"]))
                 .field("blacklisted_count", len(clean_truth["blacklisted_ids"]))
                 .field("clean_bus_count", clean_truth["clean_bus_count"])
-                .field("spot_price",      clean_truth["spot_price"])
-                .field("temperature_c",   clean_truth["temperature_c"])
-                .field("depot_meter_kw",  clean_truth["depot_meter_kw"])
+                .field("spot_price", clean_truth["spot_price"])
+                .field("temperature_c", clean_truth["temperature_c"])
+                .field("depot_meter_kw", clean_truth["depot_meter_kw"])
                 .time(ts)
             )
             write_api.write(bucket=bucket, org=org, record=p)
@@ -390,8 +400,8 @@ class BFTGatekeeper:
                 tp = (
                     Point("bft_trust")
                     .tag("depot_id", str(self.depot_id))
-                    .tag("bus_id",   bus["bus_id"])
-                    .field("trust_score",  bus["trust_score"])
+                    .tag("bus_id", bus["bus_id"])
+                    .field("trust_score", bus["trust_score"])
                     .field("mean_soc_pct", bus["mean_soc_pct"])
                     .field("interpolated", int(bus["interpolated"]))
                     .time(ts)
@@ -410,7 +420,7 @@ class BFTGatekeeper:
         if not self._redis:
             return
         try:
-            key  = f"gridsentinel:clean_truth:{self.depot_id}"
+            key = f"gridsentinel:clean_truth:{self.depot_id}"
             data = json.dumps(clean_truth)
             self._redis.setex(key, 90, data)
 
@@ -434,25 +444,23 @@ class BFTGatekeeper:
         Returns:
             Clean Truth snapshot with trust scores and BFT metadata.
         """
-        buses         = snapshot.get("buses", [])
-        depot_meter   = snapshot.get("depot_meter_kw", 0.0)
-        ts            = snapshot.get("canonical_timestamp", "")
+        buses = snapshot.get("buses", [])
+        depot_meter = snapshot.get("depot_meter_kw", 0.0)
+        ts = snapshot.get("canonical_timestamp", "")
 
         if not buses:
             log.warning("depot=%d | Empty window at %s — skipping BFT.", self.depot_id, ts)
             return snapshot
 
         # Step 1 — MAD filter on SoC values
-        soc_values   = {b["bus_id"]: b["mean_soc_pct"]  for b in buses}
-        power_values = {b["bus_id"]: b["mean_power_kw"]  for b in buses}
+        soc_values = {b["bus_id"]: b["mean_soc_pct"] for b in buses}
+        power_values = {b["bus_id"]: b["mean_power_kw"] for b in buses}
 
-        soc_flagged   = self._mad_filter(soc_values)
+        soc_flagged = self._mad_filter(soc_values)
         power_flagged = self._mad_filter(power_values)
 
         # Union: flagged on either SoC or power
-        flagged_ids = {
-            bid for bid, flag in {**soc_flagged, **power_flagged}.items() if flag
-        }
+        flagged_ids = {bid for bid, flag in {**soc_flagged, **power_flagged}.items() if flag}
 
         # Step 2 — Depot meter cross-validation
         meter_fails = self._meter_cross_validation_fails(buses, depot_meter)
@@ -473,12 +481,17 @@ class BFTGatekeeper:
         if n_flagged:
             log.warning(
                 "BFT | depot=%d | ts=%s | FLAGGED=%d | class=%s | meter_fail=%s",
-                self.depot_id, ts[:16], n_flagged, attack_class, meter_fails,
+                self.depot_id,
+                ts[:16],
+                n_flagged,
+                attack_class,
+                meter_fails,
             )
         else:
             log.info(
                 "BFT | depot=%d | ts=%s | ✓ CLEAN | buses=%d | price=£%.2f | temp=%.1f°C",
-                self.depot_id, ts[:16],
+                self.depot_id,
+                ts[:16],
                 len(buses),
                 snapshot.get("spot_price", 0.0),
                 snapshot.get("temperature_c", 0.0),

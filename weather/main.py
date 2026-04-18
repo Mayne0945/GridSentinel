@@ -1,4 +1,6 @@
-import logging, time
+import logging
+import time
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [weather] %(message)s")
 log = logging.getLogger(__name__)
 

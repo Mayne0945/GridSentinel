@@ -15,6 +15,7 @@ Output format:
     [09:15:04] open_meteo JHB      │ 28.4°C  Solar: 612W/m²  Wind: 14km/h ☀️
     [09:15:05] fleet      d0_b007  │ SoC: 51.2%  Pwr:   0.0kW  [BYZNT]  🔴
 """
+
 from __future__ import annotations
 
 import argparse
@@ -23,7 +24,7 @@ import logging
 import os
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import boto3
 from botocore.config import Config
@@ -31,16 +32,16 @@ from botocore.config import Config
 logging.basicConfig(level=logging.WARNING, stream=sys.stderr)
 
 STREAM_NAME = os.environ.get("KINESIS_STREAM_NAME", "gridsentinel-telemetry")
-ENDPOINT    = os.environ.get("AWS_ENDPOINT_URL",    "http://localstack:4566")
-REGION      = os.environ.get("AWS_DEFAULT_REGION",  "eu-west-1")
+ENDPOINT = os.environ.get("AWS_ENDPOINT_URL", "http://localstack:4566")
+REGION = os.environ.get("AWS_DEFAULT_REGION", "eu-west-1")
 
 # ANSI colours
-GREEN  = "\033[92m"
-RED    = "\033[91m"
+GREEN = "\033[92m"
+RED = "\033[91m"
 YELLOW = "\033[93m"
-CYAN   = "\033[96m"
-RESET  = "\033[0m"
-BOLD   = "\033[1m"
+CYAN = "\033[96m"
+RESET = "\033[0m"
+BOLD = "\033[1m"
 
 
 def get_client() -> boto3.client:
@@ -56,11 +57,11 @@ def get_client() -> boto3.client:
 
 def get_shard_iterators(client) -> list[str]:
     """Get LATEST shard iterators for all shards in the stream."""
-    resp    = client.describe_stream_summary(StreamName=STREAM_NAME)
-    n_shards= resp["StreamDescriptionSummary"]["OpenShardCount"]
+    resp = client.describe_stream_summary(StreamName=STREAM_NAME)
+    n_shards = resp["StreamDescriptionSummary"]["OpenShardCount"]
 
-    resp    = client.list_shards(StreamName=STREAM_NAME)
-    shards  = resp["Shards"]
+    resp = client.list_shards(StreamName=STREAM_NAME)
+    shards = resp["Shards"]
 
     iterators = []
     for shard in shards:
@@ -78,8 +79,8 @@ def format_record(record: dict, depot_filter: int | None, source_filter: str | N
     Format a single Kinesis record for display.
     Returns None if the record should be filtered out.
     """
-    source    = record.get("source", "unknown")
-    now_str   = datetime.now(timezone.utc).strftime("%H:%M:%S")
+    source = record.get("source", "unknown")
+    now_str = datetime.now(UTC).strftime("%H:%M:%S")
 
     # Apply filters
     if source_filter and source not in source_filter:
@@ -90,15 +91,15 @@ def format_record(record: dict, depot_filter: int | None, source_filter: str | N
         if depot_filter is not None and depot_id != depot_filter:
             return None
 
-        bus_id    = record.get("bus_id", "?")
-        soc       = record.get("soc_pct", 0.0)
-        power     = record.get("power_kw", 0.0)
-        is_byz    = record.get("is_byzantine", False)
-        status    = record.get("status", "")
+        bus_id = record.get("bus_id", "?")
+        soc = record.get("soc_pct", 0.0)
+        power = record.get("power_kw", 0.0)
+        is_byz = record.get("is_byzantine", False)
+        status = record.get("status", "")
 
-        byz_tag   = f"{RED}[BYZNT]{RESET}" if is_byz else f"{GREEN}[CLEAN]{RESET}"
-        icon      = "🔴" if is_byz else "🟢"
-        pwr_str   = f"{power:+7.1f}kW"
+        byz_tag = f"{RED}[BYZNT]{RESET}" if is_byz else f"{GREEN}[CLEAN]{RESET}"
+        icon = "🔴" if is_byz else "🟢"
+        pwr_str = f"{power:+7.1f}kW"
 
         return (
             f"[{CYAN}{now_str}{RESET}] "
@@ -112,7 +113,7 @@ def format_record(record: dict, depot_filter: int | None, source_filter: str | N
         depot_id = record.get("depot_id")
         if depot_filter is not None and depot_id != depot_filter:
             return None
-        power    = record.get("aggregate_power_kw", 0.0)
+        power = record.get("aggregate_power_kw", 0.0)
         chargers = record.get("active_chargers", 0)
         return (
             f"[{CYAN}{now_str}{RESET}] "
@@ -125,8 +126,8 @@ def format_record(record: dict, depot_filter: int | None, source_filter: str | N
         if source_filter and "entso" not in source_filter:
             return None
         price = record.get("spot_price", 0.0)
-        mode  = record.get("mode", "")
-        tag   = f"({mode})" if mode == "synthetic" else ""
+        mode = record.get("mode", "")
+        tag = f"({mode})" if mode == "synthetic" else ""
         return (
             f"[{CYAN}{now_str}{RESET}] "
             f"{BOLD}entso_e  {RESET} "
@@ -137,12 +138,12 @@ def format_record(record: dict, depot_filter: int | None, source_filter: str | N
     elif source == "open_meteo":
         if source_filter and "weather" not in source_filter and "meteo" not in source_filter:
             return None
-        temp  = record.get("temperature_c", 0.0)
+        temp = record.get("temperature_c", 0.0)
         solar = record.get("solar_irradiance_wm2", 0.0)
-        wind  = record.get("wind_speed_kmh", 0.0)
-        mode  = record.get("mode", "")
-        tag   = f"({mode})" if mode == "synthetic" else ""
-        icon  = "☀️" if solar > 100 else "🌥️"
+        wind = record.get("wind_speed_kmh", 0.0)
+        mode = record.get("mode", "")
+        tag = f"({mode})" if mode == "synthetic" else ""
+        icon = "☀️" if solar > 100 else "🌥️"
         return (
             f"[{CYAN}{now_str}{RESET}] "
             f"{BOLD}weather  {RESET} "
@@ -155,8 +156,10 @@ def format_record(record: dict, depot_filter: int | None, source_filter: str | N
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="GridSentinel stream monitor")
-    parser.add_argument("--depot",  type=int,  default=None, help="Filter by depot_id")
-    parser.add_argument("--source", type=str,  default=None, help="Filter by source (fleet/entso/weather)")
+    parser.add_argument("--depot", type=int, default=None, help="Filter by depot_id")
+    parser.add_argument(
+        "--source", type=str, default=None, help="Filter by source (fleet/entso/weather)"
+    )
     args = parser.parse_args()
 
     client = get_client()
@@ -189,14 +192,14 @@ def main() -> None:
             for iterator in iterators:
                 try:
                     # Bump limit slightly to catch bursts efficiently
-                    resp        = client.get_records(ShardIterator=iterator, Limit=1000)
-                    new_iter    = resp.get("NextShardIterator")
+                    resp = client.get_records(ShardIterator=iterator, Limit=1000)
+                    new_iter = resp.get("NextShardIterator")
                     if new_iter:
                         new_iterators.append(new_iter)
 
                     for raw in resp.get("Records", []):
                         try:
-                            record  = json.loads(raw["Data"])
+                            record = json.loads(raw["Data"])
                             # Instead of formatting and printing, just tally the source
                             source = record.get("source", "unknown")
                             batch_counts[source] += 1
@@ -208,7 +211,7 @@ def main() -> None:
                     print(f"{RED}Shard read error: {exc}{RESET}", file=sys.stderr)
 
             iterators = new_iterators
-            
+
             # Print a single, high-signal heartbeat if data arrived in this tick
             if batch_counts:
                 now = datetime.datetime.now().strftime("%H:%M:%S")

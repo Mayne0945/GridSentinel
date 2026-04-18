@@ -44,6 +44,7 @@ Outputs:
     models/feature_columns.json       — ordered list of 26 feature names
     models/training_metadata.json     — run stats, val MAE, coverage
 """
+
 from __future__ import annotations
 
 import argparse
@@ -52,9 +53,10 @@ import logging
 import math
 import sys
 import time
-from datetime import datetime, timezone
+from collections.abc import Generator
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Generator, NamedTuple
+from typing import NamedTuple
 
 import joblib
 import numpy as np
@@ -88,48 +90,64 @@ HORIZON = 288
 # GB grid spot price does not depend on 500 buses' SoC in a single depot.
 FEATURE_COLUMNS: list[str] = [
     # Temporal (6)
-    "sin_hour", "cos_hour",
-    "sin_dow",  "cos_dow",
-    "sin_month","cos_month",
+    "sin_hour",
+    "cos_hour",
+    "sin_dow",
+    "cos_dow",
+    "sin_month",
+    "cos_month",
     # Price (10)
     "spot_price_eur_mwh",
-    "price_lag_1", "price_lag_3", "price_lag_6", "price_lag_12", "price_lag_288",
-    "price_rolling_mean_6h",  "price_rolling_std_6h",
-    "price_rolling_mean_24h", "price_rolling_std_24h",
+    "price_lag_1",
+    "price_lag_3",
+    "price_lag_6",
+    "price_lag_12",
+    "price_lag_288",
+    "price_rolling_mean_6h",
+    "price_rolling_std_6h",
+    "price_rolling_mean_24h",
+    "price_rolling_std_24h",
     # Weather (3)
-    "temperature_c", "solar_irradiance_wm2", "wind_speed_kmh",
+    "temperature_c",
+    "solar_irradiance_wm2",
+    "wind_speed_kmh",
     # Fleet — zero-filled at train time (5)
-    "fleet_mean_soc_pct", "fleet_min_soc_pct", "fleet_available_kw",
-    "clean_bus_count",    "byzantine_bus_count",
+    "fleet_mean_soc_pct",
+    "fleet_min_soc_pct",
+    "fleet_available_kw",
+    "clean_bus_count",
+    "byzantine_bus_count",
     # Grid proxy (2)
-    "is_peak_hour", "is_weekend",
+    "is_peak_hour",
+    "is_weekend",
 ]
 
 assert len(FEATURE_COLUMNS) == 26, f"Expected 26 features, got {len(FEATURE_COLUMNS)}"
 
 # Fleet feature indices — must be zero-filled in training matrix
 FLEET_FEATURE_DEFAULTS = {
-    "fleet_mean_soc_pct":   50.0,   # neutral midpoint — model ignores this
-    "fleet_min_soc_pct":    20.0,
-    "fleet_available_kw":    0.0,
-    "clean_bus_count":       0.0,   # treated as float for XGBoost
-    "byzantine_bus_count":   0.0,
+    "fleet_mean_soc_pct": 50.0,  # neutral midpoint — model ignores this
+    "fleet_min_soc_pct": 20.0,
+    "fleet_available_kw": 0.0,
+    "clean_bus_count": 0.0,  # treated as float for XGBoost
+    "byzantine_bus_count": 0.0,
 }
 
 # Walk-forward CV config
-MIN_TRAIN_DAYS = 30          # Minimum training window size (rows = × 288)
-VAL_DAYS       = 1          # Validation window per fold (rows = × 288)
-STEP_DAYS      = 7           # Slide validation window by this many days
-N_CV_FOLDS     = 3           # Use only the last N folds for speed
+MIN_TRAIN_DAYS = 30  # Minimum training window size (rows = × 288)
+VAL_DAYS = 1  # Validation window per fold (rows = × 288)
+STEP_DAYS = 7  # Slide validation window by this many days
+N_CV_FOLDS = 3  # Use only the last N folds for speed
 
 # Conformal calibration
-CAL_DAYS    = 30             # Calibration window (tail of training set)
-COVERAGE_80 = 0.80           # Target coverage level
+CAL_DAYS = 30  # Calibration window (tail of training set)
+COVERAGE_80 = 0.80  # Target coverage level
 
 
 # ---------------------------------------------------------------------------
 # Data loading
 # ---------------------------------------------------------------------------
+
 
 def load_data(
     price_parquet: Path,
@@ -169,11 +187,14 @@ def load_data(
             len(df_price) - len(idx),
         )
 
-    df = pd.concat(
-        [df_price.loc[idx], df_weather.loc[idx]], axis=1
-    )
+    df = pd.concat([df_price.loc[idx], df_weather.loc[idx]], axis=1)
 
-    expected_cols = {"spot_price_eur_mwh", "temperature_c", "solar_irradiance_wm2", "wind_speed_kmh"}
+    expected_cols = {
+        "spot_price_eur_mwh",
+        "temperature_c",
+        "solar_irradiance_wm2",
+        "wind_speed_kmh",
+    }
     missing = expected_cols - set(df.columns)
     if missing:
         raise ValueError(f"Raw data missing columns: {missing}")
@@ -193,6 +214,7 @@ def load_data(
 # ---------------------------------------------------------------------------
 # Feature matrix construction  (offline batch — mirrors feature_builder.py)
 # ---------------------------------------------------------------------------
+
 
 def _cyclical(values: pd.Series, period: float) -> tuple[pd.Series, pd.Series]:
     """sin/cos cyclical encoding with the given period."""
@@ -220,8 +242,8 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     feat = pd.DataFrame(index=idx)
 
     # ── Temporal encoding ────────────────────────────────────────────────────
-    feat["sin_hour"],  feat["cos_hour"]  = _cyclical(idx.hour,                   24.0)
-    feat["sin_dow"],   feat["cos_dow"]   = _cyclical(idx.dayofweek,               7.0)
+    feat["sin_hour"], feat["cos_hour"] = _cyclical(idx.hour, 24.0)
+    feat["sin_dow"], feat["cos_dow"] = _cyclical(idx.dayofweek, 7.0)
     feat["sin_month"], feat["cos_month"] = _cyclical(idx.month.astype(float) - 1, 12.0)
 
     # ── Price features ───────────────────────────────────────────────────────
@@ -236,12 +258,12 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     for window, label in [(72, "6h"), (288, "24h")]:
         roll = price.rolling(window, min_periods=1)
         feat[f"price_rolling_mean_{label}"] = roll.mean().values
-        feat[f"price_rolling_std_{label}"]  = roll.std(ddof=1).fillna(0.0).values
+        feat[f"price_rolling_std_{label}"] = roll.std(ddof=1).fillna(0.0).values
 
     # ── Weather features ─────────────────────────────────────────────────────
-    feat["temperature_c"]          = df["temperature_c"].values
-    feat["solar_irradiance_wm2"]   = df["solar_irradiance_wm2"].values
-    feat["wind_speed_kmh"]         = df["wind_speed_kmh"].values
+    feat["temperature_c"] = df["temperature_c"].values
+    feat["solar_irradiance_wm2"] = df["solar_irradiance_wm2"].values
+    feat["wind_speed_kmh"] = df["wind_speed_kmh"].values
 
     # ── Fleet features (zero-filled at training time) ────────────────────────
     for col, default_val in FLEET_FEATURE_DEFAULTS.items():
@@ -250,7 +272,7 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
     # ── Grid proxy ───────────────────────────────────────────────────────────
     peak_hours = {7, 8, 9, 17, 18, 19, 20}
     feat["is_peak_hour"] = idx.hour.isin(peak_hours).astype(float)
-    feat["is_weekend"]   = (idx.dayofweek >= 5).astype(float)
+    feat["is_weekend"] = (idx.dayofweek >= 5).astype(float)
 
     # Enforce column order — must match FEATURE_COLUMNS exactly
     feat = feat[FEATURE_COLUMNS].astype(np.float32)
@@ -267,6 +289,7 @@ def build_features(df: pd.DataFrame) -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 # Target matrix construction
 # ---------------------------------------------------------------------------
+
 
 def build_targets(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -320,10 +343,11 @@ def build_targets(df: pd.DataFrame) -> pd.DataFrame:
 # Walk-forward cross-validation splits
 # ---------------------------------------------------------------------------
 
+
 class CVSplit(NamedTuple):
     fold: int
-    train_idx: np.ndarray    # integer positions
-    val_idx:   np.ndarray    # integer positions
+    train_idx: np.ndarray  # integer positions
+    val_idx: np.ndarray  # integer positions
 
 
 def walk_forward_splits(
@@ -354,7 +378,7 @@ def walk_forward_splits(
     while val_start + val_rows <= n_rows:
         train_end = val_start - horizon
         train_idx = np.arange(0, train_end)
-        val_idx   = np.arange(val_start, val_start + val_rows)
+        val_idx = np.arange(val_start, val_start + val_rows)
         splits.append(CVSplit(fold=fold, train_idx=train_idx, val_idx=val_idx))
         fold += 1
         val_start += step_rows
@@ -375,6 +399,7 @@ def walk_forward_splits(
 # Model training helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_model(params: dict) -> MultiOutputRegressor:
     """
     Construct MultiOutputRegressor(XGBRegressor) from hyperparameter dict.
@@ -384,17 +409,17 @@ def _make_model(params: dict) -> MultiOutputRegressor:
     to avoid nested parallelism contention.
     """
     xgb = XGBRegressor(
-        n_estimators      = params["n_estimators"],
-        max_depth         = params["max_depth"],
-        learning_rate     = params["learning_rate"],
-        subsample         = params["subsample"],
-        colsample_bytree  = params["colsample_bytree"],
-        min_child_weight  = params["min_child_weight"],
-        objective         = "reg:squarederror",
-        tree_method       = "hist",      # Fast histogram-based algorithm
-        n_jobs            = 1,           # 1 per estimator — parallelism at wrapper level
-        random_state      = 42,
-        verbosity         = 0,
+        n_estimators=params["n_estimators"],
+        max_depth=params["max_depth"],
+        learning_rate=params["learning_rate"],
+        subsample=params["subsample"],
+        colsample_bytree=params["colsample_bytree"],
+        min_child_weight=params["min_child_weight"],
+        objective="reg:squarederror",
+        tree_method="hist",  # Fast histogram-based algorithm
+        n_jobs=1,  # 1 per estimator — parallelism at wrapper level
+        random_state=42,
+        verbosity=0,
     )
     return MultiOutputRegressor(xgb, n_jobs=-1)
 
@@ -414,6 +439,7 @@ def _mean_horizon_mae(
 # Optuna objective
 # ---------------------------------------------------------------------------
 
+
 def make_optuna_objective(
     X: np.ndarray,
     Y: np.ndarray,
@@ -429,30 +455,31 @@ def make_optuna_objective(
     The objective runs walk-forward CV with n_cv_folds and returns mean
     horizon MAE across all folds. Lower is better.
     """
+
     def objective(trial: optuna.Trial) -> float:
         params = {
-            "n_estimators":     trial.suggest_int("n_estimators",    200, 800, step=50),
-            "max_depth":        trial.suggest_int("max_depth",        3,   7),
-            "learning_rate":    trial.suggest_float("learning_rate",  0.01, 0.20, log=True),
-            "subsample":        trial.suggest_float("subsample",      0.6,  1.0),
+            "n_estimators": trial.suggest_int("n_estimators", 200, 800, step=50),
+            "max_depth": trial.suggest_int("max_depth", 3, 7),
+            "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.20, log=True),
+            "subsample": trial.suggest_float("subsample", 0.6, 1.0),
             "colsample_bytree": trial.suggest_float("colsample_bytree", 0.6, 1.0),
-            "min_child_weight": trial.suggest_int("min_child_weight", 1,   10),
+            "min_child_weight": trial.suggest_int("min_child_weight", 1, 10),
         }
 
         fold_maes: list[float] = []
 
         for split in walk_forward_splits(
-            n_rows         = len(X),
-            min_train_rows = min_train_rows,
-            val_rows       = val_rows,
-            step_rows      = step_rows,
-            horizon        = horizon,
-            n_folds        = n_cv_folds,
+            n_rows=len(X),
+            min_train_rows=min_train_rows,
+            val_rows=val_rows,
+            step_rows=step_rows,
+            horizon=horizon,
+            n_folds=n_cv_folds,
         ):
             X_train = X[split.train_idx]
             Y_train = Y[split.train_idx]
-            X_val   = X[split.val_idx]
-            Y_val   = Y[split.val_idx]
+            X_val = X[split.val_idx]
+            Y_val = Y[split.val_idx]
 
             model = _make_model(params)
             model.fit(X_train, Y_train)
@@ -468,6 +495,7 @@ def make_optuna_objective(
 # ---------------------------------------------------------------------------
 # Conformal calibration
 # ---------------------------------------------------------------------------
+
 
 def calibrate_conformal(
     model: MultiOutputRegressor,
@@ -496,14 +524,15 @@ def calibrate_conformal(
     """
     log.info(
         "Calibrating conformal prediction on %d rows (target coverage %.0f%%)...",
-        len(X_cal), coverage * 100,
+        len(X_cal),
+        coverage * 100,
     )
 
-    Y_pred = model.predict(X_cal)                     # (N_cal, HORIZON)
-    residuals = np.abs(Y_cal - Y_pred)                # (N_cal, HORIZON)
+    Y_pred = model.predict(X_cal)  # (N_cal, HORIZON)
+    residuals = np.abs(Y_cal - Y_pred)  # (N_cal, HORIZON)
 
     # Per-horizon quantile — axis=0 takes quantile across calibration samples
-    quantiles = np.quantile(residuals, coverage, axis=0)   # (HORIZON,)
+    quantiles = np.quantile(residuals, coverage, axis=0)  # (HORIZON,)
 
     log.info(
         "Conformal quantiles | mean: %.3f EUR/MWh | "
@@ -529,9 +558,9 @@ def evaluate_conformal_coverage(
 
     Returns dict with 'empirical_coverage' and 'mean_interval_width_eur'.
     """
-    Y_pred = model.predict(X_val)             # (N_val, HORIZON)
-    lower  = Y_pred - quantiles[np.newaxis, :]
-    upper  = Y_pred + quantiles[np.newaxis, :]
+    Y_pred = model.predict(X_val)  # (N_val, HORIZON)
+    lower = Y_pred - quantiles[np.newaxis, :]
+    upper = Y_pred + quantiles[np.newaxis, :]
 
     inside = ((Y_val >= lower) & (Y_val <= upper)).astype(float)
     empirical_coverage = float(inside.mean())
@@ -541,12 +570,14 @@ def evaluate_conformal_coverage(
     log.info(
         "Conformal coverage check | empirical: %.3f (target: %.2f) | "
         "mean interval width: ±%.3f EUR/MWh",
-        empirical_coverage, COVERAGE_80, quantiles.mean(),
+        empirical_coverage,
+        COVERAGE_80,
+        quantiles.mean(),
     )
 
     return {
-        "empirical_coverage":      empirical_coverage,
-        "target_coverage":         COVERAGE_80,
+        "empirical_coverage": empirical_coverage,
+        "target_coverage": COVERAGE_80,
         "mean_interval_width_eur": mean_width,
     }
 
@@ -555,10 +586,11 @@ def evaluate_conformal_coverage(
 # Artifact persistence
 # ---------------------------------------------------------------------------
 
+
 def save_artifacts(
-    model:      MultiOutputRegressor,
-    quantiles:  np.ndarray,
-    metadata:   dict,
+    model: MultiOutputRegressor,
+    quantiles: np.ndarray,
+    metadata: dict,
     output_dir: Path,
 ) -> None:
     """
@@ -572,10 +604,10 @@ def save_artifacts(
     """
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    model_path     = output_dir / "xgb_forecaster.joblib"
+    model_path = output_dir / "xgb_forecaster.joblib"
     quantiles_path = output_dir / "conformal_quantiles.npy"
-    features_path  = output_dir / "feature_columns.json"
-    metadata_path  = output_dir / "training_metadata.json"
+    features_path = output_dir / "feature_columns.json"
+    metadata_path = output_dir / "training_metadata.json"
 
     joblib.dump(model, model_path, compress=3)
     log.info("Saved model → %s", model_path)
@@ -587,7 +619,7 @@ def save_artifacts(
         json.dump(FEATURE_COLUMNS, f, indent=2)
     log.info("Saved feature columns → %s", features_path)
 
-    metadata["saved_at"] = datetime.now(tz=timezone.utc).isoformat()
+    metadata["saved_at"] = datetime.now(tz=UTC).isoformat()
     with metadata_path.open("w") as f:
         json.dump(metadata, f, indent=2)
     log.info("Saved training metadata → %s", metadata_path)
@@ -597,12 +629,13 @@ def save_artifacts(
 # Main training pipeline
 # ---------------------------------------------------------------------------
 
+
 def main(
-    price_parquet:   Path,
+    price_parquet: Path,
     weather_parquet: Path,
-    train_end:       datetime | None,
-    output_dir:      Path,
-    n_trials:        int,
+    train_end: datetime | None,
+    output_dir: Path,
+    n_trials: int,
 ) -> None:
     """
     End-to-end training pipeline.
@@ -620,7 +653,7 @@ def main(
     df = load_data(price_parquet, weather_parquet)
 
     if train_end is not None:
-        train_end_utc = train_end.replace(tzinfo=timezone.utc)
+        train_end_utc = train_end.replace(tzinfo=UTC)
         df = df[df.index < train_end_utc]
         log.info("Truncated to train_end %s → %d rows", train_end_utc.date(), len(df))
 
@@ -630,25 +663,26 @@ def main(
     # ── 3. Target matrix ─────────────────────────────────────────────────────
     # build_targets returns len(df) - HORIZON rows — align X accordingly
     Y_df = build_targets(df)
-    X_df = X_df.iloc[: len(Y_df)]   # trim last HORIZON rows (no valid targets)
+    X_df = X_df.iloc[: len(Y_df)]  # trim last HORIZON rows (no valid targets)
 
-    assert len(X_df) == len(Y_df), (
-        f"Feature/target row mismatch: X={len(X_df)}, Y={len(Y_df)}"
-    )
+    assert len(X_df) == len(Y_df), f"Feature/target row mismatch: X={len(X_df)}, Y={len(Y_df)}"
 
-    X = X_df.values.astype(np.float32)   # (N, 26)
-    Y = Y_df.values.astype(np.float32)   # (N, 288)
+    X = X_df.values.astype(np.float32)  # (N, 26)
+    Y = Y_df.values.astype(np.float32)  # (N, 288)
 
     log.info(
         "Training matrix: X=%s  Y=%s  | dtype X=%s Y=%s",
-        X.shape, Y.shape, X.dtype, Y.dtype,
+        X.shape,
+        Y.shape,
+        X.dtype,
+        Y.dtype,
     )
 
     # Determine walk-forward split parameters in rows
-    min_train_rows = MIN_TRAIN_DAYS * HORIZON   # 90 days × 288 = 25920
-    val_rows       = VAL_DAYS       * HORIZON   # 14 days × 288 = 4032
-    step_rows      = STEP_DAYS      * HORIZON   # 7 days  × 288 = 2016
-    cal_rows       = CAL_DAYS       * HORIZON   # 30 days × 288 = 8640
+    min_train_rows = MIN_TRAIN_DAYS * HORIZON  # 90 days × 288 = 25920
+    val_rows = VAL_DAYS * HORIZON  # 14 days × 288 = 4032
+    step_rows = STEP_DAYS * HORIZON  # 7 days  × 288 = 2016
+    cal_rows = CAL_DAYS * HORIZON  # 30 days × 288 = 8640
 
     min_required = min_train_rows + HORIZON + val_rows
     if len(X) < min_required:
@@ -662,19 +696,19 @@ def main(
     log.info("Starting Optuna search: %d trials, %d CV folds each...", n_trials, N_CV_FOLDS)
 
     study = optuna.create_study(
-        direction   = "minimize",
-        study_name  = "gridsentinel_xgb",
-        sampler     = optuna.samplers.TPESampler(seed=42),
+        direction="minimize",
+        study_name="gridsentinel_xgb",
+        sampler=optuna.samplers.TPESampler(seed=42),
     )
 
     objective = make_optuna_objective(
-        X            = X,
-        Y            = Y,
-        min_train_rows = min_train_rows,
-        val_rows     = val_rows,
-        step_rows    = step_rows,
-        horizon      = HORIZON,
-        n_cv_folds   = N_CV_FOLDS,
+        X=X,
+        Y=Y,
+        min_train_rows=min_train_rows,
+        val_rows=val_rows,
+        step_rows=step_rows,
+        horizon=HORIZON,
+        n_cv_folds=N_CV_FOLDS,
     )
 
     study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
@@ -684,19 +718,21 @@ def main(
 
     log.info(
         "Optuna complete | best mean-horizon MAE: %.4f EUR/MWh | best params: %s",
-        best_cv_mae, best_params,
+        best_cv_mae,
+        best_params,
     )
 
     # ── 5. Final model — train on everything except calibration tail ─────────
     log.info(
         "Training final model on %d rows (holding out last %d rows for calibration)...",
-        len(X) - cal_rows, cal_rows,
+        len(X) - cal_rows,
+        cal_rows,
     )
 
     X_final_train = X[:-cal_rows]
     Y_final_train = Y[:-cal_rows]
-    X_cal         = X[-cal_rows:]
-    Y_cal         = Y[-cal_rows:]
+    X_cal = X[-cal_rows:]
+    Y_cal = Y[-cal_rows:]
 
     final_model = _make_model(best_params)
     final_model.fit(X_final_train, Y_final_train)
@@ -710,14 +746,14 @@ def main(
     coverage_stats = evaluate_conformal_coverage(final_model, quantiles, X_cal, Y_cal)
 
     # ── 8. Final MAE on calibration window (point forecast quality) ──────────
-    Y_cal_pred  = final_model.predict(X_cal)
-    final_mae   = _mean_horizon_mae(Y_cal, Y_cal_pred)
+    Y_cal_pred = final_model.predict(X_cal)
+    final_mae = _mean_horizon_mae(Y_cal, Y_cal_pred)
 
     # Per-horizon MAE — useful for spotting degradation at long horizons
-    per_horizon_mae = np.mean(np.abs(Y_cal - Y_cal_pred), axis=0)   # (HORIZON,)
-    mae_h1    = float(per_horizon_mae[0])
-    mae_h12h  = float(per_horizon_mae[143])
-    mae_h24h  = float(per_horizon_mae[287])
+    per_horizon_mae = np.mean(np.abs(Y_cal - Y_cal_pred), axis=0)  # (HORIZON,)
+    mae_h1 = float(per_horizon_mae[0])
+    mae_h12h = float(per_horizon_mae[143])
+    mae_h24h = float(per_horizon_mae[287])
 
     elapsed = time.time() - t0
 
@@ -735,32 +771,36 @@ def main(
         "  Conformal coverage : %.3f  (target %.2f)\n"
         "  Elapsed      : %.1fs\n"
         "══════════════════════════════════════════════════════",
-        len(X_final_train), len(X_cal),
+        len(X_final_train),
+        len(X_cal),
         best_cv_mae,
         final_mae,
-        mae_h1, mae_h12h, mae_h24h,
-        coverage_stats["empirical_coverage"], COVERAGE_80,
+        mae_h1,
+        mae_h12h,
+        mae_h24h,
+        coverage_stats["empirical_coverage"],
+        COVERAGE_80,
         elapsed,
     )
 
     # ── 9. Save ──────────────────────────────────────────────────────────────
     metadata = {
-        "horizon":           HORIZON,
-        "feature_count":     len(FEATURE_COLUMNS),
-        "train_rows":        len(X_final_train),
-        "cal_rows":          len(X_cal),
-        "train_start":       str(df.index[0].date()),
-        "train_end_cutoff":  str(df.index[len(X_final_train) - 1].date()),
-        "best_params":       best_params,
-        "best_cv_mae":       round(best_cv_mae, 4),
-        "final_mae":         round(final_mae, 4),
-        "mae_h1_5min":       round(mae_h1,   4),
-        "mae_h144_12h":      round(mae_h12h, 4),
-        "mae_h288_24h":      round(mae_h24h, 4),
-        "conformal":         coverage_stats,
-        "elapsed_s":         round(elapsed, 1),
-        "n_optuna_trials":   n_trials,
-        "n_cv_folds":        N_CV_FOLDS,
+        "horizon": HORIZON,
+        "feature_count": len(FEATURE_COLUMNS),
+        "train_rows": len(X_final_train),
+        "cal_rows": len(X_cal),
+        "train_start": str(df.index[0].date()),
+        "train_end_cutoff": str(df.index[len(X_final_train) - 1].date()),
+        "best_params": best_params,
+        "best_cv_mae": round(best_cv_mae, 4),
+        "final_mae": round(final_mae, 4),
+        "mae_h1_5min": round(mae_h1, 4),
+        "mae_h144_12h": round(mae_h12h, 4),
+        "mae_h288_24h": round(mae_h24h, 4),
+        "conformal": coverage_stats,
+        "elapsed_s": round(elapsed, 1),
+        "n_optuna_trials": n_trials,
+        "n_cv_folds": N_CV_FOLDS,
     }
 
     save_artifacts(final_model, quantiles, metadata, output_dir)
@@ -776,6 +816,7 @@ def main(
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
+
 
 def _parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
@@ -797,7 +838,7 @@ def _parse_args() -> argparse.Namespace:
         "--train-end",
         default=None,
         help="Exclude data on or after this date (YYYY-MM-DD). "
-             "Defaults to full dataset. Set to prevent future leakage in backtest.",
+        "Defaults to full dataset. Set to prevent future leakage in backtest.",
     )
     p.add_argument(
         "--output-dir",
@@ -818,12 +859,12 @@ if __name__ == "__main__":
 
     train_end_dt: datetime | None = None
     if args.train_end:
-        train_end_dt = datetime.fromisoformat(args.train_end).replace(tzinfo=timezone.utc)
+        train_end_dt = datetime.fromisoformat(args.train_end).replace(tzinfo=UTC)
 
     main(
-        price_parquet   = Path(args.price_parquet),
-        weather_parquet = Path(args.weather_parquet),
-        train_end       = train_end_dt,
-        output_dir      = Path(args.output_dir),
-        n_trials        = args.n_trials,
+        price_parquet=Path(args.price_parquet),
+        weather_parquet=Path(args.weather_parquet),
+        train_end=train_end_dt,
+        output_dir=Path(args.output_dir),
+        n_trials=args.n_trials,
     )

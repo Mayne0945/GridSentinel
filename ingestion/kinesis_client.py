@@ -14,6 +14,7 @@ Partition key strategy:
   - This lands them on a single shard alongside their source label
   - The alignment module reads all shards and identifies source by record.source
 """
+
 from __future__ import annotations
 
 import json
@@ -37,11 +38,9 @@ class KinesisClient:
     MAX_BATCH = 500
 
     def __init__(self) -> None:
-        self._stream_name = os.environ.get(
-            "KINESIS_STREAM_NAME", "gridsentinel-telemetry"
-        )
+        self._stream_name = os.environ.get("KINESIS_STREAM_NAME", "gridsentinel-telemetry")
         endpoint = os.environ.get("AWS_ENDPOINT_URL", "http://localstack:4566")
-        region   = os.environ.get("AWS_DEFAULT_REGION", "eu-west-1")
+        region = os.environ.get("AWS_DEFAULT_REGION", "eu-west-1")
 
         self._client = boto3.client(
             "kinesis",
@@ -53,7 +52,8 @@ class KinesisClient:
         )
         log.info(
             "KinesisClient ready | stream=%s | endpoint=%s",
-            self._stream_name, endpoint,
+            self._stream_name,
+            endpoint,
         )
 
     def wait_for_stream(self, max_wait_s: int = 60, poll_s: int = 3) -> None:
@@ -62,12 +62,11 @@ class KinesisClient:
         Call this once at producer startup.
         """
         import time
+
         waited = 0
         while waited < max_wait_s:
             try:
-                resp   = self._client.describe_stream_summary(
-                    StreamName=self._stream_name
-                )
+                resp = self._client.describe_stream_summary(StreamName=self._stream_name)
                 status = resp["StreamDescriptionSummary"]["StreamStatus"]
                 if status == "ACTIVE":
                     log.info("Stream %s ACTIVE.", self._stream_name)
@@ -77,9 +76,7 @@ class KinesisClient:
                 log.info("Stream not found yet — retrying in %ds...", poll_s)
             time.sleep(poll_s)
             waited += poll_s
-        raise RuntimeError(
-            f"Stream '{self._stream_name}' not ACTIVE after {max_wait_s}s."
-        )
+        raise RuntimeError(f"Stream '{self._stream_name}' not ACTIVE after {max_wait_s}s.")
 
     def put_record(self, record: dict, partition_key: str) -> None:
         """Emit a single record. Used by producers that emit one record at a time."""
@@ -108,23 +105,19 @@ class KinesisClient:
         for i in range(0, len(batch), self.MAX_BATCH):
             chunk = batch[i : i + self.MAX_BATCH]
             try:
-                resp   = self._client.put_records(
-                    StreamName=self._stream_name, Records=chunk
-                )
+                resp = self._client.put_records(StreamName=self._stream_name, Records=chunk)
                 failed = resp.get("FailedRecordCount", 0)
                 if failed:
                     log.warning(
                         "Kinesis partial failure | key=%s | failed=%d/%d",
-                        partition_key, failed, len(chunk),
+                        partition_key,
+                        failed,
+                        len(chunk),
                     )
                 else:
-                    log.debug(
-                        "PUT_RECORDS OK | key=%s | count=%d", partition_key, len(chunk)
-                    )
+                    log.debug("PUT_RECORDS OK | key=%s | count=%d", partition_key, len(chunk))
             except Exception as exc:
-                log.error(
-                    "Kinesis put_records error | key=%s | %s", partition_key, exc
-                )
+                log.error("Kinesis put_records error | key=%s | %s", partition_key, exc)
 
 
 def _json_default(obj: Any) -> str:

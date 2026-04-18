@@ -24,6 +24,7 @@ Record schema emitted to Kinesis:
     "resolution":         "PT60M"
   }
 """
+
 from __future__ import annotations
 
 import logging
@@ -32,8 +33,7 @@ import os
 import random
 import sys
 import time
-from datetime import datetime, timezone
-from typing import Optional
+from datetime import UTC, datetime
 
 import requests
 
@@ -48,13 +48,14 @@ logging.basicConfig(
 log = logging.getLogger("ingestion.producer_entso_e")
 
 # ENTSO-E Transparency Platform
-ENTSOE_BASE_URL  = "https://web-api.tp.entsoe.eu/api"
-GB_PRICE_AREA    = "10YGB----------A"
-POLL_INTERVAL_S  = 60   # Emit current price once per minute
-PARTITION_KEY    = "shared"
+ENTSOE_BASE_URL = "https://web-api.tp.entsoe.eu/api"
+GB_PRICE_AREA = "10YGB----------A"
+POLL_INTERVAL_S = 60  # Emit current price once per minute
+PARTITION_KEY = "shared"
 
 
 # ─── Synthetic price curve ────────────────────────────────────────────────────
+
 
 def synthetic_price(dt: datetime) -> float:
     """
@@ -70,28 +71,29 @@ def synthetic_price(dt: datetime) -> float:
     Uses overlapping sinusoids to avoid a simplistic single-peak shape.
     Adds ±8% stochastic noise to simulate real price volatility.
     """
-    h      = dt.hour + dt.minute / 60.0
+    h = dt.hour + dt.minute / 60.0
 
     # Base overnight level
-    base   = 55.0
+    base = 55.0
 
     # Morning peak (centred 08:00)
-    morn   = 40.0 * math.exp(-0.5 * ((h - 8.0) / 1.5) ** 2)
+    morn = 40.0 * math.exp(-0.5 * ((h - 8.0) / 1.5) ** 2)
 
     # Midday solar dip (centred 13:00) — solar suppresses wholesale prices
-    solar  = -20.0 * math.exp(-0.5 * ((h - 13.0) / 2.0) ** 2)
+    solar = -20.0 * math.exp(-0.5 * ((h - 13.0) / 2.0) ** 2)
 
     # Evening peak (centred 18:00) — UK demand peak
-    eve    = 75.0 * math.exp(-0.5 * ((h - 18.0) / 1.5) ** 2)
+    eve = 75.0 * math.exp(-0.5 * ((h - 18.0) / 1.5) ** 2)
 
-    price  = base + morn + solar + eve
-    noise  = random.gauss(0, price * 0.08)
+    price = base + morn + solar + eve
+    noise = random.gauss(0, price * 0.08)
     return round(max(5.0, price + noise), 2)
 
 
 # ─── Real ENTSO-E API fetch ───────────────────────────────────────────────────
 
-def fetch_real_price(token: str, dt: datetime) -> Optional[float]:
+
+def fetch_real_price(token: str, dt: datetime) -> float | None:
     """
     Fetch the current hour's day-ahead price from ENTSO-E.
 
@@ -99,13 +101,13 @@ def fetch_real_price(token: str, dt: datetime) -> Optional[float]:
     """
     # Day-ahead prices are published for tomorrow — fetch today's published prices
     date_str = dt.strftime("%Y%m%d")
-    params   = {
-        "securityToken":  token,
-        "documentType":   "A44",       # Price document
-        "in_Domain":      GB_PRICE_AREA,
-        "out_Domain":     GB_PRICE_AREA,
-        "periodStart":    f"{date_str}0000",
-        "periodEnd":      f"{date_str}2300",
+    params = {
+        "securityToken": token,
+        "documentType": "A44",  # Price document
+        "in_Domain": GB_PRICE_AREA,
+        "out_Domain": GB_PRICE_AREA,
+        "periodStart": f"{date_str}0000",
+        "periodEnd": f"{date_str}2300",
     }
     try:
         resp = requests.get(
@@ -117,9 +119,10 @@ def fetch_real_price(token: str, dt: datetime) -> Optional[float]:
 
         # Parse XML response to extract current hour's price
         import xml.etree.ElementTree as ET
-        root  = ET.fromstring(resp.text)
-        ns    = {"ns": "urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:3"}
-        hour  = dt.hour
+
+        root = ET.fromstring(resp.text)
+        ns = {"ns": "urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:3"}
+        hour = dt.hour
 
         # Walk TimeSeries → Period → Point
         for ts in root.findall(".//ns:TimeSeries", ns):
@@ -128,7 +131,7 @@ def fetch_real_price(token: str, dt: datetime) -> Optional[float]:
                     pos = point.find("ns:position", ns)
                     val = point.find("ns:price.amount", ns)
                     if pos is not None and val is not None:
-                        if int(pos.text) == hour + 1:   # ENTSO-E is 1-indexed
+                        if int(pos.text) == hour + 1:  # ENTSO-E is 1-indexed
                             return round(float(val.text), 2)
         return None
 
@@ -139,29 +142,32 @@ def fetch_real_price(token: str, dt: datetime) -> Optional[float]:
 
 # ─── Record builder ───────────────────────────────────────────────────────────
 
+
 def build_record(price: float, dt: datetime, mode: str) -> dict:
     return {
-        "source":             "entso_e",
-        "mode":               mode,          # "real" or "synthetic"
-        "event_timestamp":    dt.isoformat(),
-        "ingestion_timestamp": datetime.now(timezone.utc).isoformat(),
-        "price_area":         "GB",
-        "currency":           "GBP",
-        "unit":               "MWh",
-        "spot_price":         price,
-        "resolution":         "PT60M",
+        "source": "entso_e",
+        "mode": mode,  # "real" or "synthetic"
+        "event_timestamp": dt.isoformat(),
+        "ingestion_timestamp": datetime.now(UTC).isoformat(),
+        "price_area": "GB",
+        "currency": "GBP",
+        "unit": "MWh",
+        "spot_price": price,
+        "resolution": "PT60M",
     }
 
 
 # ─── Main loop ────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
-    token  = os.environ.get("ENTSOE_API_TOKEN")
-    mode   = "real" if token else "synthetic"
+    token = os.environ.get("ENTSOE_API_TOKEN")
+    mode = "real" if token else "synthetic"
 
     log.info(
         "ENTSO-E Producer starting | mode=%s | interval=%ds",
-        mode, POLL_INTERVAL_S,
+        mode,
+        POLL_INTERVAL_S,
     )
     if not token:
         log.info(
@@ -173,7 +179,7 @@ def main() -> None:
     client.wait_for_stream()
 
     while True:
-        now   = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         price = None
 
         if token:

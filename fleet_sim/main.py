@@ -19,6 +19,7 @@ Usage:
     # Single depot (Docker Compose — one container per depot):
     DEPOT_ID=2 python -m fleet_sim --single-depot
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -26,11 +27,10 @@ import logging
 import os
 import signal
 import sys
-from typing import List
 
+from config.settings import settings
 from fleet_sim.depot import Depot
 from fleet_sim.kinesis_writer import KinesisWriter
-from config.settings import settings
 
 logging.basicConfig(
     level=logging.INFO,
@@ -57,13 +57,10 @@ async def run_all_depots() -> None:
     writer = KinesisWriter()
     await writer.start()
 
-    depots: List[Depot] = [
-        Depot(depot_id=i, writer=writer)
-        for i in range(cfg.depots)
-    ]
+    depots: list[Depot] = [Depot(depot_id=i, writer=writer) for i in range(cfg.depots)]
 
     stop_event = asyncio.Event()
-    loop       = asyncio.get_running_loop()
+    loop = asyncio.get_running_loop()
 
     def _handle_signal() -> None:
         log.info("Shutdown signal received — stopping gracefully...")
@@ -104,7 +101,7 @@ async def run_single_depot(depot_id: int) -> None:
     depot = Depot(depot_id=depot_id, writer=writer)
 
     stop_event = asyncio.Event()
-    loop       = asyncio.get_running_loop()
+    loop = asyncio.get_running_loop()
 
     def _handle_signal() -> None:
         log.info("Depot %d — shutdown signal received.", depot_id)
@@ -126,7 +123,7 @@ async def run_single_depot(depot_id: int) -> None:
 
 def main() -> None:
     single_depot_mode = "--single-depot" in sys.argv
-    depot_id_env      = os.environ.get("DEPOT_ID")
+    depot_id_env = os.environ.get("DEPOT_ID")
 
     if single_depot_mode and depot_id_env is not None:
         try:

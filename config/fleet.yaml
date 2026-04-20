@@ -46,3 +46,9 @@ bft:
   trust_recovery_per_window: 0.01
   trust_recovery_burst: 0.05   # Bonus after 5 consecutive clean readings
   trust_blacklist_threshold: 0.5
+
+market:
+  emergency_base_price: 0.25
+  max_stale_window_s: 3600
+  currency: "EUR"
+  market_region: "10Y1001A1001A635"

@@ -1,0 +1,929 @@
+{
+  "generated_at": "2026-04-18T10:49:49.264702+00:00",
+  "validation_method": "ac_newton_raphson",
+  "solver_status": "Safe",
+  "validation_time_s": 0.0574,
+  "v_depot_pu": 0.952969,
+  "v_mid_pu": 0.967688,
+  "transformer_load_kw": 3999.99,
+  "transformer_load_pct": 100.0,
+  "approved_count": 100,
+  "curtailed_count": 0,
+  "rejected_count": 0,
+  "total_discharge_kw": 0,
+  "total_charge_kw": 3999.99,
+  "expected_profit_eur": -3.99,
+  "validations": [
+    {
+      "bus_id": "Bus_001",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_002",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_003",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_004",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_005",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_006",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_007",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_008",
+      "original_action": "charge",
+      "original_power_kw": 65.53,
+      "validated_action": "charge",
+      "validated_power_kw": 65.53,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_009",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_010",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_011",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_012",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_013",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_014",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_015",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_016",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_017",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_018",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_019",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_020",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_021",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_022",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_023",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_024",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_025",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_026",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_027",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_028",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_029",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_030",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_031",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_032",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_033",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_034",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_035",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_036",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_037",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_038",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_039",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_040",
+      "original_action": "charge",
+      "original_power_kw": 81.57,
+      "validated_action": "charge",
+      "validated_power_kw": 81.57,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_041",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_042",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_043",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_044",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_045",
+      "original_action": "charge",
+      "original_power_kw": 98.95,
+      "validated_action": "charge",
+      "validated_power_kw": 98.95,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_046",
+      "original_action": "charge",
+      "original_power_kw": 108.57,
+      "validated_action": "charge",
+      "validated_power_kw": 108.57,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_047",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_048",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_049",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_050",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_051",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_052",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_053",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_054",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_055",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_056",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_057",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_058",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_059",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_060",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_061",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_062",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_063",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_064",
+      "original_action": "charge",
+      "original_power_kw": 56.87,
+      "validated_action": "charge",
+      "validated_power_kw": 56.87,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_065",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_066",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_067",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_068",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_069",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_070",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_071",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_072",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_073",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_074",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_075",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_076",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_077",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_078",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_079",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_080",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_081",
+      "original_action": "charge",
+      "original_power_kw": 27.1,
+      "validated_action": "charge",
+      "validated_power_kw": 27.1,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_082",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_083",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_084",
+      "original_action": "charge",
+      "original_power_kw": 91.06,
+      "validated_action": "charge",
+      "validated_power_kw": 91.06,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_085",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_086",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_087",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_088",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_089",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_090",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_091",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_092",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_093",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_094",
+      "original_action": "charge",
+      "original_power_kw": 150.0,
+      "validated_action": "charge",
+      "validated_power_kw": 150.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_095",
+      "original_action": "charge",
+      "original_power_kw": 22.88,
+      "validated_action": "charge",
+      "validated_power_kw": 22.88,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_096",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_097",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_098",
+      "original_action": "charge",
+      "original_power_kw": 147.46,
+      "validated_action": "charge",
+      "validated_power_kw": 147.46,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_099",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    },
+    {
+      "bus_id": "Bus_100",
+      "original_action": "hold",
+      "original_power_kw": 0.0,
+      "validated_action": "hold",
+      "validated_power_kw": 0.0,
+      "outcome": "APPROVED",
+      "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
+    }
+  ],
+  "meta": {
+    "original_discharge_kw": 0,
+    "original_charge_kw": 3999.99,
+    "original_net_kw": 3999.99,
+    "v_limits_pu": [
+      0.95,
+      1.05
+    ],
+    "transformer_limit_kw": 4000.0,
+    "pandapower_available": true
+  }
+}

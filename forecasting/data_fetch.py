@@ -60,8 +60,8 @@ from pathlib import Path
 
 import pandas as pd
 import requests
-
 from dotenv import load_dotenv
+
 load_dotenv()
 
 log = logging.getLogger("data_fetch")

@@ -1,7 +1,7 @@
 """
 forecasting/data_fetch.py
 --------------------------
-One-time ETL script. Pulls historical GB day-ahead spot prices from ENTSO-E
+One-time ETL script. Pulls historical France day-ahead spot prices from ENTSO-E
 and weather observations from Open-Meteo, aligns both to a 5-minute UTC index,
 and writes immutable Parquet files to data/raw/.
 
@@ -61,6 +61,9 @@ from pathlib import Path
 import pandas as pd
 import requests
 
+from dotenv import load_dotenv
+load_dotenv()
+
 log = logging.getLogger("data_fetch")
 logging.basicConfig(
     level=logging.INFO,
@@ -72,8 +75,8 @@ logging.basicConfig(
 # Constants
 # ---------------------------------------------------------------------------
 
-# GB bidding zone EIC code (Great Britain)
-ENTSO_E_AREA = "10YGB----------A"
+# Germany/Luxembourg bidding zone EIC code
+ENTSO_E_AREA = "10YFR-RTE------C"
 ENTSO_E_BASE = "https://web-api.tp.entsoe.eu/api"
 ENTSO_E_DOCTYPE = "A44"  # Day-ahead prices
 
@@ -230,7 +233,7 @@ def fetch_entso_e_prices(
     Returns DataFrame with columns: [spot_price_eur_mwh]
     at 5-minute UTC resolution (forward-filled from hourly source).
     """
-    log.info("Fetching ENTSO-E GB prices %s → %s", start.date(), end.date())
+    log.info("Fetching ENTSO-E France prices %s → %s", start.date(), end.date())
     chunks: list[pd.Series] = []
 
     for chunk_start, chunk_end in _month_ranges(start, end):

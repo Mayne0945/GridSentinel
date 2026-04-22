@@ -49,16 +49,22 @@ def _base_buses() -> list[dict]:
         for cmd in dispatch.get("commands", [])
     ]
 
-
 def _build_snapshot(buses: list[dict]) -> dict:
     return {
-        "canonical_timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "spot_price":          50.0,
-        "price_metadata":      {"confidence": 1.0},
-        "depot_meter_kw":      sum(b["mean_power_kw"] for b in buses),
-        "buses":               buses,
+        "canonical_timestamp":  time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "spot_price":           50.0,
+        "price_metadata":       {"confidence": 1.0, "source": "synthetic"},
+        "depot_meter_kw":       sum(b["mean_power_kw"] for b in buses),
+        "temperature_c":        21.0,
+        "solar_irradiance_wm2": 0.0,
+        "wind_speed_kmh":       10.0,
+        "flagged_bus_ids":      [],
+        "blacklisted_ids":      [],
+        "clean_bus_count":      len(buses),
+        "bft_passed":           False,
+        "mpc_mode":             "normal",
+        "buses":                buses,
     }
-
 
 def flatline_attack(buses: list[dict], pct: float) -> list[dict]:
     n = max(1, int(len(buses) * pct))

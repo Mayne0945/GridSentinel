@@ -29,16 +29,17 @@ from pydantic_settings import BaseSettings
 
 
 # ── Config ────────────────────────────────────────────────────────────────────
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
     redis_db: int = 0
-    cache_ttl_seconds: float = 4.0      # file-read cache lifetime
-    chaos_ttl_seconds: int = 300        # chaos state expires after 5 min
+    cache_ttl_seconds: float = 4.0      
+    chaos_ttl_seconds: int = 300        
 
-    class Config:
-        env_file = ".env"
+    # V2 standard: ignores ENTSO_E_TOKEN and fixes the deprecation warning
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 settings = Settings()
 

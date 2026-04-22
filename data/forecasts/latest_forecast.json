@@ -1,2453 +1,1742 @@
 {
-  "generated_at": "2026-04-17T14:02:37.300368+00:00",
-  "horizon_hours": 24,
-  "step_minutes": 5,
-  "coverage_target": 0.8,
-  "model_version": "unknown",
+  "timestamp": "2026-04-20T15:19:39.787822Z",
+  "horizon_steps": 288,
   "intervals": [
     {
-      "timestamp": "2024-01-01T00:00:00+00:00",
-      "horizon_step": 1,
-      "point_forecast_eur_mwh": 11.9822,
-      "lower_80": 7.7974,
-      "upper_80": 16.1669,
-      "interval_width": 8.3695
-    },
-    {
-      "timestamp": "2024-01-01T00:05:00+00:00",
-      "horizon_step": 2,
-      "point_forecast_eur_mwh": 14.9993,
-      "lower_80": 10.8355,
-      "upper_80": 19.1631,
-      "interval_width": 8.3276
-    },
-    {
-      "timestamp": "2024-01-01T00:10:00+00:00",
-      "horizon_step": 3,
-      "point_forecast_eur_mwh": 19.9482,
-      "lower_80": 15.7865,
-      "upper_80": 24.11,
-      "interval_width": 8.3235
-    },
-    {
-      "timestamp": "2024-01-01T00:15:00+00:00",
-      "horizon_step": 4,
-      "point_forecast_eur_mwh": 21.1114,
-      "lower_80": 16.8697,
-      "upper_80": 25.3531,
-      "interval_width": 8.4833
-    },
-    {
-      "timestamp": "2024-01-01T00:20:00+00:00",
-      "horizon_step": 5,
-      "point_forecast_eur_mwh": 23.7719,
-      "lower_80": 19.5185,
-      "upper_80": 28.0253,
-      "interval_width": 8.5068
-    },
-    {
-      "timestamp": "2024-01-01T00:25:00+00:00",
-      "horizon_step": 6,
-      "point_forecast_eur_mwh": 26.3606,
-      "lower_80": 22.193,
-      "upper_80": 30.5282,
-      "interval_width": 8.3352
-    },
-    {
-      "timestamp": "2024-01-01T00:30:00+00:00",
-      "horizon_step": 7,
-      "point_forecast_eur_mwh": 27.0645,
-      "lower_80": 22.8604,
-      "upper_80": 31.2687,
-      "interval_width": 8.4083
-    },
-    {
-      "timestamp": "2024-01-01T00:35:00+00:00",
-      "horizon_step": 8,
-      "point_forecast_eur_mwh": 26.8305,
-      "lower_80": 22.6616,
-      "upper_80": 30.9993,
-      "interval_width": 8.3376
-    },
-    {
-      "timestamp": "2024-01-01T00:40:00+00:00",
-      "horizon_step": 9,
-      "point_forecast_eur_mwh": 27.9065,
-      "lower_80": 23.6896,
-      "upper_80": 32.1233,
-      "interval_width": 8.4338
-    },
-    {
-      "timestamp": "2024-01-01T00:45:00+00:00",
-      "horizon_step": 10,
-      "point_forecast_eur_mwh": 28.7861,
-      "lower_80": 24.5577,
-      "upper_80": 33.0144,
-      "interval_width": 8.4567
-    },
-    {
-      "timestamp": "2024-01-01T00:50:00+00:00",
-      "horizon_step": 11,
-      "point_forecast_eur_mwh": 28.034,
-      "lower_80": 23.7946,
-      "upper_80": 32.2735,
-      "interval_width": 8.4789
-    },
-    {
-      "timestamp": "2024-01-01T00:55:00+00:00",
-      "horizon_step": 12,
-      "point_forecast_eur_mwh": 26.8795,
-      "lower_80": 22.7017,
-      "upper_80": 31.0573,
-      "interval_width": 8.3556
-    },
-    {
-      "timestamp": "2024-01-01T01:00:00+00:00",
-      "horizon_step": 13,
-      "point_forecast_eur_mwh": 27.0076,
-      "lower_80": 22.8418,
-      "upper_80": 31.1734,
-      "interval_width": 8.3315
+      "timestamp": "2026-04-20T15:19:39.787822Z",
+      "point_forecast_eur_mwh": 50.0,
+      "upper_80": 70.0,
+      "lower_80": 30.0
     },
     {
-      "timestamp": "2024-01-01T01:05:00+00:00",
-      "horizon_step": 14,
-      "point_forecast_eur_mwh": 29.7258,
-      "lower_80": 25.5395,
-      "upper_80": 33.912,
-      "interval_width": 8.3725
+      "timestamp": "2026-04-20T15:24:39.787822Z",
+      "point_forecast_eur_mwh": 55.0,
+      "upper_80": 75.0,
+      "lower_80": 35.0
     },
     {
-      "timestamp": "2024-01-01T01:10:00+00:00",
-      "horizon_step": 15,
-      "point_forecast_eur_mwh": 30.6652,
-      "lower_80": 26.4365,
-      "upper_80": 34.894,
-      "interval_width": 8.4575
+      "timestamp": "2026-04-20T15:29:39.787822Z",
+      "point_forecast_eur_mwh": 59.98,
+      "upper_80": 79.98,
+      "lower_80": 39.98
     },
     {
-      "timestamp": "2024-01-01T01:15:00+00:00",
-      "horizon_step": 16,
-      "point_forecast_eur_mwh": 32.0266,
-      "lower_80": 27.8408,
-      "upper_80": 36.2123,
-      "interval_width": 8.3715
+      "timestamp": "2026-04-20T15:34:39.787822Z",
+      "point_forecast_eur_mwh": 64.94,
+      "upper_80": 84.94,
+      "lower_80": 44.94
     },
     {
-      "timestamp": "2024-01-01T01:20:00+00:00",
-      "horizon_step": 17,
-      "point_forecast_eur_mwh": 34.203,
-      "lower_80": 29.9895,
-      "upper_80": 38.4164,
-      "interval_width": 8.4269
+      "timestamp": "2026-04-20T15:39:39.787822Z",
+      "point_forecast_eur_mwh": 69.87,
+      "upper_80": 89.87,
+      "lower_80": 49.87
     },
     {
-      "timestamp": "2024-01-01T01:25:00+00:00",
-      "horizon_step": 18,
-      "point_forecast_eur_mwh": 34.4502,
-      "lower_80": 30.2011,
-      "upper_80": 38.6993,
-      "interval_width": 8.4982
+      "timestamp": "2026-04-20T15:44:39.787822Z",
+      "point_forecast_eur_mwh": 74.74,
+      "upper_80": 94.74,
+      "lower_80": 54.74
     },
     {
-      "timestamp": "2024-01-01T01:30:00+00:00",
-      "horizon_step": 19,
-      "point_forecast_eur_mwh": 34.3495,
-      "lower_80": 30.138,
-      "upper_80": 38.561,
-      "interval_width": 8.423
+      "timestamp": "2026-04-20T15:49:39.787822Z",
+      "point_forecast_eur_mwh": 79.55,
+      "upper_80": 99.55,
+      "lower_80": 59.55
     },
     {
-      "timestamp": "2024-01-01T01:35:00+00:00",
-      "horizon_step": 20,
-      "point_forecast_eur_mwh": 35.054,
-      "lower_80": 30.8849,
-      "upper_80": 39.2231,
-      "interval_width": 8.3382
+      "timestamp": "2026-04-20T15:54:39.787822Z",
+      "point_forecast_eur_mwh": 84.29,
+      "upper_80": 104.29,
+      "lower_80": 64.29
     },
     {
-      "timestamp": "2024-01-01T01:40:00+00:00",
-      "horizon_step": 21,
-      "point_forecast_eur_mwh": 34.6022,
-      "lower_80": 30.4101,
-      "upper_80": 38.7944,
-      "interval_width": 8.3844
+      "timestamp": "2026-04-20T15:59:39.787822Z",
+      "point_forecast_eur_mwh": 88.94,
+      "upper_80": 108.94,
+      "lower_80": 68.94
     },
     {
-      "timestamp": "2024-01-01T01:45:00+00:00",
-      "horizon_step": 22,
-      "point_forecast_eur_mwh": 35.4604,
-      "lower_80": 31.2304,
-      "upper_80": 39.6903,
-      "interval_width": 8.4599
+      "timestamp": "2026-04-20T16:04:39.787822Z",
+      "point_forecast_eur_mwh": 93.5,
+      "upper_80": 113.5,
+      "lower_80": 73.5
     },
     {
-      "timestamp": "2024-01-01T01:50:00+00:00",
-      "horizon_step": 23,
-      "point_forecast_eur_mwh": 36.5848,
-      "lower_80": 32.4006,
-      "upper_80": 40.769,
-      "interval_width": 8.3684
+      "timestamp": "2026-04-20T16:09:39.787822Z",
+      "point_forecast_eur_mwh": 97.94,
+      "upper_80": 117.94,
+      "lower_80": 77.94
     },
     {
-      "timestamp": "2024-01-01T01:55:00+00:00",
-      "horizon_step": 24,
-      "point_forecast_eur_mwh": 38.0224,
-      "lower_80": 33.7962,
-      "upper_80": 42.2485,
-      "interval_width": 8.4523
+      "timestamp": "2026-04-20T16:14:39.787822Z",
+      "point_forecast_eur_mwh": 102.27,
+      "upper_80": 122.27,
+      "lower_80": 82.27
     },
     {
-      "timestamp": "2024-01-01T02:00:00+00:00",
-      "horizon_step": 25,
-      "point_forecast_eur_mwh": 40.0065,
-      "lower_80": 35.7893,
-      "upper_80": 44.2237,
-      "interval_width": 8.4344
+      "timestamp": "2026-04-20T16:19:39.787822Z",
+      "point_forecast_eur_mwh": 106.46,
+      "upper_80": 126.46,
+      "lower_80": 86.46
     },
     {
-      "timestamp": "2024-01-01T02:05:00+00:00",
-      "horizon_step": 26,
-      "point_forecast_eur_mwh": 40.1004,
-      "lower_80": 35.8896,
-      "upper_80": 44.3111,
-      "interval_width": 8.4215
+      "timestamp": "2026-04-20T16:24:39.787822Z",
+      "point_forecast_eur_mwh": 110.52,
+      "upper_80": 130.52,
+      "lower_80": 90.52
     },
     {
-      "timestamp": "2024-01-01T02:10:00+00:00",
-      "horizon_step": 27,
-      "point_forecast_eur_mwh": 39.6659,
-      "lower_80": 35.4755,
-      "upper_80": 43.8563,
-      "interval_width": 8.3808
+      "timestamp": "2026-04-20T16:29:39.787822Z",
+      "point_forecast_eur_mwh": 114.42,
+      "upper_80": 134.42,
+      "lower_80": 94.42
     },
     {
-      "timestamp": "2024-01-01T02:15:00+00:00",
-      "horizon_step": 28,
-      "point_forecast_eur_mwh": 42.6499,
-      "lower_80": 38.4305,
-      "upper_80": 46.8692,
-      "interval_width": 8.4387
+      "timestamp": "2026-04-20T16:34:39.787822Z",
+      "point_forecast_eur_mwh": 118.16,
+      "upper_80": 138.16,
+      "lower_80": 98.16
     },
     {
-      "timestamp": "2024-01-01T02:20:00+00:00",
-      "horizon_step": 29,
-      "point_forecast_eur_mwh": 42.646,
-      "lower_80": 38.3755,
-      "upper_80": 46.9165,
-      "interval_width": 8.5409
+      "timestamp": "2026-04-20T16:39:39.787822Z",
+      "point_forecast_eur_mwh": 121.74,
+      "upper_80": 141.74,
+      "lower_80": 101.74
     },
     {
-      "timestamp": "2024-01-01T02:25:00+00:00",
-      "horizon_step": 30,
-      "point_forecast_eur_mwh": 43.7018,
-      "lower_80": 39.4765,
-      "upper_80": 47.9271,
-      "interval_width": 8.4506
+      "timestamp": "2026-04-20T16:44:39.787822Z",
+      "point_forecast_eur_mwh": 125.13,
+      "upper_80": 145.13,
+      "lower_80": 105.13
     },
     {
-      "timestamp": "2024-01-01T02:30:00+00:00",
-      "horizon_step": 31,
-      "point_forecast_eur_mwh": 44.6505,
-      "lower_80": 40.3967,
-      "upper_80": 48.9043,
-      "interval_width": 8.5076
+      "timestamp": "2026-04-20T16:49:39.787822Z",
+      "point_forecast_eur_mwh": 128.33,
+      "upper_80": 148.33,
+      "lower_80": 108.33
     },
     {
-      "timestamp": "2024-01-01T02:35:00+00:00",
-      "horizon_step": 32,
-      "point_forecast_eur_mwh": 44.5679,
-      "lower_80": 40.4307,
-      "upper_80": 48.705,
-      "interval_width": 8.2743
+      "timestamp": "2026-04-20T16:54:39.787822Z",
+      "point_forecast_eur_mwh": 131.34,
+      "upper_80": 151.34,
+      "lower_80": 111.34
     },
     {
-      "timestamp": "2024-01-01T02:40:00+00:00",
-      "horizon_step": 33,
-      "point_forecast_eur_mwh": 46.5009,
-      "lower_80": 42.3484,
-      "upper_80": 50.6535,
-      "interval_width": 8.3051
+      "timestamp": "2026-04-20T16:59:39.787822Z",
+      "point_forecast_eur_mwh": 134.15,
+      "upper_80": 154.15,
+      "lower_80": 114.15
     },
     {
-      "timestamp": "2024-01-01T02:45:00+00:00",
-      "horizon_step": 34,
-      "point_forecast_eur_mwh": 45.0074,
-      "lower_80": 40.8189,
-      "upper_80": 49.1959,
-      "interval_width": 8.377
+      "timestamp": "2026-04-20T17:04:39.787822Z",
+      "point_forecast_eur_mwh": 136.74,
+      "upper_80": 156.74,
+      "lower_80": 116.74
     },
     {
-      "timestamp": "2024-01-01T02:50:00+00:00",
-      "horizon_step": 35,
-      "point_forecast_eur_mwh": 46.8525,
-      "lower_80": 42.6426,
-      "upper_80": 51.0624,
-      "interval_width": 8.4197
+      "timestamp": "2026-04-20T17:09:39.787822Z",
+      "point_forecast_eur_mwh": 139.12,
+      "upper_80": 159.12,
+      "lower_80": 119.12
     },
     {
-      "timestamp": "2024-01-01T02:55:00+00:00",
-      "horizon_step": 36,
-      "point_forecast_eur_mwh": 48.4335,
-      "lower_80": 44.2554,
-      "upper_80": 52.6115,
-      "interval_width": 8.3561
+      "timestamp": "2026-04-20T17:14:39.787822Z",
+      "point_forecast_eur_mwh": 141.28,
+      "upper_80": 161.28,
+      "lower_80": 121.28
     },
     {
-      "timestamp": "2024-01-01T03:00:00+00:00",
-      "horizon_step": 37,
-      "point_forecast_eur_mwh": 49.8993,
-      "lower_80": 45.7133,
-      "upper_80": 54.0852,
-      "interval_width": 8.3719
+      "timestamp": "2026-04-20T17:19:39.787822Z",
+      "point_forecast_eur_mwh": 143.2,
+      "upper_80": 163.2,
+      "lower_80": 123.2
     },
     {
-      "timestamp": "2024-01-01T03:05:00+00:00",
-      "horizon_step": 38,
-      "point_forecast_eur_mwh": 50.3611,
-      "lower_80": 46.2391,
-      "upper_80": 54.4831,
-      "interval_width": 8.244
+      "timestamp": "2026-04-20T17:24:39.787822Z",
+      "point_forecast_eur_mwh": 144.9,
+      "upper_80": 164.9,
+      "lower_80": 124.9
     },
     {
-      "timestamp": "2024-01-01T03:10:00+00:00",
-      "horizon_step": 39,
-      "point_forecast_eur_mwh": 51.1911,
-      "lower_80": 46.9878,
-      "upper_80": 55.3944,
-      "interval_width": 8.4066
+      "timestamp": "2026-04-20T17:29:39.787822Z",
+      "point_forecast_eur_mwh": 146.36,
+      "upper_80": 166.36,
+      "lower_80": 126.36
     },
     {
-      "timestamp": "2024-01-01T03:15:00+00:00",
-      "horizon_step": 40,
-      "point_forecast_eur_mwh": 53.4169,
-      "lower_80": 49.1969,
-      "upper_80": 57.6368,
-      "interval_width": 8.4399
+      "timestamp": "2026-04-20T17:34:39.787822Z",
+      "point_forecast_eur_mwh": 147.57,
+      "upper_80": 167.57,
+      "lower_80": 127.57
     },
     {
-      "timestamp": "2024-01-01T03:20:00+00:00",
-      "horizon_step": 41,
-      "point_forecast_eur_mwh": 53.4705,
-      "lower_80": 49.3135,
-      "upper_80": 57.6276,
-      "interval_width": 8.3141
+      "timestamp": "2026-04-20T17:39:39.787822Z",
+      "point_forecast_eur_mwh": 148.54,
+      "upper_80": 168.54,
+      "lower_80": 128.54
     },
     {
-      "timestamp": "2024-01-01T03:25:00+00:00",
-      "horizon_step": 42,
-      "point_forecast_eur_mwh": 53.7052,
-      "lower_80": 49.5452,
-      "upper_80": 57.8652,
-      "interval_width": 8.3201
+      "timestamp": "2026-04-20T17:44:39.787822Z",
+      "point_forecast_eur_mwh": 149.27,
+      "upper_80": 169.27,
+      "lower_80": 129.27
     },
     {
-      "timestamp": "2024-01-01T03:30:00+00:00",
-      "horizon_step": 43,
-      "point_forecast_eur_mwh": 53.5278,
-      "lower_80": 49.3421,
-      "upper_80": 57.7136,
-      "interval_width": 8.3715
+      "timestamp": "2026-04-20T17:49:39.787822Z",
+      "point_forecast_eur_mwh": 149.75,
+      "upper_80": 169.75,
+      "lower_80": 129.75
     },
     {
-      "timestamp": "2024-01-01T03:35:00+00:00",
-      "horizon_step": 44,
-      "point_forecast_eur_mwh": 55.4773,
-      "lower_80": 51.3019,
-      "upper_80": 59.6527,
-      "interval_width": 8.3508
+      "timestamp": "2026-04-20T17:54:39.787822Z",
+      "point_forecast_eur_mwh": 149.98,
+      "upper_80": 169.98,
+      "lower_80": 129.98
     },
     {
-      "timestamp": "2024-01-01T03:40:00+00:00",
-      "horizon_step": 45,
-      "point_forecast_eur_mwh": 55.7254,
-      "lower_80": 51.5508,
-      "upper_80": 59.9,
-      "interval_width": 8.3492
+      "timestamp": "2026-04-20T17:59:39.787822Z",
+      "point_forecast_eur_mwh": 149.96,
+      "upper_80": 169.96,
+      "lower_80": 129.96
     },
     {
-      "timestamp": "2024-01-01T03:45:00+00:00",
-      "horizon_step": 46,
-      "point_forecast_eur_mwh": 57.6528,
-      "lower_80": 53.4678,
-      "upper_80": 61.8378,
-      "interval_width": 8.37
+      "timestamp": "2026-04-20T18:04:39.787822Z",
+      "point_forecast_eur_mwh": 149.69,
+      "upper_80": 169.69,
+      "lower_80": 129.69
     },
     {
-      "timestamp": "2024-01-01T03:50:00+00:00",
-      "horizon_step": 47,
-      "point_forecast_eur_mwh": 58.3007,
-      "lower_80": 54.0855,
-      "upper_80": 62.516,
-      "interval_width": 8.4305
+      "timestamp": "2026-04-20T18:09:39.787822Z",
+      "point_forecast_eur_mwh": 149.17,
+      "upper_80": 169.17,
+      "lower_80": 129.17
     },
     {
-      "timestamp": "2024-01-01T03:55:00+00:00",
-      "horizon_step": 48,
-      "point_forecast_eur_mwh": 58.6744,
-      "lower_80": 54.5462,
-      "upper_80": 62.8025,
-      "interval_width": 8.2564
+      "timestamp": "2026-04-20T18:14:39.787822Z",
+      "point_forecast_eur_mwh": 148.4,
+      "upper_80": 168.4,
+      "lower_80": 128.4
     },
     {
-      "timestamp": "2024-01-01T04:00:00+00:00",
-      "horizon_step": 49,
-      "point_forecast_eur_mwh": 58.8497,
-      "lower_80": 54.6772,
-      "upper_80": 63.0222,
-      "interval_width": 8.345
+      "timestamp": "2026-04-20T18:19:39.787822Z",
+      "point_forecast_eur_mwh": 147.38,
+      "upper_80": 167.38,
+      "lower_80": 127.38
     },
     {
-      "timestamp": "2024-01-01T04:05:00+00:00",
-      "horizon_step": 50,
-      "point_forecast_eur_mwh": 59.7901,
-      "lower_80": 55.6969,
-      "upper_80": 63.8834,
-      "interval_width": 8.1865
+      "timestamp": "2026-04-20T18:24:39.787822Z",
+      "point_forecast_eur_mwh": 146.13,
+      "upper_80": 166.13,
+      "lower_80": 126.13
     },
     {
-      "timestamp": "2024-01-01T04:10:00+00:00",
-      "horizon_step": 51,
-      "point_forecast_eur_mwh": 59.5261,
-      "lower_80": 55.4257,
-      "upper_80": 63.6266,
-      "interval_width": 8.2009
+      "timestamp": "2026-04-20T18:29:39.787822Z",
+      "point_forecast_eur_mwh": 144.63,
+      "upper_80": 164.63,
+      "lower_80": 124.63
     },
     {
-      "timestamp": "2024-01-01T04:15:00+00:00",
-      "horizon_step": 52,
-      "point_forecast_eur_mwh": 60.059,
-      "lower_80": 55.9108,
-      "upper_80": 64.2072,
-      "interval_width": 8.2965
+      "timestamp": "2026-04-20T18:34:39.787822Z",
+      "point_forecast_eur_mwh": 142.9,
+      "upper_80": 162.9,
+      "lower_80": 122.9
     },
     {
-      "timestamp": "2024-01-01T04:20:00+00:00",
-      "horizon_step": 53,
-      "point_forecast_eur_mwh": 62.3523,
-      "lower_80": 58.1224,
-      "upper_80": 66.5822,
-      "interval_width": 8.4598
+      "timestamp": "2026-04-20T18:39:39.787822Z",
+      "point_forecast_eur_mwh": 140.93,
+      "upper_80": 160.93,
+      "lower_80": 120.93
     },
     {
-      "timestamp": "2024-01-01T04:25:00+00:00",
-      "horizon_step": 54,
-      "point_forecast_eur_mwh": 63.0571,
-      "lower_80": 58.8397,
-      "upper_80": 67.2745,
-      "interval_width": 8.4348
+      "timestamp": "2026-04-20T18:44:39.787822Z",
+      "point_forecast_eur_mwh": 138.74,
+      "upper_80": 158.74,
+      "lower_80": 118.74
     },
     {
-      "timestamp": "2024-01-01T04:30:00+00:00",
-      "horizon_step": 55,
-      "point_forecast_eur_mwh": 63.0376,
-      "lower_80": 58.8138,
-      "upper_80": 67.2613,
-      "interval_width": 8.4475
+      "timestamp": "2026-04-20T18:49:39.787822Z",
+      "point_forecast_eur_mwh": 136.32,
+      "upper_80": 156.32,
+      "lower_80": 116.32
     },
     {
-      "timestamp": "2024-01-01T04:35:00+00:00",
-      "horizon_step": 56,
-      "point_forecast_eur_mwh": 65.3912,
-      "lower_80": 61.1829,
-      "upper_80": 69.5995,
-      "interval_width": 8.4166
+      "timestamp": "2026-04-20T18:54:39.787822Z",
+      "point_forecast_eur_mwh": 133.69,
+      "upper_80": 153.69,
+      "lower_80": 113.69
     },
     {
-      "timestamp": "2024-01-01T04:40:00+00:00",
-      "horizon_step": 57,
-      "point_forecast_eur_mwh": 63.6803,
-      "lower_80": 59.5413,
-      "upper_80": 67.8194,
-      "interval_width": 8.2781
+      "timestamp": "2026-04-20T18:59:39.787822Z",
+      "point_forecast_eur_mwh": 130.85,
+      "upper_80": 150.85,
+      "lower_80": 110.85
     },
     {
-      "timestamp": "2024-01-01T04:45:00+00:00",
-      "horizon_step": 58,
-      "point_forecast_eur_mwh": 64.7763,
-      "lower_80": 60.5432,
-      "upper_80": 69.0095,
-      "interval_width": 8.4663
+      "timestamp": "2026-04-20T19:04:39.787822Z",
+      "point_forecast_eur_mwh": 127.81,
+      "upper_80": 147.81,
+      "lower_80": 107.81
     },
     {
-      "timestamp": "2024-01-01T04:50:00+00:00",
-      "horizon_step": 59,
-      "point_forecast_eur_mwh": 65.5437,
-      "lower_80": 61.3444,
-      "upper_80": 69.743,
-      "interval_width": 8.3986
+      "timestamp": "2026-04-20T19:09:39.787822Z",
+      "point_forecast_eur_mwh": 124.57,
+      "upper_80": 144.57,
+      "lower_80": 104.57
     },
     {
-      "timestamp": "2024-01-01T04:55:00+00:00",
-      "horizon_step": 60,
-      "point_forecast_eur_mwh": 66.676,
-      "lower_80": 62.4034,
-      "upper_80": 70.9485,
-      "interval_width": 8.5451
+      "timestamp": "2026-04-20T19:14:39.787822Z",
+      "point_forecast_eur_mwh": 121.15,
+      "upper_80": 141.15,
+      "lower_80": 101.15
     },
     {
-      "timestamp": "2024-01-01T05:00:00+00:00",
-      "horizon_step": 61,
-      "point_forecast_eur_mwh": 66.9075,
-      "lower_80": 62.6537,
-      "upper_80": 71.1612,
-      "interval_width": 8.5074
+      "timestamp": "2026-04-20T19:19:39.787822Z",
+      "point_forecast_eur_mwh": 117.55,
+      "upper_80": 137.55,
+      "lower_80": 97.55
     },
     {
-      "timestamp": "2024-01-01T05:05:00+00:00",
-      "horizon_step": 62,
-      "point_forecast_eur_mwh": 68.7101,
-      "lower_80": 64.4056,
-      "upper_80": 73.0146,
-      "interval_width": 8.609
+      "timestamp": "2026-04-20T19:24:39.787822Z",
+      "point_forecast_eur_mwh": 113.78,
+      "upper_80": 133.78,
+      "lower_80": 93.78
     },
     {
-      "timestamp": "2024-01-01T05:10:00+00:00",
-      "horizon_step": 63,
-      "point_forecast_eur_mwh": 68.2416,
-      "lower_80": 63.9029,
-      "upper_80": 72.5804,
-      "interval_width": 8.6775
+      "timestamp": "2026-04-20T19:29:39.787822Z",
+      "point_forecast_eur_mwh": 109.85,
+      "upper_80": 129.85,
+      "lower_80": 89.85
     },
     {
-      "timestamp": "2024-01-01T05:15:00+00:00",
-      "horizon_step": 64,
-      "point_forecast_eur_mwh": 70.4154,
-      "lower_80": 66.1052,
-      "upper_80": 74.7256,
-      "interval_width": 8.6204
+      "timestamp": "2026-04-20T19:34:39.787822Z",
+      "point_forecast_eur_mwh": 105.77,
+      "upper_80": 125.77,
+      "lower_80": 85.77
     },
     {
-      "timestamp": "2024-01-01T05:20:00+00:00",
-      "horizon_step": 65,
-      "point_forecast_eur_mwh": 68.6304,
-      "lower_80": 64.2888,
-      "upper_80": 72.9721,
-      "interval_width": 8.6834
+      "timestamp": "2026-04-20T19:39:39.787822Z",
+      "point_forecast_eur_mwh": 101.55,
+      "upper_80": 121.55,
+      "lower_80": 81.55
     },
     {
-      "timestamp": "2024-01-01T05:25:00+00:00",
-      "horizon_step": 66,
-      "point_forecast_eur_mwh": 69.4161,
-      "lower_80": 64.9988,
-      "upper_80": 73.8334,
-      "interval_width": 8.8347
+      "timestamp": "2026-04-20T19:44:39.787822Z",
+      "point_forecast_eur_mwh": 97.2,
+      "upper_80": 117.2,
+      "lower_80": 77.2
     },
     {
-      "timestamp": "2024-01-01T05:30:00+00:00",
-      "horizon_step": 67,
-      "point_forecast_eur_mwh": 69.6786,
-      "lower_80": 65.3484,
-      "upper_80": 74.0088,
-      "interval_width": 8.6604
+      "timestamp": "2026-04-20T19:49:39.787822Z",
+      "point_forecast_eur_mwh": 92.74,
+      "upper_80": 112.74,
+      "lower_80": 72.74
     },
     {
-      "timestamp": "2024-01-01T05:35:00+00:00",
-      "horizon_step": 68,
-      "point_forecast_eur_mwh": 70.2757,
-      "lower_80": 65.9483,
-      "upper_80": 74.6031,
-      "interval_width": 8.6549
+      "timestamp": "2026-04-20T19:54:39.787822Z",
+      "point_forecast_eur_mwh": 88.17,
+      "upper_80": 108.17,
+      "lower_80": 68.17
     },
     {
-      "timestamp": "2024-01-01T05:40:00+00:00",
-      "horizon_step": 69,
-      "point_forecast_eur_mwh": 69.9189,
-      "lower_80": 65.617,
-      "upper_80": 74.2208,
-      "interval_width": 8.6037
+      "timestamp": "2026-04-20T19:59:39.787822Z",
+      "point_forecast_eur_mwh": 83.5,
+      "upper_80": 103.5,
+      "lower_80": 63.5
     },
     {
-      "timestamp": "2024-01-01T05:45:00+00:00",
-      "horizon_step": 70,
-      "point_forecast_eur_mwh": 69.8779,
-      "lower_80": 65.5484,
-      "upper_80": 74.2073,
-      "interval_width": 8.6589
+      "timestamp": "2026-04-20T20:04:39.787822Z",
+      "point_forecast_eur_mwh": 78.75,
+      "upper_80": 98.75,
+      "lower_80": 58.75
     },
     {
-      "timestamp": "2024-01-01T05:50:00+00:00",
-      "horizon_step": 71,
-      "point_forecast_eur_mwh": 71.6809,
-      "lower_80": 67.3286,
-      "upper_80": 76.0332,
-      "interval_width": 8.7047
+      "timestamp": "2026-04-20T20:09:39.787822Z",
+      "point_forecast_eur_mwh": 73.92,
+      "upper_80": 93.92,
+      "lower_80": 53.92
     },
     {
-      "timestamp": "2024-01-01T05:55:00+00:00",
-      "horizon_step": 72,
-      "point_forecast_eur_mwh": 70.6953,
-      "lower_80": 66.369,
-      "upper_80": 75.0216,
-      "interval_width": 8.6526
+      "timestamp": "2026-04-20T20:14:39.787822Z",
+      "point_forecast_eur_mwh": 69.04,
+      "upper_80": 89.04,
+      "lower_80": 49.04
     },
     {
-      "timestamp": "2024-01-01T06:00:00+00:00",
-      "horizon_step": 73,
-      "point_forecast_eur_mwh": 71.9746,
-      "lower_80": 67.6738,
-      "upper_80": 76.2754,
-      "interval_width": 8.6016
+      "timestamp": "2026-04-20T20:19:39.787822Z",
+      "point_forecast_eur_mwh": 64.11,
+      "upper_80": 84.11,
+      "lower_80": 44.11
     },
     {
-      "timestamp": "2024-01-01T06:05:00+00:00",
-      "horizon_step": 74,
-      "point_forecast_eur_mwh": 70.5992,
-      "lower_80": 66.2307,
-      "upper_80": 74.9677,
-      "interval_width": 8.737
+      "timestamp": "2026-04-20T20:24:39.787822Z",
+      "point_forecast_eur_mwh": 59.15,
+      "upper_80": 79.15,
+      "lower_80": 39.15
     },
     {
-      "timestamp": "2024-01-01T06:10:00+00:00",
-      "horizon_step": 75,
-      "point_forecast_eur_mwh": 72.0556,
-      "lower_80": 67.6863,
-      "upper_80": 76.4248,
-      "interval_width": 8.7385
+      "timestamp": "2026-04-20T20:29:39.787822Z",
+      "point_forecast_eur_mwh": 54.16,
+      "upper_80": 74.16,
+      "lower_80": 34.16
     },
     {
-      "timestamp": "2024-01-01T06:15:00+00:00",
-      "horizon_step": 76,
-      "point_forecast_eur_mwh": 72.0704,
-      "lower_80": 67.6737,
-      "upper_80": 76.4672,
-      "interval_width": 8.7934
+      "timestamp": "2026-04-20T20:34:39.787822Z",
+      "point_forecast_eur_mwh": 49.16,
+      "upper_80": 69.16,
+      "lower_80": 29.16
     },
     {
-      "timestamp": "2024-01-01T06:20:00+00:00",
-      "horizon_step": 77,
-      "point_forecast_eur_mwh": 72.7385,
-      "lower_80": 68.3143,
-      "upper_80": 77.1627,
-      "interval_width": 8.8484
+      "timestamp": "2026-04-20T20:39:39.787822Z",
+      "point_forecast_eur_mwh": 44.16,
+      "upper_80": 64.16,
+      "lower_80": 24.16
     },
     {
-      "timestamp": "2024-01-01T06:25:00+00:00",
-      "horizon_step": 78,
-      "point_forecast_eur_mwh": 72.7112,
-      "lower_80": 68.3245,
-      "upper_80": 77.0979,
-      "interval_width": 8.7734
+      "timestamp": "2026-04-20T20:44:39.787822Z",
+      "point_forecast_eur_mwh": 39.18,
+      "upper_80": 59.18,
+      "lower_80": 19.18
     },
     {
-      "timestamp": "2024-01-01T06:30:00+00:00",
-      "horizon_step": 79,
-      "point_forecast_eur_mwh": 71.7498,
-      "lower_80": 67.363,
-      "upper_80": 76.1366,
-      "interval_width": 8.7736
+      "timestamp": "2026-04-20T20:49:39.787822Z",
+      "point_forecast_eur_mwh": 34.23,
+      "upper_80": 54.23,
+      "lower_80": 14.23
     },
     {
-      "timestamp": "2024-01-01T06:35:00+00:00",
-      "horizon_step": 80,
-      "point_forecast_eur_mwh": 72.4886,
-      "lower_80": 68.1699,
-      "upper_80": 76.8073,
-      "interval_width": 8.6374
+      "timestamp": "2026-04-20T20:54:39.787822Z",
+      "point_forecast_eur_mwh": 29.31,
+      "upper_80": 49.31,
+      "lower_80": 9.31
     },
     {
-      "timestamp": "2024-01-01T06:40:00+00:00",
-      "horizon_step": 81,
-      "point_forecast_eur_mwh": 73.4084,
-      "lower_80": 69.0012,
-      "upper_80": 77.8156,
-      "interval_width": 8.8144
+      "timestamp": "2026-04-20T20:59:39.787822Z",
+      "point_forecast_eur_mwh": 24.45,
+      "upper_80": 44.45,
+      "lower_80": 4.45
     },
     {
-      "timestamp": "2024-01-01T06:45:00+00:00",
-      "horizon_step": 82,
-      "point_forecast_eur_mwh": 71.5043,
-      "lower_80": 67.1907,
-      "upper_80": 75.8179,
-      "interval_width": 8.6272
+      "timestamp": "2026-04-20T21:04:39.787822Z",
+      "point_forecast_eur_mwh": 19.65,
+      "upper_80": 39.65,
+      "lower_80": -0.35
     },
     {
-      "timestamp": "2024-01-01T06:50:00+00:00",
-      "horizon_step": 83,
-      "point_forecast_eur_mwh": 72.4724,
-      "lower_80": 68.0199,
-      "upper_80": 76.9249,
-      "interval_width": 8.9051
+      "timestamp": "2026-04-20T21:09:39.787822Z",
+      "point_forecast_eur_mwh": 14.92,
+      "upper_80": 34.92,
+      "lower_80": -5.08
     },
     {
-      "timestamp": "2024-01-01T06:55:00+00:00",
-      "horizon_step": 84,
-      "point_forecast_eur_mwh": 72.1085,
-      "lower_80": 67.71,
-      "upper_80": 76.5071,
-      "interval_width": 8.7971
+      "timestamp": "2026-04-20T21:14:39.787822Z",
+      "point_forecast_eur_mwh": 10.29,
+      "upper_80": 30.29,
+      "lower_80": -9.71
     },
     {
-      "timestamp": "2024-01-01T07:00:00+00:00",
-      "horizon_step": 85,
-      "point_forecast_eur_mwh": 71.8709,
-      "lower_80": 67.4732,
-      "upper_80": 76.2686,
-      "interval_width": 8.7955
+      "timestamp": "2026-04-20T21:19:39.787822Z",
+      "point_forecast_eur_mwh": 5.75,
+      "upper_80": 25.75,
+      "lower_80": -14.25
     },
     {
-      "timestamp": "2024-01-01T07:05:00+00:00",
-      "horizon_step": 86,
-      "point_forecast_eur_mwh": 73.1078,
-      "lower_80": 68.6222,
-      "upper_80": 77.5935,
-      "interval_width": 8.9714
+      "timestamp": "2026-04-20T21:24:39.787822Z",
+      "point_forecast_eur_mwh": 1.32,
+      "upper_80": 21.32,
+      "lower_80": -18.68
     },
     {
-      "timestamp": "2024-01-01T07:10:00+00:00",
-      "horizon_step": 87,
-      "point_forecast_eur_mwh": 71.3998,
-      "lower_80": 66.9896,
-      "upper_80": 75.8099,
-      "interval_width": 8.8203
+      "timestamp": "2026-04-20T21:29:39.787822Z",
+      "point_forecast_eur_mwh": -2.98,
+      "upper_80": 17.02,
+      "lower_80": -22.98
     },
     {
-      "timestamp": "2024-01-01T07:15:00+00:00",
-      "horizon_step": 88,
-      "point_forecast_eur_mwh": 72.1716,
-      "lower_80": 67.6483,
-      "upper_80": 76.6949,
-      "interval_width": 9.0465
+      "timestamp": "2026-04-20T21:34:39.787822Z",
+      "point_forecast_eur_mwh": -7.16,
+      "upper_80": 12.84,
+      "lower_80": -27.16
     },
     {
-      "timestamp": "2024-01-01T07:20:00+00:00",
-      "horizon_step": 89,
-      "point_forecast_eur_mwh": 71.207,
-      "lower_80": 66.7588,
-      "upper_80": 75.6553,
-      "interval_width": 8.8964
+      "timestamp": "2026-04-20T21:39:39.787822Z",
+      "point_forecast_eur_mwh": -11.19,
+      "upper_80": 8.81,
+      "lower_80": -31.19
     },
     {
-      "timestamp": "2024-01-01T07:25:00+00:00",
-      "horizon_step": 90,
-      "point_forecast_eur_mwh": 72.2967,
-      "lower_80": 67.6953,
-      "upper_80": 76.898,
-      "interval_width": 9.2028
+      "timestamp": "2026-04-20T21:44:39.787822Z",
+      "point_forecast_eur_mwh": -15.06,
+      "upper_80": 4.94,
+      "lower_80": -35.06
     },
     {
-      "timestamp": "2024-01-01T07:30:00+00:00",
-      "horizon_step": 91,
-      "point_forecast_eur_mwh": 71.7604,
-      "lower_80": 67.0655,
-      "upper_80": 76.4553,
-      "interval_width": 9.3898
+      "timestamp": "2026-04-20T21:49:39.787822Z",
+      "point_forecast_eur_mwh": -18.78,
+      "upper_80": 1.22,
+      "lower_80": -38.78
     },
     {
-      "timestamp": "2024-01-01T07:35:00+00:00",
-      "horizon_step": 92,
-      "point_forecast_eur_mwh": 70.9431,
-      "lower_80": 66.3398,
-      "upper_80": 75.5464,
-      "interval_width": 9.2066
+      "timestamp": "2026-04-20T21:54:39.787822Z",
+      "point_forecast_eur_mwh": -22.32,
+      "upper_80": -2.32,
+      "lower_80": -42.32
     },
     {
-      "timestamp": "2024-01-01T07:40:00+00:00",
-      "horizon_step": 93,
-      "point_forecast_eur_mwh": 69.4434,
-      "lower_80": 64.8235,
-      "upper_80": 74.0634,
-      "interval_width": 9.2399
+      "timestamp": "2026-04-20T21:59:39.787822Z",
+      "point_forecast_eur_mwh": -25.68,
+      "upper_80": -5.68,
+      "lower_80": -45.68
     },
     {
-      "timestamp": "2024-01-01T07:45:00+00:00",
-      "horizon_step": 94,
-      "point_forecast_eur_mwh": 72.131,
-      "lower_80": 67.5296,
-      "upper_80": 76.7324,
-      "interval_width": 9.2028
+      "timestamp": "2026-04-20T22:04:39.787822Z",
+      "point_forecast_eur_mwh": -28.85,
+      "upper_80": -8.85,
+      "lower_80": -48.85
     },
     {
-      "timestamp": "2024-01-01T07:50:00+00:00",
-      "horizon_step": 95,
-      "point_forecast_eur_mwh": 70.1612,
-      "lower_80": 65.512,
-      "upper_80": 74.8104,
-      "interval_width": 9.2984
+      "timestamp": "2026-04-20T22:09:39.787822Z",
+      "point_forecast_eur_mwh": -31.83,
+      "upper_80": -11.83,
+      "lower_80": -51.83
     },
     {
-      "timestamp": "2024-01-01T07:55:00+00:00",
-      "horizon_step": 96,
-      "point_forecast_eur_mwh": 70.3965,
-      "lower_80": 65.6444,
-      "upper_80": 75.1487,
-      "interval_width": 9.5043
+      "timestamp": "2026-04-20T22:14:39.787822Z",
+      "point_forecast_eur_mwh": -34.6,
+      "upper_80": -14.6,
+      "lower_80": -54.6
     },
     {
-      "timestamp": "2024-01-01T08:00:00+00:00",
-      "horizon_step": 97,
-      "point_forecast_eur_mwh": 71.2858,
-      "lower_80": 66.5075,
-      "upper_80": 76.064,
-      "interval_width": 9.5565
+      "timestamp": "2026-04-20T22:19:39.787822Z",
+      "point_forecast_eur_mwh": -37.16,
+      "upper_80": -17.16,
+      "lower_80": -57.16
     },
     {
-      "timestamp": "2024-01-01T08:05:00+00:00",
-      "horizon_step": 98,
-      "point_forecast_eur_mwh": 71.2542,
-      "lower_80": 66.574,
-      "upper_80": 75.9344,
-      "interval_width": 9.3604
+      "timestamp": "2026-04-20T22:24:39.787822Z",
+      "point_forecast_eur_mwh": -39.5,
+      "upper_80": -19.5,
+      "lower_80": -59.5
     },
     {
-      "timestamp": "2024-01-01T08:10:00+00:00",
-      "horizon_step": 99,
-      "point_forecast_eur_mwh": 70.953,
-      "lower_80": 66.2765,
-      "upper_80": 75.6295,
-      "interval_width": 9.353
+      "timestamp": "2026-04-20T22:29:39.787822Z",
+      "point_forecast_eur_mwh": -41.62,
+      "upper_80": -21.62,
+      "lower_80": -61.62
     },
     {
-      "timestamp": "2024-01-01T08:15:00+00:00",
-      "horizon_step": 100,
-      "point_forecast_eur_mwh": 70.5889,
-      "lower_80": 65.9461,
-      "upper_80": 75.2317,
-      "interval_width": 9.2856
+      "timestamp": "2026-04-20T22:34:39.787822Z",
+      "point_forecast_eur_mwh": -43.51,
+      "upper_80": -23.51,
+      "lower_80": -63.51
     },
     {
-      "timestamp": "2024-01-01T08:20:00+00:00",
-      "horizon_step": 101,
-      "point_forecast_eur_mwh": 69.7617,
-      "lower_80": 65.103,
-      "upper_80": 74.4203,
-      "interval_width": 9.3173
+      "timestamp": "2026-04-20T22:39:39.787822Z",
+      "point_forecast_eur_mwh": -45.16,
+      "upper_80": -25.16,
+      "lower_80": -65.16
     },
     {
-      "timestamp": "2024-01-01T08:25:00+00:00",
-      "horizon_step": 102,
-      "point_forecast_eur_mwh": 68.9466,
-      "lower_80": 64.1762,
-      "upper_80": 73.717,
-      "interval_width": 9.5409
+      "timestamp": "2026-04-20T22:44:39.787822Z",
+      "point_forecast_eur_mwh": -46.58,
+      "upper_80": -26.58,
+      "lower_80": -66.58
     },
     {
-      "timestamp": "2024-01-01T08:30:00+00:00",
-      "horizon_step": 103,
-      "point_forecast_eur_mwh": 68.9224,
-      "lower_80": 64.2078,
-      "upper_80": 73.6369,
-      "interval_width": 9.4291
+      "timestamp": "2026-04-20T22:49:39.787822Z",
+      "point_forecast_eur_mwh": -47.75,
+      "upper_80": -27.75,
+      "lower_80": -67.75
     },
     {
-      "timestamp": "2024-01-01T08:35:00+00:00",
-      "horizon_step": 104,
-      "point_forecast_eur_mwh": 69.0803,
-      "lower_80": 64.3143,
-      "upper_80": 73.8463,
-      "interval_width": 9.532
+      "timestamp": "2026-04-20T22:54:39.787822Z",
+      "point_forecast_eur_mwh": -48.68,
+      "upper_80": -28.68,
+      "lower_80": -68.68
     },
     {
-      "timestamp": "2024-01-01T08:40:00+00:00",
-      "horizon_step": 105,
-      "point_forecast_eur_mwh": 67.3568,
-      "lower_80": 62.421,
-      "upper_80": 72.2925,
-      "interval_width": 9.8716
+      "timestamp": "2026-04-20T22:59:39.787822Z",
+      "point_forecast_eur_mwh": -49.37,
+      "upper_80": -29.37,
+      "lower_80": -69.37
     },
     {
-      "timestamp": "2024-01-01T08:45:00+00:00",
-      "horizon_step": 106,
-      "point_forecast_eur_mwh": 67.6674,
-      "lower_80": 62.8253,
-      "upper_80": 72.5095,
-      "interval_width": 9.6842
+      "timestamp": "2026-04-20T23:04:39.787822Z",
+      "point_forecast_eur_mwh": -49.81,
+      "upper_80": -29.81,
+      "lower_80": -69.81
     },
     {
-      "timestamp": "2024-01-01T08:50:00+00:00",
-      "horizon_step": 107,
-      "point_forecast_eur_mwh": 66.8627,
-      "lower_80": 62.1454,
-      "upper_80": 71.5801,
-      "interval_width": 9.4347
+      "timestamp": "2026-04-20T23:09:39.787822Z",
+      "point_forecast_eur_mwh": -49.99,
+      "upper_80": -29.99,
+      "lower_80": -69.99
     },
     {
-      "timestamp": "2024-01-01T08:55:00+00:00",
-      "horizon_step": 108,
-      "point_forecast_eur_mwh": 67.7372,
-      "lower_80": 63.1064,
-      "upper_80": 72.3681,
-      "interval_width": 9.2617
+      "timestamp": "2026-04-20T23:14:39.787822Z",
+      "point_forecast_eur_mwh": -49.93,
+      "upper_80": -29.93,
+      "lower_80": -69.93
     },
     {
-      "timestamp": "2024-01-01T09:00:00+00:00",
-      "horizon_step": 109,
-      "point_forecast_eur_mwh": 67.1272,
-      "lower_80": 62.2834,
-      "upper_80": 71.9711,
-      "interval_width": 9.6877
+      "timestamp": "2026-04-20T23:19:39.787822Z",
+      "point_forecast_eur_mwh": -49.62,
+      "upper_80": -29.62,
+      "lower_80": -69.62
     },
     {
-      "timestamp": "2024-01-01T09:05:00+00:00",
-      "horizon_step": 110,
-      "point_forecast_eur_mwh": 66.6727,
-      "lower_80": 61.9751,
-      "upper_80": 71.3702,
-      "interval_width": 9.3952
+      "timestamp": "2026-04-20T23:24:39.787822Z",
+      "point_forecast_eur_mwh": -49.05,
+      "upper_80": -29.05,
+      "lower_80": -69.05
     },
     {
-      "timestamp": "2024-01-01T09:10:00+00:00",
-      "horizon_step": 111,
-      "point_forecast_eur_mwh": 68.1505,
-      "lower_80": 63.3834,
-      "upper_80": 72.9175,
-      "interval_width": 9.534
+      "timestamp": "2026-04-20T23:29:39.787822Z",
+      "point_forecast_eur_mwh": -48.25,
+      "upper_80": -28.25,
+      "lower_80": -68.25
     },
     {
-      "timestamp": "2024-01-01T09:15:00+00:00",
-      "horizon_step": 112,
-      "point_forecast_eur_mwh": 66.7816,
-      "lower_80": 62.1933,
-      "upper_80": 71.37,
-      "interval_width": 9.1767
+      "timestamp": "2026-04-20T23:34:39.787822Z",
+      "point_forecast_eur_mwh": -47.19,
+      "upper_80": -27.19,
+      "lower_80": -67.19
     },
     {
-      "timestamp": "2024-01-01T09:20:00+00:00",
-      "horizon_step": 113,
-      "point_forecast_eur_mwh": 66.8185,
-      "lower_80": 62.0321,
-      "upper_80": 71.6049,
-      "interval_width": 9.5728
+      "timestamp": "2026-04-20T23:39:39.787822Z",
+      "point_forecast_eur_mwh": -45.89,
+      "upper_80": -25.89,
+      "lower_80": -65.89
     },
     {
-      "timestamp": "2024-01-01T09:25:00+00:00",
-      "horizon_step": 114,
-      "point_forecast_eur_mwh": 65.3683,
-      "lower_80": 60.7489,
-      "upper_80": 69.9876,
-      "interval_width": 9.2387
+      "timestamp": "2026-04-20T23:44:39.787822Z",
+      "point_forecast_eur_mwh": -44.35,
+      "upper_80": -24.35,
+      "lower_80": -64.35
     },
     {
-      "timestamp": "2024-01-01T09:30:00+00:00",
-      "horizon_step": 115,
-      "point_forecast_eur_mwh": 66.3321,
-      "lower_80": 61.7686,
-      "upper_80": 70.8956,
-      "interval_width": 9.127
+      "timestamp": "2026-04-20T23:49:39.787822Z",
+      "point_forecast_eur_mwh": -42.58,
+      "upper_80": -22.58,
+      "lower_80": -62.58
     },
     {
-      "timestamp": "2024-01-01T09:35:00+00:00",
-      "horizon_step": 116,
-      "point_forecast_eur_mwh": 64.337,
-      "lower_80": 59.7447,
-      "upper_80": 68.9294,
-      "interval_width": 9.1847
+      "timestamp": "2026-04-20T23:54:39.787822Z",
+      "point_forecast_eur_mwh": -40.58,
+      "upper_80": -20.58,
+      "lower_80": -60.58
     },
     {
-      "timestamp": "2024-01-01T09:40:00+00:00",
-      "horizon_step": 117,
-      "point_forecast_eur_mwh": 64.7776,
-      "lower_80": 60.1586,
-      "upper_80": 69.3966,
-      "interval_width": 9.238
+      "timestamp": "2026-04-20T23:59:39.787822Z",
+      "point_forecast_eur_mwh": -38.35,
+      "upper_80": -18.35,
+      "lower_80": -58.35
     },
     {
-      "timestamp": "2024-01-01T09:45:00+00:00",
-      "horizon_step": 118,
-      "point_forecast_eur_mwh": 64.3542,
-      "lower_80": 59.7537,
-      "upper_80": 68.9547,
-      "interval_width": 9.2009
+      "timestamp": "2026-04-21T00:04:39.787822Z",
+      "point_forecast_eur_mwh": -35.89,
+      "upper_80": -15.89,
+      "lower_80": -55.89
     },
     {
-      "timestamp": "2024-01-01T09:50:00+00:00",
-      "horizon_step": 119,
-      "point_forecast_eur_mwh": 65.3729,
-      "lower_80": 60.8915,
-      "upper_80": 69.8542,
-      "interval_width": 8.9627
+      "timestamp": "2026-04-21T00:09:39.787822Z",
+      "point_forecast_eur_mwh": -33.23,
+      "upper_80": -13.23,
+      "lower_80": -53.23
     },
     {
-      "timestamp": "2024-01-01T09:55:00+00:00",
-      "horizon_step": 120,
-      "point_forecast_eur_mwh": 64.4834,
-      "lower_80": 59.9597,
-      "upper_80": 69.0071,
-      "interval_width": 9.0474
+      "timestamp": "2026-04-21T00:14:39.787822Z",
+      "point_forecast_eur_mwh": -30.35,
+      "upper_80": -10.35,
+      "lower_80": -50.35
     },
     {
-      "timestamp": "2024-01-01T10:00:00+00:00",
-      "horizon_step": 121,
-      "point_forecast_eur_mwh": 65.5351,
-      "lower_80": 61.2157,
-      "upper_80": 69.8545,
-      "interval_width": 8.6389
+      "timestamp": "2026-04-21T00:19:39.787822Z",
+      "point_forecast_eur_mwh": -27.28,
+      "upper_80": -7.28,
+      "lower_80": -47.28
     },
     {
-      "timestamp": "2024-01-01T10:05:00+00:00",
-      "horizon_step": 122,
-      "point_forecast_eur_mwh": 64.6678,
-      "lower_80": 60.4074,
-      "upper_80": 68.9281,
-      "interval_width": 8.5207
+      "timestamp": "2026-04-21T00:24:39.787822Z",
+      "point_forecast_eur_mwh": -24.01,
+      "upper_80": -4.01,
+      "lower_80": -44.01
     },
     {
-      "timestamp": "2024-01-01T10:10:00+00:00",
-      "horizon_step": 123,
-      "point_forecast_eur_mwh": 65.3379,
-      "lower_80": 60.9805,
-      "upper_80": 69.6953,
-      "interval_width": 8.7148
+      "timestamp": "2026-04-21T00:29:39.787822Z",
+      "point_forecast_eur_mwh": -20.55,
+      "upper_80": -0.55,
+      "lower_80": -40.55
     },
     {
-      "timestamp": "2024-01-01T10:15:00+00:00",
-      "horizon_step": 124,
-      "point_forecast_eur_mwh": 65.0425,
-      "lower_80": 60.7564,
-      "upper_80": 69.3286,
-      "interval_width": 8.5722
+      "timestamp": "2026-04-21T00:34:39.787822Z",
+      "point_forecast_eur_mwh": -16.92,
+      "upper_80": 3.08,
+      "lower_80": -36.92
     },
     {
-      "timestamp": "2024-01-01T10:20:00+00:00",
-      "horizon_step": 125,
-      "point_forecast_eur_mwh": 64.3923,
-      "lower_80": 60.0542,
-      "upper_80": 68.7305,
-      "interval_width": 8.6763
+      "timestamp": "2026-04-21T00:39:39.787822Z",
+      "point_forecast_eur_mwh": -13.13,
+      "upper_80": 6.87,
+      "lower_80": -33.13
     },
     {
-      "timestamp": "2024-01-01T10:25:00+00:00",
-      "horizon_step": 126,
-      "point_forecast_eur_mwh": 63.3136,
-      "lower_80": 59.0182,
-      "upper_80": 67.609,
-      "interval_width": 8.5908
+      "timestamp": "2026-04-21T00:44:39.787822Z",
+      "point_forecast_eur_mwh": -9.17,
+      "upper_80": 10.83,
+      "lower_80": -29.17
     },
     {
-      "timestamp": "2024-01-01T10:30:00+00:00",
-      "horizon_step": 127,
-      "point_forecast_eur_mwh": 63.071,
-      "lower_80": 58.7316,
-      "upper_80": 67.4103,
-      "interval_width": 8.6787
+      "timestamp": "2026-04-21T00:49:39.787822Z",
+      "point_forecast_eur_mwh": -5.07,
+      "upper_80": 14.93,
+      "lower_80": -25.07
     },
     {
-      "timestamp": "2024-01-01T10:35:00+00:00",
-      "horizon_step": 128,
-      "point_forecast_eur_mwh": 63.5025,
-      "lower_80": 59.2749,
-      "upper_80": 67.7302,
-      "interval_width": 8.4553
+      "timestamp": "2026-04-21T00:54:39.787822Z",
+      "point_forecast_eur_mwh": -0.83,
+      "upper_80": 19.17,
+      "lower_80": -20.83
     },
     {
-      "timestamp": "2024-01-01T10:40:00+00:00",
-      "horizon_step": 129,
-      "point_forecast_eur_mwh": 63.253,
-      "lower_80": 58.8909,
-      "upper_80": 67.6151,
-      "interval_width": 8.7243
+      "timestamp": "2026-04-21T00:59:39.787822Z",
+      "point_forecast_eur_mwh": 3.54,
+      "upper_80": 23.54,
+      "lower_80": -16.46
     },
     {
-      "timestamp": "2024-01-01T10:45:00+00:00",
-      "horizon_step": 130,
-      "point_forecast_eur_mwh": 63.5787,
-      "lower_80": 59.3042,
-      "upper_80": 67.8533,
-      "interval_width": 8.5491
+      "timestamp": "2026-04-21T01:04:39.787822Z",
+      "point_forecast_eur_mwh": 8.02,
+      "upper_80": 28.02,
+      "lower_80": -11.98
     },
     {
-      "timestamp": "2024-01-01T10:50:00+00:00",
-      "horizon_step": 131,
-      "point_forecast_eur_mwh": 62.8623,
-      "lower_80": 58.6134,
-      "upper_80": 67.1112,
-      "interval_width": 8.4978
+      "timestamp": "2026-04-21T01:09:39.787822Z",
+      "point_forecast_eur_mwh": 12.61,
+      "upper_80": 32.61,
+      "lower_80": -7.39
     },
     {
-      "timestamp": "2024-01-01T10:55:00+00:00",
-      "horizon_step": 132,
-      "point_forecast_eur_mwh": 62.655,
-      "lower_80": 58.4246,
-      "upper_80": 66.8854,
-      "interval_width": 8.4608
+      "timestamp": "2026-04-21T01:14:39.787822Z",
+      "point_forecast_eur_mwh": 17.29,
+      "upper_80": 37.29,
+      "lower_80": -2.71
     },
     {
-      "timestamp": "2024-01-01T11:00:00+00:00",
-      "horizon_step": 133,
-      "point_forecast_eur_mwh": 62.441,
-      "lower_80": 58.251,
-      "upper_80": 66.6311,
-      "interval_width": 8.3802
+      "timestamp": "2026-04-21T01:19:39.787822Z",
+      "point_forecast_eur_mwh": 22.06,
+      "upper_80": 42.06,
+      "lower_80": 2.06
     },
     {
-      "timestamp": "2024-01-01T11:05:00+00:00",
-      "horizon_step": 134,
-      "point_forecast_eur_mwh": 62.6879,
-      "lower_80": 58.4515,
-      "upper_80": 66.9244,
-      "interval_width": 8.4729
+      "timestamp": "2026-04-21T01:24:39.787822Z",
+      "point_forecast_eur_mwh": 26.89,
+      "upper_80": 46.89,
+      "lower_80": 6.89
     },
     {
-      "timestamp": "2024-01-01T11:10:00+00:00",
-      "horizon_step": 135,
-      "point_forecast_eur_mwh": 62.3238,
-      "lower_80": 58.0609,
-      "upper_80": 66.5866,
-      "interval_width": 8.5257
+      "timestamp": "2026-04-21T01:29:39.787822Z",
+      "point_forecast_eur_mwh": 31.78,
+      "upper_80": 51.78,
+      "lower_80": 11.78
     },
     {
-      "timestamp": "2024-01-01T11:15:00+00:00",
-      "horizon_step": 136,
-      "point_forecast_eur_mwh": 62.4512,
-      "lower_80": 58.1709,
-      "upper_80": 66.7314,
-      "interval_width": 8.5605
+      "timestamp": "2026-04-21T01:34:39.787822Z",
+      "point_forecast_eur_mwh": 36.72,
+      "upper_80": 56.72,
+      "lower_80": 16.72
     },
     {
-      "timestamp": "2024-01-01T11:20:00+00:00",
-      "horizon_step": 137,
-      "point_forecast_eur_mwh": 63.7233,
-      "lower_80": 59.48,
-      "upper_80": 67.9665,
-      "interval_width": 8.4864
+      "timestamp": "2026-04-21T01:39:39.787822Z",
+      "point_forecast_eur_mwh": 41.69,
+      "upper_80": 61.69,
+      "lower_80": 21.69
     },
     {
-      "timestamp": "2024-01-01T11:25:00+00:00",
-      "horizon_step": 138,
-      "point_forecast_eur_mwh": 62.8771,
-      "lower_80": 58.5609,
-      "upper_80": 67.1934,
-      "interval_width": 8.6325
+      "timestamp": "2026-04-21T01:44:39.787822Z",
+      "point_forecast_eur_mwh": 46.68,
+      "upper_80": 66.68,
+      "lower_80": 26.68
     },
     {
-      "timestamp": "2024-01-01T11:30:00+00:00",
-      "horizon_step": 139,
-      "point_forecast_eur_mwh": 63.2455,
-      "lower_80": 58.9743,
-      "upper_80": 67.5167,
-      "interval_width": 8.5424
+      "timestamp": "2026-04-21T01:49:39.787822Z",
+      "point_forecast_eur_mwh": 51.68,
+      "upper_80": 71.68,
+      "lower_80": 31.68
     },
     {
-      "timestamp": "2024-01-01T11:35:00+00:00",
-      "horizon_step": 140,
-      "point_forecast_eur_mwh": 63.3961,
-      "lower_80": 59.1294,
-      "upper_80": 67.6628,
-      "interval_width": 8.5334
+      "timestamp": "2026-04-21T01:54:39.787822Z",
+      "point_forecast_eur_mwh": 56.68,
+      "upper_80": 76.68,
+      "lower_80": 36.68
     },
     {
-      "timestamp": "2024-01-01T11:40:00+00:00",
-      "horizon_step": 141,
-      "point_forecast_eur_mwh": 62.9904,
-      "lower_80": 58.7229,
-      "upper_80": 67.2579,
-      "interval_width": 8.535
+      "timestamp": "2026-04-21T01:59:39.787822Z",
+      "point_forecast_eur_mwh": 61.65,
+      "upper_80": 81.65,
+      "lower_80": 41.65
     },
     {
-      "timestamp": "2024-01-01T11:45:00+00:00",
-      "horizon_step": 142,
-      "point_forecast_eur_mwh": 61.9174,
-      "lower_80": 57.7399,
-      "upper_80": 66.0948,
-      "interval_width": 8.3549
+      "timestamp": "2026-04-21T02:04:39.787822Z",
+      "point_forecast_eur_mwh": 66.6,
+      "upper_80": 86.6,
+      "lower_80": 46.6
     },
     {
-      "timestamp": "2024-01-01T11:50:00+00:00",
-      "horizon_step": 143,
-      "point_forecast_eur_mwh": 64.1558,
-      "lower_80": 59.9175,
-      "upper_80": 68.3942,
-      "interval_width": 8.4767
+      "timestamp": "2026-04-21T02:09:39.787822Z",
+      "point_forecast_eur_mwh": 71.51,
+      "upper_80": 91.51,
+      "lower_80": 51.51
     },
     {
-      "timestamp": "2024-01-01T11:55:00+00:00",
-      "horizon_step": 144,
-      "point_forecast_eur_mwh": 64.5018,
-      "lower_80": 60.2979,
-      "upper_80": 68.7058,
-      "interval_width": 8.4079
+      "timestamp": "2026-04-21T02:14:39.787822Z",
+      "point_forecast_eur_mwh": 76.37,
+      "upper_80": 96.37,
+      "lower_80": 56.37
     },
     {
-      "timestamp": "2024-01-01T12:00:00+00:00",
-      "horizon_step": 145,
-      "point_forecast_eur_mwh": 65.3374,
-      "lower_80": 61.1042,
-      "upper_80": 69.5706,
-      "interval_width": 8.4663
+      "timestamp": "2026-04-21T02:19:39.787822Z",
+      "point_forecast_eur_mwh": 81.15,
+      "upper_80": 101.15,
+      "lower_80": 61.15
     },
     {
-      "timestamp": "2024-01-01T12:05:00+00:00",
-      "horizon_step": 146,
-      "point_forecast_eur_mwh": 64.9758,
-      "lower_80": 60.6802,
-      "upper_80": 69.2715,
-      "interval_width": 8.5913
+      "timestamp": "2026-04-21T02:24:39.787822Z",
+      "point_forecast_eur_mwh": 85.86,
+      "upper_80": 105.86,
+      "lower_80": 65.86
     },
     {
-      "timestamp": "2024-01-01T12:10:00+00:00",
-      "horizon_step": 147,
-      "point_forecast_eur_mwh": 64.4358,
-      "lower_80": 60.1779,
-      "upper_80": 68.6936,
-      "interval_width": 8.5157
+      "timestamp": "2026-04-21T02:29:39.787822Z",
+      "point_forecast_eur_mwh": 90.48,
+      "upper_80": 110.48,
+      "lower_80": 70.48
     },
     {
-      "timestamp": "2024-01-01T12:15:00+00:00",
-      "horizon_step": 148,
-      "point_forecast_eur_mwh": 66.7905,
-      "lower_80": 62.5142,
-      "upper_80": 71.0667,
-      "interval_width": 8.5525
+      "timestamp": "2026-04-21T02:34:39.787822Z",
+      "point_forecast_eur_mwh": 95.0,
+      "upper_80": 115.0,
+      "lower_80": 75.0
     },
     {
-      "timestamp": "2024-01-01T12:20:00+00:00",
-      "horizon_step": 149,
-      "point_forecast_eur_mwh": 65.7578,
-      "lower_80": 61.4413,
-      "upper_80": 70.0742,
-      "interval_width": 8.6329
+      "timestamp": "2026-04-21T02:39:39.787822Z",
+      "point_forecast_eur_mwh": 99.41,
+      "upper_80": 119.41,
+      "lower_80": 79.41
     },
     {
-      "timestamp": "2024-01-01T12:25:00+00:00",
-      "horizon_step": 150,
-      "point_forecast_eur_mwh": 65.794,
-      "lower_80": 61.5356,
-      "upper_80": 70.0524,
-      "interval_width": 8.5168
+      "timestamp": "2026-04-21T02:44:39.787822Z",
+      "point_forecast_eur_mwh": 103.69,
+      "upper_80": 123.69,
+      "lower_80": 83.69
     },
     {
-      "timestamp": "2024-01-01T12:30:00+00:00",
-      "horizon_step": 151,
-      "point_forecast_eur_mwh": 65.3997,
-      "lower_80": 61.1609,
-      "upper_80": 69.6384,
-      "interval_width": 8.4775
+      "timestamp": "2026-04-21T02:49:39.787822Z",
+      "point_forecast_eur_mwh": 107.84,
+      "upper_80": 127.84,
+      "lower_80": 87.84
     },
     {
-      "timestamp": "2024-01-01T12:35:00+00:00",
-      "horizon_step": 152,
-      "point_forecast_eur_mwh": 66.5658,
-      "lower_80": 62.2931,
-      "upper_80": 70.8384,
-      "interval_width": 8.5453
+      "timestamp": "2026-04-21T02:54:39.787822Z",
+      "point_forecast_eur_mwh": 111.85,
+      "upper_80": 131.85,
+      "lower_80": 91.85
     },
     {
-      "timestamp": "2024-01-01T12:40:00+00:00",
-      "horizon_step": 153,
-      "point_forecast_eur_mwh": 67.2647,
-      "lower_80": 62.9617,
-      "upper_80": 71.5678,
-      "interval_width": 8.6061
+      "timestamp": "2026-04-21T02:59:39.787822Z",
+      "point_forecast_eur_mwh": 115.7,
+      "upper_80": 135.7,
+      "lower_80": 95.7
     },
     {
-      "timestamp": "2024-01-01T12:45:00+00:00",
-      "horizon_step": 154,
-      "point_forecast_eur_mwh": 68.1282,
-      "lower_80": 63.9039,
-      "upper_80": 72.3526,
-      "interval_width": 8.4487
+      "timestamp": "2026-04-21T03:04:39.787822Z",
+      "point_forecast_eur_mwh": 119.38,
+      "upper_80": 139.38,
+      "lower_80": 99.38
     },
     {
-      "timestamp": "2024-01-01T12:50:00+00:00",
-      "horizon_step": 155,
-      "point_forecast_eur_mwh": 68.8553,
-      "lower_80": 64.5922,
-      "upper_80": 73.1184,
-      "interval_width": 8.5262
+      "timestamp": "2026-04-21T03:09:39.787822Z",
+      "point_forecast_eur_mwh": 122.9,
+      "upper_80": 142.9,
+      "lower_80": 102.9
     },
     {
-      "timestamp": "2024-01-01T12:55:00+00:00",
-      "horizon_step": 156,
-      "point_forecast_eur_mwh": 69.7753,
-      "lower_80": 65.5286,
-      "upper_80": 74.0219,
-      "interval_width": 8.4933
+      "timestamp": "2026-04-21T03:14:39.787822Z",
+      "point_forecast_eur_mwh": 126.23,
+      "upper_80": 146.23,
+      "lower_80": 106.23
     },
     {
-      "timestamp": "2024-01-01T13:00:00+00:00",
-      "horizon_step": 157,
-      "point_forecast_eur_mwh": 70.0399,
-      "lower_80": 65.7871,
-      "upper_80": 74.2927,
-      "interval_width": 8.5055
+      "timestamp": "2026-04-21T03:19:39.787822Z",
+      "point_forecast_eur_mwh": 129.37,
+      "upper_80": 149.37,
+      "lower_80": 109.37
     },
     {
-      "timestamp": "2024-01-01T13:05:00+00:00",
-      "horizon_step": 158,
-      "point_forecast_eur_mwh": 70.4299,
-      "lower_80": 66.153,
-      "upper_80": 74.7069,
-      "interval_width": 8.5539
+      "timestamp": "2026-04-21T03:24:39.787822Z",
+      "point_forecast_eur_mwh": 132.31,
+      "upper_80": 152.31,
+      "lower_80": 112.31
     },
     {
-      "timestamp": "2024-01-01T13:10:00+00:00",
-      "horizon_step": 159,
-      "point_forecast_eur_mwh": 71.6569,
-      "lower_80": 67.3237,
-      "upper_80": 75.9902,
-      "interval_width": 8.6665
+      "timestamp": "2026-04-21T03:29:39.787822Z",
+      "point_forecast_eur_mwh": 135.04,
+      "upper_80": 155.04,
+      "lower_80": 115.04
     },
     {
-      "timestamp": "2024-01-01T13:15:00+00:00",
-      "horizon_step": 160,
-      "point_forecast_eur_mwh": 70.6178,
-      "lower_80": 66.3096,
-      "upper_80": 74.926,
-      "interval_width": 8.6164
+      "timestamp": "2026-04-21T03:34:39.787822Z",
+      "point_forecast_eur_mwh": 137.57,
+      "upper_80": 157.57,
+      "lower_80": 117.57
     },
     {
-      "timestamp": "2024-01-01T13:20:00+00:00",
-      "horizon_step": 161,
-      "point_forecast_eur_mwh": 70.2117,
-      "lower_80": 65.832,
-      "upper_80": 74.5914,
-      "interval_width": 8.7594
+      "timestamp": "2026-04-21T03:39:39.787822Z",
+      "point_forecast_eur_mwh": 139.87,
+      "upper_80": 159.87,
+      "lower_80": 119.87
     },
     {
-      "timestamp": "2024-01-01T13:25:00+00:00",
-      "horizon_step": 162,
-      "point_forecast_eur_mwh": 70.7733,
-      "lower_80": 66.4305,
-      "upper_80": 75.1162,
-      "interval_width": 8.6857
+      "timestamp": "2026-04-21T03:44:39.787822Z",
+      "point_forecast_eur_mwh": 141.95,
+      "upper_80": 161.95,
+      "lower_80": 121.95
     },
     {
-      "timestamp": "2024-01-01T13:30:00+00:00",
-      "horizon_step": 163,
-      "point_forecast_eur_mwh": 71.984,
-      "lower_80": 67.6691,
-      "upper_80": 76.2989,
-      "interval_width": 8.6298
+      "timestamp": "2026-04-21T03:49:39.787822Z",
+      "point_forecast_eur_mwh": 143.8,
+      "upper_80": 163.8,
+      "lower_80": 123.8
     },
     {
-      "timestamp": "2024-01-01T13:35:00+00:00",
-      "horizon_step": 164,
-      "point_forecast_eur_mwh": 72.7893,
-      "lower_80": 68.4849,
-      "upper_80": 77.0937,
-      "interval_width": 8.6088
+      "timestamp": "2026-04-21T03:54:39.787822Z",
+      "point_forecast_eur_mwh": 145.42,
+      "upper_80": 165.42,
+      "lower_80": 125.42
     },
     {
-      "timestamp": "2024-01-01T13:40:00+00:00",
-      "horizon_step": 165,
-      "point_forecast_eur_mwh": 72.6992,
-      "lower_80": 68.3528,
-      "upper_80": 77.0457,
-      "interval_width": 8.6929
+      "timestamp": "2026-04-21T03:59:39.787822Z",
+      "point_forecast_eur_mwh": 146.79,
+      "upper_80": 166.79,
+      "lower_80": 126.79
     },
     {
-      "timestamp": "2024-01-01T13:45:00+00:00",
-      "horizon_step": 166,
-      "point_forecast_eur_mwh": 72.3558,
-      "lower_80": 68.048,
-      "upper_80": 76.6637,
-      "interval_width": 8.6157
+      "timestamp": "2026-04-21T04:04:39.787822Z",
+      "point_forecast_eur_mwh": 147.93,
+      "upper_80": 167.93,
+      "lower_80": 127.93
     },
     {
-      "timestamp": "2024-01-01T13:50:00+00:00",
-      "horizon_step": 167,
-      "point_forecast_eur_mwh": 73.6051,
-      "lower_80": 69.2299,
-      "upper_80": 77.9804,
-      "interval_width": 8.7505
+      "timestamp": "2026-04-21T04:09:39.787822Z",
+      "point_forecast_eur_mwh": 148.82,
+      "upper_80": 168.82,
+      "lower_80": 128.82
     },
     {
-      "timestamp": "2024-01-01T13:55:00+00:00",
-      "horizon_step": 168,
-      "point_forecast_eur_mwh": 73.8175,
-      "lower_80": 69.5174,
-      "upper_80": 78.1176,
-      "interval_width": 8.6002
+      "timestamp": "2026-04-21T04:14:39.787822Z",
+      "point_forecast_eur_mwh": 149.46,
+      "upper_80": 169.46,
+      "lower_80": 129.46
     },
     {
-      "timestamp": "2024-01-01T14:00:00+00:00",
-      "horizon_step": 169,
-      "point_forecast_eur_mwh": 74.1445,
-      "lower_80": 69.827,
-      "upper_80": 78.4619,
-      "interval_width": 8.635
+      "timestamp": "2026-04-21T04:19:39.787822Z",
+      "point_forecast_eur_mwh": 149.85,
+      "upper_80": 169.85,
+      "lower_80": 129.85
     },
     {
-      "timestamp": "2024-01-01T14:05:00+00:00",
-      "horizon_step": 170,
-      "point_forecast_eur_mwh": 74.1173,
-      "lower_80": 69.7536,
-      "upper_80": 78.481,
-      "interval_width": 8.7273
+      "timestamp": "2026-04-21T04:24:39.787822Z",
+      "point_forecast_eur_mwh": 150.0,
+      "upper_80": 170.0,
+      "lower_80": 130.0
     },
     {
-      "timestamp": "2024-01-01T14:10:00+00:00",
-      "horizon_step": 171,
-      "point_forecast_eur_mwh": 75.2041,
-      "lower_80": 70.8379,
-      "upper_80": 79.5702,
-      "interval_width": 8.7323
+      "timestamp": "2026-04-21T04:29:39.787822Z",
+      "point_forecast_eur_mwh": 149.89,
+      "upper_80": 169.89,
+      "lower_80": 129.89
     },
     {
-      "timestamp": "2024-01-01T14:15:00+00:00",
-      "horizon_step": 172,
-      "point_forecast_eur_mwh": 75.8839,
-      "lower_80": 71.4993,
-      "upper_80": 80.2685,
-      "interval_width": 8.7692
+      "timestamp": "2026-04-21T04:34:39.787822Z",
+      "point_forecast_eur_mwh": 149.54,
+      "upper_80": 169.54,
+      "lower_80": 129.54
     },
     {
-      "timestamp": "2024-01-01T14:20:00+00:00",
-      "horizon_step": 173,
-      "point_forecast_eur_mwh": 74.0543,
-      "lower_80": 69.6279,
-      "upper_80": 78.4808,
-      "interval_width": 8.8529
+      "timestamp": "2026-04-21T04:39:39.787822Z",
+      "point_forecast_eur_mwh": 148.94,
+      "upper_80": 168.94,
+      "lower_80": 128.94
     },
     {
-      "timestamp": "2024-01-01T14:25:00+00:00",
-      "horizon_step": 174,
-      "point_forecast_eur_mwh": 77.2104,
-      "lower_80": 72.8434,
-      "upper_80": 81.5774,
-      "interval_width": 8.734
+      "timestamp": "2026-04-21T04:44:39.787822Z",
+      "point_forecast_eur_mwh": 148.08,
+      "upper_80": 168.08,
+      "lower_80": 128.08
     },
     {
-      "timestamp": "2024-01-01T14:30:00+00:00",
-      "horizon_step": 175,
-      "point_forecast_eur_mwh": 78.2512,
-      "lower_80": 73.7782,
-      "upper_80": 82.7243,
-      "interval_width": 8.9462
+      "timestamp": "2026-04-21T04:49:39.787822Z",
+      "point_forecast_eur_mwh": 146.99,
+      "upper_80": 166.99,
+      "lower_80": 126.99
     },
     {
-      "timestamp": "2024-01-01T14:35:00+00:00",
-      "horizon_step": 176,
-      "point_forecast_eur_mwh": 77.7174,
-      "lower_80": 73.3568,
-      "upper_80": 82.0779,
-      "interval_width": 8.7212
+      "timestamp": "2026-04-21T04:54:39.787822Z",
+      "point_forecast_eur_mwh": 145.65,
+      "upper_80": 165.65,
+      "lower_80": 125.65
     },
     {
-      "timestamp": "2024-01-01T14:40:00+00:00",
-      "horizon_step": 177,
-      "point_forecast_eur_mwh": 79.9846,
-      "lower_80": 75.6146,
-      "upper_80": 84.3546,
-      "interval_width": 8.7399
+      "timestamp": "2026-04-21T04:59:39.787822Z",
+      "point_forecast_eur_mwh": 144.07,
+      "upper_80": 164.07,
+      "lower_80": 124.07
     },
     {
-      "timestamp": "2024-01-01T14:45:00+00:00",
-      "horizon_step": 178,
-      "point_forecast_eur_mwh": 78.749,
-      "lower_80": 74.3804,
-      "upper_80": 83.1175,
-      "interval_width": 8.7371
+      "timestamp": "2026-04-21T05:04:39.787822Z",
+      "point_forecast_eur_mwh": 142.26,
+      "upper_80": 162.26,
+      "lower_80": 122.26
     },
     {
-      "timestamp": "2024-01-01T14:50:00+00:00",
-      "horizon_step": 179,
-      "point_forecast_eur_mwh": 80.4137,
-      "lower_80": 75.9703,
-      "upper_80": 84.857,
-      "interval_width": 8.8867
+      "timestamp": "2026-04-21T05:09:39.787822Z",
+      "point_forecast_eur_mwh": 140.22,
+      "upper_80": 160.22,
+      "lower_80": 120.22
     },
     {
-      "timestamp": "2024-01-01T14:55:00+00:00",
-      "horizon_step": 180,
-      "point_forecast_eur_mwh": 78.8037,
-      "lower_80": 74.4459,
-      "upper_80": 83.1616,
-      "interval_width": 8.7157
+      "timestamp": "2026-04-21T05:14:39.787822Z",
+      "point_forecast_eur_mwh": 137.95,
+      "upper_80": 157.95,
+      "lower_80": 117.95
     },
     {
-      "timestamp": "2024-01-01T15:00:00+00:00",
-      "horizon_step": 181,
-      "point_forecast_eur_mwh": 80.5407,
-      "lower_80": 76.1518,
-      "upper_80": 84.9296,
-      "interval_width": 8.7778
+      "timestamp": "2026-04-21T05:19:39.787822Z",
+      "point_forecast_eur_mwh": 135.46,
+      "upper_80": 155.46,
+      "lower_80": 115.46
     },
     {
-      "timestamp": "2024-01-01T15:05:00+00:00",
-      "horizon_step": 182,
-      "point_forecast_eur_mwh": 81.3362,
-      "lower_80": 76.9712,
-      "upper_80": 85.7013,
-      "interval_width": 8.7301
+      "timestamp": "2026-04-21T05:24:39.787822Z",
+      "point_forecast_eur_mwh": 132.76,
+      "upper_80": 152.76,
+      "lower_80": 112.76
     },
     {
-      "timestamp": "2024-01-01T15:10:00+00:00",
-      "horizon_step": 183,
-      "point_forecast_eur_mwh": 80.6356,
-      "lower_80": 76.2946,
-      "upper_80": 84.9765,
-      "interval_width": 8.6819
+      "timestamp": "2026-04-21T05:29:39.787822Z",
+      "point_forecast_eur_mwh": 129.85,
+      "upper_80": 149.85,
+      "lower_80": 109.85
     },
     {
-      "timestamp": "2024-01-01T15:15:00+00:00",
-      "horizon_step": 184,
-      "point_forecast_eur_mwh": 78.7127,
-      "lower_80": 74.2602,
-      "upper_80": 83.1652,
-      "interval_width": 8.905
+      "timestamp": "2026-04-21T05:34:39.787822Z",
+      "point_forecast_eur_mwh": 126.74,
+      "upper_80": 146.74,
+      "lower_80": 106.74
     },
     {
-      "timestamp": "2024-01-01T15:20:00+00:00",
-      "horizon_step": 185,
-      "point_forecast_eur_mwh": 79.3525,
-      "lower_80": 75.0146,
-      "upper_80": 83.6904,
-      "interval_width": 8.6757
+      "timestamp": "2026-04-21T05:39:39.787822Z",
+      "point_forecast_eur_mwh": 123.44,
+      "upper_80": 143.44,
+      "lower_80": 103.44
     },
     {
-      "timestamp": "2024-01-01T15:25:00+00:00",
-      "horizon_step": 186,
-      "point_forecast_eur_mwh": 80.6162,
-      "lower_80": 76.2545,
-      "upper_80": 84.9779,
-      "interval_width": 8.7234
+      "timestamp": "2026-04-21T05:44:39.787822Z",
+      "point_forecast_eur_mwh": 119.96,
+      "upper_80": 139.96,
+      "lower_80": 99.96
     },
     {
-      "timestamp": "2024-01-01T15:30:00+00:00",
-      "horizon_step": 187,
-      "point_forecast_eur_mwh": 79.567,
-      "lower_80": 75.2265,
-      "upper_80": 83.9074,
-      "interval_width": 8.6809
+      "timestamp": "2026-04-21T05:49:39.787822Z",
+      "point_forecast_eur_mwh": 116.3,
+      "upper_80": 136.3,
+      "lower_80": 96.3
     },
     {
-      "timestamp": "2024-01-01T15:35:00+00:00",
-      "horizon_step": 188,
-      "point_forecast_eur_mwh": 82.3559,
-      "lower_80": 78.0272,
-      "upper_80": 86.6846,
-      "interval_width": 8.6574
+      "timestamp": "2026-04-21T05:54:39.787822Z",
+      "point_forecast_eur_mwh": 112.47,
+      "upper_80": 132.47,
+      "lower_80": 92.47
     },
     {
-      "timestamp": "2024-01-01T15:40:00+00:00",
-      "horizon_step": 189,
-      "point_forecast_eur_mwh": 82.9521,
-      "lower_80": 78.5671,
-      "upper_80": 87.337,
-      "interval_width": 8.7698
+      "timestamp": "2026-04-21T05:59:39.787822Z",
+      "point_forecast_eur_mwh": 108.49,
+      "upper_80": 128.49,
+      "lower_80": 88.49
     },
     {
-      "timestamp": "2024-01-01T15:45:00+00:00",
-      "horizon_step": 190,
-      "point_forecast_eur_mwh": 82.8106,
-      "lower_80": 78.4697,
-      "upper_80": 87.1514,
-      "interval_width": 8.6817
+      "timestamp": "2026-04-21T06:04:39.787822Z",
+      "point_forecast_eur_mwh": 104.36,
+      "upper_80": 124.36,
+      "lower_80": 84.36
     },
     {
-      "timestamp": "2024-01-01T15:50:00+00:00",
-      "horizon_step": 191,
-      "point_forecast_eur_mwh": 81.6233,
-      "lower_80": 77.3517,
-      "upper_80": 85.895,
-      "interval_width": 8.5433
+      "timestamp": "2026-04-21T06:09:39.787822Z",
+      "point_forecast_eur_mwh": 100.1,
+      "upper_80": 120.1,
+      "lower_80": 80.1
     },
     {
-      "timestamp": "2024-01-01T15:55:00+00:00",
-      "horizon_step": 192,
-      "point_forecast_eur_mwh": 81.5998,
-      "lower_80": 77.2857,
-      "upper_80": 85.9139,
-      "interval_width": 8.6282
+      "timestamp": "2026-04-21T06:14:39.787822Z",
+      "point_forecast_eur_mwh": 95.71,
+      "upper_80": 115.71,
+      "lower_80": 75.71
     },
     {
-      "timestamp": "2024-01-01T16:00:00+00:00",
-      "horizon_step": 193,
-      "point_forecast_eur_mwh": 82.6383,
-      "lower_80": 78.3114,
-      "upper_80": 86.9653,
-      "interval_width": 8.6539
+      "timestamp": "2026-04-21T06:19:39.787822Z",
+      "point_forecast_eur_mwh": 91.21,
+      "upper_80": 111.21,
+      "lower_80": 71.21
     },
     {
-      "timestamp": "2024-01-01T16:05:00+00:00",
-      "horizon_step": 194,
-      "point_forecast_eur_mwh": 82.704,
-      "lower_80": 78.4065,
-      "upper_80": 87.0015,
-      "interval_width": 8.595
+      "timestamp": "2026-04-21T06:24:39.787822Z",
+      "point_forecast_eur_mwh": 86.61,
+      "upper_80": 106.61,
+      "lower_80": 66.61
     },
     {
-      "timestamp": "2024-01-01T16:10:00+00:00",
-      "horizon_step": 195,
-      "point_forecast_eur_mwh": 81.8582,
-      "lower_80": 77.5746,
-      "upper_80": 86.1417,
-      "interval_width": 8.5671
+      "timestamp": "2026-04-21T06:29:39.787822Z",
+      "point_forecast_eur_mwh": 81.91,
+      "upper_80": 101.91,
+      "lower_80": 61.91
     },
     {
-      "timestamp": "2024-01-01T16:15:00+00:00",
-      "horizon_step": 196,
-      "point_forecast_eur_mwh": 80.9342,
-      "lower_80": 76.6588,
-      "upper_80": 85.2097,
-      "interval_width": 8.5509
+      "timestamp": "2026-04-21T06:34:39.787822Z",
+      "point_forecast_eur_mwh": 77.13,
+      "upper_80": 97.13,
+      "lower_80": 57.13
     },
     {
-      "timestamp": "2024-01-01T16:20:00+00:00",
-      "horizon_step": 197,
-      "point_forecast_eur_mwh": 81.6282,
-      "lower_80": 77.3356,
-      "upper_80": 85.9208,
-      "interval_width": 8.5851
+      "timestamp": "2026-04-21T06:39:39.787822Z",
+      "point_forecast_eur_mwh": 72.29,
+      "upper_80": 92.29,
+      "lower_80": 52.29
     },
     {
-      "timestamp": "2024-01-01T16:25:00+00:00",
-      "horizon_step": 198,
-      "point_forecast_eur_mwh": 81.3498,
-      "lower_80": 77.0048,
-      "upper_80": 85.6948,
-      "interval_width": 8.69
+      "timestamp": "2026-04-21T06:44:39.787822Z",
+      "point_forecast_eur_mwh": 67.39,
+      "upper_80": 87.39,
+      "lower_80": 47.39
     },
     {
-      "timestamp": "2024-01-01T16:30:00+00:00",
-      "horizon_step": 199,
-      "point_forecast_eur_mwh": 81.9018,
-      "lower_80": 77.5346,
-      "upper_80": 86.269,
-      "interval_width": 8.7344
+      "timestamp": "2026-04-21T06:49:39.787822Z",
+      "point_forecast_eur_mwh": 62.45,
+      "upper_80": 82.45,
+      "lower_80": 42.45
     },
     {
-      "timestamp": "2024-01-01T16:35:00+00:00",
-      "horizon_step": 200,
-      "point_forecast_eur_mwh": 81.2527,
-      "lower_80": 76.9568,
-      "upper_80": 85.5486,
-      "interval_width": 8.5918
+      "timestamp": "2026-04-21T06:54:39.787822Z",
+      "point_forecast_eur_mwh": 57.47,
+      "upper_80": 77.47,
+      "lower_80": 37.47
     },
     {
-      "timestamp": "2024-01-01T16:40:00+00:00",
-      "horizon_step": 201,
-      "point_forecast_eur_mwh": 80.8018,
-      "lower_80": 76.4432,
-      "upper_80": 85.1603,
-      "interval_width": 8.7171
+      "timestamp": "2026-04-21T06:59:39.787822Z",
+      "point_forecast_eur_mwh": 52.48,
+      "upper_80": 72.48,
+      "lower_80": 32.48
     },
     {
-      "timestamp": "2024-01-01T16:45:00+00:00",
-      "horizon_step": 202,
-      "point_forecast_eur_mwh": 80.3998,
-      "lower_80": 76.0613,
-      "upper_80": 84.7382,
-      "interval_width": 8.6769
+      "timestamp": "2026-04-21T07:04:39.787822Z",
+      "point_forecast_eur_mwh": 47.48,
+      "upper_80": 67.48,
+      "lower_80": 27.48
     },
     {
-      "timestamp": "2024-01-01T16:50:00+00:00",
-      "horizon_step": 203,
-      "point_forecast_eur_mwh": 80.8206,
-      "lower_80": 76.4782,
-      "upper_80": 85.1629,
-      "interval_width": 8.6848
+      "timestamp": "2026-04-21T07:09:39.787822Z",
+      "point_forecast_eur_mwh": 42.48,
+      "upper_80": 62.48,
+      "lower_80": 22.48
     },
     {
-      "timestamp": "2024-01-01T16:55:00+00:00",
-      "horizon_step": 204,
-      "point_forecast_eur_mwh": 80.0297,
-      "lower_80": 75.7186,
-      "upper_80": 84.3408,
-      "interval_width": 8.6222
+      "timestamp": "2026-04-21T07:14:39.787822Z",
+      "point_forecast_eur_mwh": 37.51,
+      "upper_80": 57.51,
+      "lower_80": 17.51
     },
     {
-      "timestamp": "2024-01-01T17:00:00+00:00",
-      "horizon_step": 205,
-      "point_forecast_eur_mwh": 80.004,
-      "lower_80": 75.7483,
-      "upper_80": 84.2598,
-      "interval_width": 8.5115
+      "timestamp": "2026-04-21T07:19:39.787822Z",
+      "point_forecast_eur_mwh": 32.57,
+      "upper_80": 52.57,
+      "lower_80": 12.57
     },
     {
-      "timestamp": "2024-01-01T17:05:00+00:00",
-      "horizon_step": 206,
-      "point_forecast_eur_mwh": 79.6484,
-      "lower_80": 75.3823,
-      "upper_80": 83.9145,
-      "interval_width": 8.5322
+      "timestamp": "2026-04-21T07:24:39.787822Z",
+      "point_forecast_eur_mwh": 27.67,
+      "upper_80": 47.67,
+      "lower_80": 7.67
     },
     {
-      "timestamp": "2024-01-01T17:10:00+00:00",
-      "horizon_step": 207,
-      "point_forecast_eur_mwh": 79.5795,
-      "lower_80": 75.3427,
-      "upper_80": 83.8163,
-      "interval_width": 8.4736
+      "timestamp": "2026-04-21T07:29:39.787822Z",
+      "point_forecast_eur_mwh": 22.82,
+      "upper_80": 42.82,
+      "lower_80": 2.82
     },
     {
-      "timestamp": "2024-01-01T17:15:00+00:00",
-      "horizon_step": 208,
-      "point_forecast_eur_mwh": 80.8501,
-      "lower_80": 76.5768,
-      "upper_80": 85.1234,
-      "interval_width": 8.5466
+      "timestamp": "2026-04-21T07:34:39.787822Z",
+      "point_forecast_eur_mwh": 18.05,
+      "upper_80": 38.05,
+      "lower_80": -1.95
     },
     {
-      "timestamp": "2024-01-01T17:20:00+00:00",
-      "horizon_step": 209,
-      "point_forecast_eur_mwh": 79.9501,
-      "lower_80": 75.6303,
-      "upper_80": 84.2698,
-      "interval_width": 8.6395
+      "timestamp": "2026-04-21T07:39:39.787822Z",
+      "point_forecast_eur_mwh": 13.35,
+      "upper_80": 33.35,
+      "lower_80": -6.65
     },
     {
-      "timestamp": "2024-01-01T17:25:00+00:00",
-      "horizon_step": 210,
-      "point_forecast_eur_mwh": 79.0474,
-      "lower_80": 74.695,
-      "upper_80": 83.3997,
-      "interval_width": 8.7046
+      "timestamp": "2026-04-21T07:44:39.787822Z",
+      "point_forecast_eur_mwh": 8.75,
+      "upper_80": 28.75,
+      "lower_80": -11.25
     },
     {
-      "timestamp": "2024-01-01T17:30:00+00:00",
-      "horizon_step": 211,
-      "point_forecast_eur_mwh": 77.6374,
-      "lower_80": 73.3135,
-      "upper_80": 81.9613,
-      "interval_width": 8.6477
+      "timestamp": "2026-04-21T07:49:39.787822Z",
+      "point_forecast_eur_mwh": 4.25,
+      "upper_80": 24.25,
+      "lower_80": -15.75
     },
     {
-      "timestamp": "2024-01-01T17:35:00+00:00",
-      "horizon_step": 212,
-      "point_forecast_eur_mwh": 78.1149,
-      "lower_80": 73.8446,
-      "upper_80": 82.3853,
-      "interval_width": 8.5407
+      "timestamp": "2026-04-21T07:54:39.787822Z",
+      "point_forecast_eur_mwh": -0.14,
+      "upper_80": 19.86,
+      "lower_80": -20.14
     },
     {
-      "timestamp": "2024-01-01T17:40:00+00:00",
-      "horizon_step": 213,
-      "point_forecast_eur_mwh": 77.3555,
-      "lower_80": 73.0304,
-      "upper_80": 81.6806,
-      "interval_width": 8.6502
+      "timestamp": "2026-04-21T07:59:39.787822Z",
+      "point_forecast_eur_mwh": -4.4,
+      "upper_80": 15.6,
+      "lower_80": -24.4
     },
     {
-      "timestamp": "2024-01-01T17:45:00+00:00",
-      "horizon_step": 214,
-      "point_forecast_eur_mwh": 75.5223,
-      "lower_80": 71.2401,
-      "upper_80": 79.8044,
-      "interval_width": 8.5643
+      "timestamp": "2026-04-21T08:04:39.787822Z",
+      "point_forecast_eur_mwh": -8.53,
+      "upper_80": 11.47,
+      "lower_80": -28.53
     },
     {
-      "timestamp": "2024-01-01T17:50:00+00:00",
-      "horizon_step": 215,
-      "point_forecast_eur_mwh": 75.252,
-      "lower_80": 70.891,
-      "upper_80": 79.6129,
-      "interval_width": 8.7219
+      "timestamp": "2026-04-21T08:09:39.787822Z",
+      "point_forecast_eur_mwh": -12.51,
+      "upper_80": 7.49,
+      "lower_80": -32.51
     },
     {
-      "timestamp": "2024-01-01T17:55:00+00:00",
-      "horizon_step": 216,
-      "point_forecast_eur_mwh": 75.0356,
-      "lower_80": 70.6906,
-      "upper_80": 79.3805,
-      "interval_width": 8.69
+      "timestamp": "2026-04-21T08:14:39.787822Z",
+      "point_forecast_eur_mwh": -16.33,
+      "upper_80": 3.67,
+      "lower_80": -36.33
     },
     {
-      "timestamp": "2024-01-01T18:00:00+00:00",
-      "horizon_step": 217,
-      "point_forecast_eur_mwh": 74.7664,
-      "lower_80": 70.4591,
-      "upper_80": 79.0738,
-      "interval_width": 8.6147
+      "timestamp": "2026-04-21T08:19:39.787822Z",
+      "point_forecast_eur_mwh": -19.99,
+      "upper_80": 0.01,
+      "lower_80": -39.99
     },
     {
-      "timestamp": "2024-01-01T18:05:00+00:00",
-      "horizon_step": 218,
-      "point_forecast_eur_mwh": 74.2805,
-      "lower_80": 70.0848,
-      "upper_80": 78.4763,
-      "interval_width": 8.3915
+      "timestamp": "2026-04-21T08:24:39.787822Z",
+      "point_forecast_eur_mwh": -23.47,
+      "upper_80": -3.47,
+      "lower_80": -43.47
     },
     {
-      "timestamp": "2024-01-01T18:10:00+00:00",
-      "horizon_step": 219,
-      "point_forecast_eur_mwh": 72.8911,
-      "lower_80": 68.6552,
-      "upper_80": 77.127,
-      "interval_width": 8.4718
+      "timestamp": "2026-04-21T08:29:39.787822Z",
+      "point_forecast_eur_mwh": -26.77,
+      "upper_80": -6.77,
+      "lower_80": -46.77
     },
     {
-      "timestamp": "2024-01-01T18:15:00+00:00",
-      "horizon_step": 220,
-      "point_forecast_eur_mwh": 72.9775,
-      "lower_80": 68.6813,
-      "upper_80": 77.2738,
-      "interval_width": 8.5925
+      "timestamp": "2026-04-21T08:34:39.787822Z",
+      "point_forecast_eur_mwh": -29.88,
+      "upper_80": -9.88,
+      "lower_80": -49.88
     },
     {
-      "timestamp": "2024-01-01T18:20:00+00:00",
-      "horizon_step": 221,
-      "point_forecast_eur_mwh": 72.1787,
-      "lower_80": 67.9543,
-      "upper_80": 76.4032,
-      "interval_width": 8.4488
+      "timestamp": "2026-04-21T08:39:39.787822Z",
+      "point_forecast_eur_mwh": -32.78,
+      "upper_80": -12.78,
+      "lower_80": -52.78
     },
     {
-      "timestamp": "2024-01-01T18:25:00+00:00",
-      "horizon_step": 222,
-      "point_forecast_eur_mwh": 71.0052,
-      "lower_80": 66.8054,
-      "upper_80": 75.2051,
-      "interval_width": 8.3998
+      "timestamp": "2026-04-21T08:44:39.787822Z",
+      "point_forecast_eur_mwh": -35.48,
+      "upper_80": -15.48,
+      "lower_80": -55.48
     },
     {
-      "timestamp": "2024-01-01T18:30:00+00:00",
-      "horizon_step": 223,
-      "point_forecast_eur_mwh": 70.1705,
-      "lower_80": 65.9575,
-      "upper_80": 74.3834,
-      "interval_width": 8.4259
+      "timestamp": "2026-04-21T08:49:39.787822Z",
+      "point_forecast_eur_mwh": -37.97,
+      "upper_80": -17.97,
+      "lower_80": -57.97
     },
     {
-      "timestamp": "2024-01-01T18:35:00+00:00",
-      "horizon_step": 224,
-      "point_forecast_eur_mwh": 69.5376,
-      "lower_80": 65.3058,
-      "upper_80": 73.7694,
-      "interval_width": 8.4636
+      "timestamp": "2026-04-21T08:54:39.787822Z",
+      "point_forecast_eur_mwh": -40.24,
+      "upper_80": -20.24,
+      "lower_80": -60.24
     },
     {
-      "timestamp": "2024-01-01T18:40:00+00:00",
-      "horizon_step": 225,
-      "point_forecast_eur_mwh": 67.871,
-      "lower_80": 63.7053,
-      "upper_80": 72.0368,
-      "interval_width": 8.3315
+      "timestamp": "2026-04-21T08:59:39.787822Z",
+      "point_forecast_eur_mwh": -42.28,
+      "upper_80": -22.28,
+      "lower_80": -62.28
     },
     {
-      "timestamp": "2024-01-01T18:45:00+00:00",
-      "horizon_step": 226,
-      "point_forecast_eur_mwh": 67.8111,
-      "lower_80": 63.6464,
-      "upper_80": 71.9759,
-      "interval_width": 8.3295
+      "timestamp": "2026-04-21T09:04:39.787822Z",
+      "point_forecast_eur_mwh": -44.09,
+      "upper_80": -24.09,
+      "lower_80": -64.09
     },
     {
-      "timestamp": "2024-01-01T18:50:00+00:00",
-      "horizon_step": 227,
-      "point_forecast_eur_mwh": 66.8729,
-      "lower_80": 62.657,
-      "upper_80": 71.0888,
-      "interval_width": 8.4318
+      "timestamp": "2026-04-21T09:09:39.787822Z",
+      "point_forecast_eur_mwh": -45.66,
+      "upper_80": -25.66,
+      "lower_80": -65.66
     },
     {
-      "timestamp": "2024-01-01T18:55:00+00:00",
-      "horizon_step": 228,
-      "point_forecast_eur_mwh": 65.8294,
-      "lower_80": 61.655,
-      "upper_80": 70.0037,
-      "interval_width": 8.3487
+      "timestamp": "2026-04-21T09:14:39.787822Z",
+      "point_forecast_eur_mwh": -47.0,
+      "upper_80": -27.0,
+      "lower_80": -67.0
     },
     {
-      "timestamp": "2024-01-01T19:00:00+00:00",
-      "horizon_step": 229,
-      "point_forecast_eur_mwh": 64.857,
-      "lower_80": 60.6499,
-      "upper_80": 69.0641,
-      "interval_width": 8.4142
+      "timestamp": "2026-04-21T09:19:39.787822Z",
+      "point_forecast_eur_mwh": -48.09,
+      "upper_80": -28.09,
+      "lower_80": -68.09
     },
     {
-      "timestamp": "2024-01-01T19:05:00+00:00",
-      "horizon_step": 230,
-      "point_forecast_eur_mwh": 64.1052,
-      "lower_80": 59.814,
-      "upper_80": 68.3965,
-      "interval_width": 8.5825
+      "timestamp": "2026-04-21T09:24:39.787822Z",
+      "point_forecast_eur_mwh": -48.94,
+      "upper_80": -28.94,
+      "lower_80": -68.94
     },
     {
-      "timestamp": "2024-01-01T19:10:00+00:00",
-      "horizon_step": 231,
-      "point_forecast_eur_mwh": 63.1202,
-      "lower_80": 58.8753,
-      "upper_80": 67.3652,
-      "interval_width": 8.4898
+      "timestamp": "2026-04-21T09:29:39.787822Z",
+      "point_forecast_eur_mwh": -49.54,
+      "upper_80": -29.54,
+      "lower_80": -69.54
     },
     {
-      "timestamp": "2024-01-01T19:15:00+00:00",
-      "horizon_step": 232,
-      "point_forecast_eur_mwh": 61.4017,
-      "lower_80": 57.0984,
-      "upper_80": 65.7049,
-      "interval_width": 8.6066
+      "timestamp": "2026-04-21T09:34:39.787822Z",
+      "point_forecast_eur_mwh": -49.9,
+      "upper_80": -29.9,
+      "lower_80": -69.9
     },
     {
-      "timestamp": "2024-01-01T19:20:00+00:00",
-      "horizon_step": 233,
-      "point_forecast_eur_mwh": 60.7761,
-      "lower_80": 56.5068,
-      "upper_80": 65.0455,
-      "interval_width": 8.5387
+      "timestamp": "2026-04-21T09:39:39.787822Z",
+      "point_forecast_eur_mwh": -50.0,
+      "upper_80": -30.0,
+      "lower_80": -70.0
     },
     {
-      "timestamp": "2024-01-01T19:25:00+00:00",
-      "horizon_step": 234,
-      "point_forecast_eur_mwh": 56.8755,
-      "lower_80": 52.6245,
-      "upper_80": 61.1264,
-      "interval_width": 8.5019
+      "timestamp": "2026-04-21T09:44:39.787822Z",
+      "point_forecast_eur_mwh": -49.85,
+      "upper_80": -29.85,
+      "lower_80": -69.85
     },
     {
-      "timestamp": "2024-01-01T19:30:00+00:00",
-      "horizon_step": 235,
-      "point_forecast_eur_mwh": 56.6008,
-      "lower_80": 52.3816,
-      "upper_80": 60.8199,
-      "interval_width": 8.4383
+      "timestamp": "2026-04-21T09:49:39.787822Z",
+      "point_forecast_eur_mwh": -49.46,
+      "upper_80": -29.46,
+      "lower_80": -69.46
     },
     {
-      "timestamp": "2024-01-01T19:35:00+00:00",
-      "horizon_step": 236,
-      "point_forecast_eur_mwh": 56.3762,
-      "lower_80": 52.0932,
-      "upper_80": 60.6593,
-      "interval_width": 8.5661
+      "timestamp": "2026-04-21T09:54:39.787822Z",
+      "point_forecast_eur_mwh": -48.81,
+      "upper_80": -28.81,
+      "lower_80": -68.81
     },
     {
-      "timestamp": "2024-01-01T19:40:00+00:00",
-      "horizon_step": 237,
-      "point_forecast_eur_mwh": 57.5705,
-      "lower_80": 53.2854,
-      "upper_80": 61.8557,
-      "interval_width": 8.5702
+      "timestamp": "2026-04-21T09:59:39.787822Z",
+      "point_forecast_eur_mwh": -47.92,
+      "upper_80": -27.92,
+      "lower_80": -67.92
     },
     {
-      "timestamp": "2024-01-01T19:45:00+00:00",
-      "horizon_step": 238,
-      "point_forecast_eur_mwh": 55.7718,
-      "lower_80": 51.4913,
-      "upper_80": 60.0523,
-      "interval_width": 8.561
+      "timestamp": "2026-04-21T10:04:39.787822Z",
+      "point_forecast_eur_mwh": -46.78,
+      "upper_80": -26.78,
+      "lower_80": -66.78
     },
     {
-      "timestamp": "2024-01-01T19:50:00+00:00",
-      "horizon_step": 239,
-      "point_forecast_eur_mwh": 54.7118,
-      "lower_80": 50.4127,
-      "upper_80": 59.0109,
-      "interval_width": 8.5982
+      "timestamp": "2026-04-21T10:09:39.787822Z",
+      "point_forecast_eur_mwh": -45.4,
+      "upper_80": -25.4,
+      "lower_80": -65.4
     },
     {
-      "timestamp": "2024-01-01T19:55:00+00:00",
-      "horizon_step": 240,
-      "point_forecast_eur_mwh": 54.1238,
-      "lower_80": 49.8567,
-      "upper_80": 58.3909,
-      "interval_width": 8.5342
+      "timestamp": "2026-04-21T10:14:39.787822Z",
+      "point_forecast_eur_mwh": -43.78,
+      "upper_80": -23.78,
+      "lower_80": -63.78
     },
     {
-      "timestamp": "2024-01-01T20:00:00+00:00",
-      "horizon_step": 241,
-      "point_forecast_eur_mwh": 52.1579,
-      "lower_80": 47.8298,
-      "upper_80": 56.486,
-      "interval_width": 8.6562
+      "timestamp": "2026-04-21T10:19:39.787822Z",
+      "point_forecast_eur_mwh": -41.93,
+      "upper_80": -21.93,
+      "lower_80": -61.93
     },
     {
-      "timestamp": "2024-01-01T20:05:00+00:00",
-      "horizon_step": 242,
-      "point_forecast_eur_mwh": 50.5508,
-      "lower_80": 46.3202,
-      "upper_80": 54.7814,
-      "interval_width": 8.4611
+      "timestamp": "2026-04-21T10:24:39.787822Z",
+      "point_forecast_eur_mwh": -39.85,
+      "upper_80": -19.85,
+      "lower_80": -59.85
     },
     {
-      "timestamp": "2024-01-01T20:10:00+00:00",
-      "horizon_step": 243,
-      "point_forecast_eur_mwh": 51.1006,
-      "lower_80": 46.9282,
-      "upper_80": 55.273,
-      "interval_width": 8.3448
+      "timestamp": "2026-04-21T10:29:39.787822Z",
+      "point_forecast_eur_mwh": -37.55,
+      "upper_80": -17.55,
+      "lower_80": -57.55
     },
     {
-      "timestamp": "2024-01-01T20:15:00+00:00",
-      "horizon_step": 244,
-      "point_forecast_eur_mwh": 50.5863,
-      "lower_80": 46.3641,
-      "upper_80": 54.8084,
-      "interval_width": 8.4444
+      "timestamp": "2026-04-21T10:34:39.787822Z",
+      "point_forecast_eur_mwh": -35.02,
+      "upper_80": -15.02,
+      "lower_80": -55.02
     },
     {
-      "timestamp": "2024-01-01T20:20:00+00:00",
-      "horizon_step": 245,
-      "point_forecast_eur_mwh": 48.1686,
-      "lower_80": 43.877,
-      "upper_80": 52.4601,
-      "interval_width": 8.5831
+      "timestamp": "2026-04-21T10:39:39.787822Z",
+      "point_forecast_eur_mwh": -32.28,
+      "upper_80": -12.28,
+      "lower_80": -52.28
     },
     {
-      "timestamp": "2024-01-01T20:25:00+00:00",
-      "horizon_step": 246,
-      "point_forecast_eur_mwh": 46.9422,
-      "lower_80": 42.6741,
-      "upper_80": 51.2103,
-      "interval_width": 8.5363
+      "timestamp": "2026-04-21T10:44:39.787822Z",
+      "point_forecast_eur_mwh": -29.34,
+      "upper_80": -9.34,
+      "lower_80": -49.34
     },
     {
-      "timestamp": "2024-01-01T20:30:00+00:00",
-      "horizon_step": 247,
-      "point_forecast_eur_mwh": 46.2591,
-      "lower_80": 41.9863,
-      "upper_80": 50.5319,
-      "interval_width": 8.5456
+      "timestamp": "2026-04-21T10:49:39.787822Z",
+      "point_forecast_eur_mwh": -26.2,
+      "upper_80": -6.2,
+      "lower_80": -46.2
     },
     {
-      "timestamp": "2024-01-01T20:35:00+00:00",
-      "horizon_step": 248,
-      "point_forecast_eur_mwh": 44.2,
-      "lower_80": 39.9592,
-      "upper_80": 48.4408,
-      "interval_width": 8.4817
+      "timestamp": "2026-04-21T10:54:39.787822Z",
+      "point_forecast_eur_mwh": -22.87,
+      "upper_80": -2.87,
+      "lower_80": -42.87
     },
     {
-      "timestamp": "2024-01-01T20:40:00+00:00",
-      "horizon_step": 249,
-      "point_forecast_eur_mwh": 42.3137,
-      "lower_80": 38.0496,
-      "upper_80": 46.5777,
-      "interval_width": 8.528
+      "timestamp": "2026-04-21T10:59:39.787822Z",
+      "point_forecast_eur_mwh": -19.35,
+      "upper_80": 0.65,
+      "lower_80": -39.35
     },
     {
-      "timestamp": "2024-01-01T20:45:00+00:00",
-      "horizon_step": 250,
-      "point_forecast_eur_mwh": 42.2187,
-      "lower_80": 38.0168,
-      "upper_80": 46.4205,
-      "interval_width": 8.4037
+      "timestamp": "2026-04-21T11:04:39.787822Z",
+      "point_forecast_eur_mwh": -15.67,
+      "upper_80": 4.33,
+      "lower_80": -35.67
     },
     {
-      "timestamp": "2024-01-01T20:50:00+00:00",
-      "horizon_step": 251,
-      "point_forecast_eur_mwh": 42.4968,
-      "lower_80": 38.2945,
-      "upper_80": 46.6991,
-      "interval_width": 8.4046
+      "timestamp": "2026-04-21T11:09:39.787822Z",
+      "point_forecast_eur_mwh": -11.81,
+      "upper_80": 8.19,
+      "lower_80": -31.81
     },
     {
-      "timestamp": "2024-01-01T20:55:00+00:00",
-      "horizon_step": 252,
-      "point_forecast_eur_mwh": 41.7934,
-      "lower_80": 37.6032,
-      "upper_80": 45.9836,
-      "interval_width": 8.3804
+      "timestamp": "2026-04-21T11:14:39.787822Z",
+      "point_forecast_eur_mwh": -7.81,
+      "upper_80": 12.19,
+      "lower_80": -27.81
     },
     {
-      "timestamp": "2024-01-01T21:00:00+00:00",
-      "horizon_step": 253,
-      "point_forecast_eur_mwh": 40.0193,
-      "lower_80": 35.8628,
-      "upper_80": 44.1758,
-      "interval_width": 8.3129
+      "timestamp": "2026-04-21T11:19:39.787822Z",
+      "point_forecast_eur_mwh": -3.66,
+      "upper_80": 16.34,
+      "lower_80": -23.66
     },
     {
-      "timestamp": "2024-01-01T21:05:00+00:00",
-      "horizon_step": 254,
-      "point_forecast_eur_mwh": 39.9353,
-      "lower_80": 35.8115,
-      "upper_80": 44.0591,
-      "interval_width": 8.2476
+      "timestamp": "2026-04-21T11:24:39.787822Z",
+      "point_forecast_eur_mwh": 0.63,
+      "upper_80": 20.63,
+      "lower_80": -19.37
     },
     {
-      "timestamp": "2024-01-01T21:10:00+00:00",
-      "horizon_step": 255,
-      "point_forecast_eur_mwh": 38.6535,
-      "lower_80": 34.4842,
-      "upper_80": 42.8228,
-      "interval_width": 8.3386
+      "timestamp": "2026-04-21T11:29:39.787822Z",
+      "point_forecast_eur_mwh": 5.04,
+      "upper_80": 25.04,
+      "lower_80": -14.96
     },
     {
-      "timestamp": "2024-01-01T21:15:00+00:00",
-      "horizon_step": 256,
-      "point_forecast_eur_mwh": 37.642,
-      "lower_80": 33.4275,
-      "upper_80": 41.8564,
-      "interval_width": 8.4289
+      "timestamp": "2026-04-21T11:34:39.787822Z",
+      "point_forecast_eur_mwh": 9.56,
+      "upper_80": 29.56,
+      "lower_80": -10.44
     },
     {
-      "timestamp": "2024-01-01T21:20:00+00:00",
-      "horizon_step": 257,
-      "point_forecast_eur_mwh": 36.8399,
-      "lower_80": 32.626,
-      "upper_80": 41.0538,
-      "interval_width": 8.4278
+      "timestamp": "2026-04-21T11:39:39.787822Z",
+      "point_forecast_eur_mwh": 14.18,
+      "upper_80": 34.18,
+      "lower_80": -5.82
     },
     {
-      "timestamp": "2024-01-01T21:25:00+00:00",
-      "horizon_step": 258,
-      "point_forecast_eur_mwh": 35.0967,
-      "lower_80": 30.9015,
-      "upper_80": 39.292,
-      "interval_width": 8.3905
+      "timestamp": "2026-04-21T11:44:39.787822Z",
+      "point_forecast_eur_mwh": 18.89,
+      "upper_80": 38.89,
+      "lower_80": -1.11
     },
     {
-      "timestamp": "2024-01-01T21:30:00+00:00",
-      "horizon_step": 259,
-      "point_forecast_eur_mwh": 35.8813,
-      "lower_80": 31.6752,
-      "upper_80": 40.0874,
-      "interval_width": 8.4122
+      "timestamp": "2026-04-21T11:49:39.787822Z",
+      "point_forecast_eur_mwh": 23.68,
+      "upper_80": 43.68,
+      "lower_80": 3.68
     },
     {
-      "timestamp": "2024-01-01T21:35:00+00:00",
-      "horizon_step": 260,
-      "point_forecast_eur_mwh": 34.6264,
-      "lower_80": 30.4416,
-      "upper_80": 38.8113,
-      "interval_width": 8.3697
+      "timestamp": "2026-04-21T11:54:39.787822Z",
+      "point_forecast_eur_mwh": 28.53,
+      "upper_80": 48.53,
+      "lower_80": 8.53
     },
     {
-      "timestamp": "2024-01-01T21:40:00+00:00",
-      "horizon_step": 261,
-      "point_forecast_eur_mwh": 34.1502,
-      "lower_80": 29.9448,
-      "upper_80": 38.3555,
-      "interval_width": 8.4107
+      "timestamp": "2026-04-21T11:59:39.787822Z",
+      "point_forecast_eur_mwh": 33.44,
+      "upper_80": 53.44,
+      "lower_80": 13.44
     },
     {
-      "timestamp": "2024-01-01T21:45:00+00:00",
-      "horizon_step": 262,
-      "point_forecast_eur_mwh": 33.0555,
-      "lower_80": 28.8414,
-      "upper_80": 37.2696,
-      "interval_width": 8.4282
+      "timestamp": "2026-04-21T12:04:39.787822Z",
+      "point_forecast_eur_mwh": 38.39,
+      "upper_80": 58.39,
+      "lower_80": 18.39
     },
     {
-      "timestamp": "2024-01-01T21:50:00+00:00",
-      "horizon_step": 263,
-      "point_forecast_eur_mwh": 31.1699,
-      "lower_80": 26.9684,
-      "upper_80": 35.3713,
-      "interval_width": 8.4029
+      "timestamp": "2026-04-21T12:09:39.787822Z",
+      "point_forecast_eur_mwh": 43.37,
+      "upper_80": 63.37,
+      "lower_80": 23.37
     },
     {
-      "timestamp": "2024-01-01T21:55:00+00:00",
-      "horizon_step": 264,
-      "point_forecast_eur_mwh": 30.653,
-      "lower_80": 26.4892,
-      "upper_80": 34.8169,
-      "interval_width": 8.3278
+      "timestamp": "2026-04-21T12:14:39.787822Z",
+      "point_forecast_eur_mwh": 48.36,
+      "upper_80": 68.36,
+      "lower_80": 28.36
     },
     {
-      "timestamp": "2024-01-01T22:00:00+00:00",
-      "horizon_step": 265,
-      "point_forecast_eur_mwh": 29.9235,
-      "lower_80": 25.7462,
-      "upper_80": 34.1008,
-      "interval_width": 8.3546
+      "timestamp": "2026-04-21T12:19:39.787822Z",
+      "point_forecast_eur_mwh": 53.36,
+      "upper_80": 73.36,
+      "lower_80": 33.36
     },
     {
-      "timestamp": "2024-01-01T22:05:00+00:00",
-      "horizon_step": 266,
-      "point_forecast_eur_mwh": 29.8656,
-      "lower_80": 25.7089,
-      "upper_80": 34.0223,
-      "interval_width": 8.3134
+      "timestamp": "2026-04-21T12:24:39.787822Z",
+      "point_forecast_eur_mwh": 58.35,
+      "upper_80": 78.35,
+      "lower_80": 38.35
     },
     {
-      "timestamp": "2024-01-01T22:10:00+00:00",
-      "horizon_step": 267,
-      "point_forecast_eur_mwh": 29.3551,
-      "lower_80": 25.1413,
-      "upper_80": 33.569,
-      "interval_width": 8.4277
+      "timestamp": "2026-04-21T12:29:39.787822Z",
+      "point_forecast_eur_mwh": 63.32,
+      "upper_80": 83.32,
+      "lower_80": 43.32
     },
     {
-      "timestamp": "2024-01-01T22:15:00+00:00",
-      "horizon_step": 268,
-      "point_forecast_eur_mwh": 27.2155,
-      "lower_80": 23.0504,
-      "upper_80": 31.3806,
-      "interval_width": 8.3301
+      "timestamp": "2026-04-21T12:34:39.787822Z",
+      "point_forecast_eur_mwh": 68.26,
+      "upper_80": 88.26,
+      "lower_80": 48.26
     },
     {
-      "timestamp": "2024-01-01T22:20:00+00:00",
-      "horizon_step": 269,
-      "point_forecast_eur_mwh": 29.2492,
-      "lower_80": 25.017,
-      "upper_80": 33.4813,
-      "interval_width": 8.4642
+      "timestamp": "2026-04-21T12:39:39.787822Z",
+      "point_forecast_eur_mwh": 73.15,
+      "upper_80": 93.15,
+      "lower_80": 53.15
     },
     {
-      "timestamp": "2024-01-01T22:25:00+00:00",
-      "horizon_step": 270,
-      "point_forecast_eur_mwh": 30.1324,
-      "lower_80": 25.9245,
-      "upper_80": 34.3404,
-      "interval_width": 8.4158
+      "timestamp": "2026-04-21T12:44:39.787822Z",
+      "point_forecast_eur_mwh": 77.98,
+      "upper_80": 97.98,
+      "lower_80": 57.98
     },
     {
-      "timestamp": "2024-01-01T22:30:00+00:00",
-      "horizon_step": 271,
-      "point_forecast_eur_mwh": 27.591,
-      "lower_80": 23.3975,
-      "upper_80": 31.7844,
-      "interval_width": 8.3869
+      "timestamp": "2026-04-21T12:49:39.787822Z",
+      "point_forecast_eur_mwh": 82.75,
+      "upper_80": 102.75,
+      "lower_80": 62.75
     },
     {
-      "timestamp": "2024-01-01T22:35:00+00:00",
-      "horizon_step": 272,
-      "point_forecast_eur_mwh": 27.6892,
-      "lower_80": 23.4816,
-      "upper_80": 31.8969,
-      "interval_width": 8.4153
+      "timestamp": "2026-04-21T12:54:39.787822Z",
+      "point_forecast_eur_mwh": 87.43,
+      "upper_80": 107.43,
+      "lower_80": 67.43
     },
     {
-      "timestamp": "2024-01-01T22:40:00+00:00",
-      "horizon_step": 273,
-      "point_forecast_eur_mwh": 26.6182,
-      "lower_80": 22.4022,
-      "upper_80": 30.8342,
-      "interval_width": 8.4321
+      "timestamp": "2026-04-21T12:59:39.787822Z",
+      "point_forecast_eur_mwh": 92.02,
+      "upper_80": 112.02,
+      "lower_80": 72.02
     },
     {
-      "timestamp": "2024-01-01T22:45:00+00:00",
-      "horizon_step": 274,
-      "point_forecast_eur_mwh": 27.2102,
-      "lower_80": 23.023,
-      "upper_80": 31.3974,
-      "interval_width": 8.3744
+      "timestamp": "2026-04-21T13:04:39.787822Z",
+      "point_forecast_eur_mwh": 96.5,
+      "upper_80": 116.5,
+      "lower_80": 76.5
     },
     {
-      "timestamp": "2024-01-01T22:50:00+00:00",
-      "horizon_step": 275,
-      "point_forecast_eur_mwh": 26.6245,
-      "lower_80": 22.4116,
-      "upper_80": 30.8373,
-      "interval_width": 8.4257
+      "timestamp": "2026-04-21T13:09:39.787822Z",
+      "point_forecast_eur_mwh": 100.87,
+      "upper_80": 120.87,
+      "lower_80": 80.87
     },
     {
-      "timestamp": "2024-01-01T22:55:00+00:00",
-      "horizon_step": 276,
-      "point_forecast_eur_mwh": 26.0079,
-      "lower_80": 21.7993,
-      "upper_80": 30.2164,
-      "interval_width": 8.4171
-    },
-    {
-      "timestamp": "2024-01-01T23:00:00+00:00",
-      "horizon_step": 277,
-      "point_forecast_eur_mwh": 26.2312,
-      "lower_80": 22.0564,
-      "upper_80": 30.4059,
-      "interval_width": 8.3495
-    },
-    {
-      "timestamp": "2024-01-01T23:05:00+00:00",
-      "horizon_step": 278,
-      "point_forecast_eur_mwh": 25.7794,
-      "lower_80": 21.5529,
-      "upper_80": 30.0058,
-      "interval_width": 8.4529
-    },
-    {
-      "timestamp": "2024-01-01T23:10:00+00:00",
-      "horizon_step": 279,
-      "point_forecast_eur_mwh": 25.2829,
-      "lower_80": 21.1123,
-      "upper_80": 29.4536,
-      "interval_width": 8.3413
-    },
-    {
-      "timestamp": "2024-01-01T23:15:00+00:00",
-      "horizon_step": 280,
-      "point_forecast_eur_mwh": 23.8642,
-      "lower_80": 19.6456,
-      "upper_80": 28.0829,
-      "interval_width": 8.4374
-    },
-    {
-      "timestamp": "2024-01-01T23:20:00+00:00",
-      "horizon_step": 281,
-      "point_forecast_eur_mwh": 24.4362,
-      "lower_80": 20.2064,
-      "upper_80": 28.6661,
-      "interval_width": 8.4597
-    },
-    {
-      "timestamp": "2024-01-01T23:25:00+00:00",
-      "horizon_step": 282,
-      "point_forecast_eur_mwh": 23.5481,
-      "lower_80": 19.3096,
-      "upper_80": 27.7866,
-      "interval_width": 8.477
-    },
-    {
-      "timestamp": "2024-01-01T23:30:00+00:00",
-      "horizon_step": 283,
-      "point_forecast_eur_mwh": 23.2348,
-      "lower_80": 18.9734,
-      "upper_80": 27.4963,
-      "interval_width": 8.523
-    },
-    {
-      "timestamp": "2024-01-01T23:35:00+00:00",
-      "horizon_step": 284,
-      "point_forecast_eur_mwh": 22.6865,
-      "lower_80": 18.4316,
-      "upper_80": 26.9415,
-      "interval_width": 8.5099
-    },
-    {
-      "timestamp": "2024-01-01T23:40:00+00:00",
-      "horizon_step": 285,
-      "point_forecast_eur_mwh": 23.5422,
-      "lower_80": 19.3292,
-      "upper_80": 27.7552,
-      "interval_width": 8.4261
-    },
-    {
-      "timestamp": "2024-01-01T23:45:00+00:00",
-      "horizon_step": 286,
-      "point_forecast_eur_mwh": 24.8054,
-      "lower_80": 20.5674,
-      "upper_80": 29.0435,
-      "interval_width": 8.4762
-    },
-    {
-      "timestamp": "2024-01-01T23:50:00+00:00",
-      "horizon_step": 287,
-      "point_forecast_eur_mwh": 24.6971,
-      "lower_80": 20.4624,
-      "upper_80": 28.9319,
-      "interval_width": 8.4695
-    },
-    {
-      "timestamp": "2024-01-01T23:55:00+00:00",
-      "horizon_step": 288,
-      "point_forecast_eur_mwh": 24.5953,
-      "lower_80": 20.315,
-      "upper_80": 28.8756,
-      "interval_width": 8.5606
+      "timestamp": "2026-04-21T13:14:39.787822Z",
+      "point_forecast_eur_mwh": 105.11,
+      "upper_80": 125.11,
+      "lower_80": 85.11
+    },
+    {
+      "timestamp": "2026-04-21T13:19:39.787822Z",
+      "point_forecast_eur_mwh": 109.21,
+      "upper_80": 129.21,
+      "lower_80": 89.21
+    },
+    {
+      "timestamp": "2026-04-21T13:24:39.787822Z",
+      "point_forecast_eur_mwh": 113.16,
+      "upper_80": 133.16,
+      "lower_80": 93.16
+    },
+    {
+      "timestamp": "2026-04-21T13:29:39.787822Z",
+      "point_forecast_eur_mwh": 116.96,
+      "upper_80": 136.96,
+      "lower_80": 96.96
+    },
+    {
+      "timestamp": "2026-04-21T13:34:39.787822Z",
+      "point_forecast_eur_mwh": 120.59,
+      "upper_80": 140.59,
+      "lower_80": 100.59
+    },
+    {
+      "timestamp": "2026-04-21T13:39:39.787822Z",
+      "point_forecast_eur_mwh": 124.04,
+      "upper_80": 144.04,
+      "lower_80": 104.04
+    },
+    {
+      "timestamp": "2026-04-21T13:44:39.787822Z",
+      "point_forecast_eur_mwh": 127.3,
+      "upper_80": 147.3,
+      "lower_80": 107.3
+    },
+    {
+      "timestamp": "2026-04-21T13:49:39.787822Z",
+      "point_forecast_eur_mwh": 130.38,
+      "upper_80": 150.38,
+      "lower_80": 110.38
+    },
+    {
+      "timestamp": "2026-04-21T13:54:39.787822Z",
+      "point_forecast_eur_mwh": 133.25,
+      "upper_80": 153.25,
+      "lower_80": 113.25
+    },
+    {
+      "timestamp": "2026-04-21T13:59:39.787822Z",
+      "point_forecast_eur_mwh": 135.92,
+      "upper_80": 155.92,
+      "lower_80": 115.92
+    },
+    {
+      "timestamp": "2026-04-21T14:04:39.787822Z",
+      "point_forecast_eur_mwh": 138.37,
+      "upper_80": 158.37,
+      "lower_80": 118.37
+    },
+    {
+      "timestamp": "2026-04-21T14:09:39.787822Z",
+      "point_forecast_eur_mwh": 140.6,
+      "upper_80": 160.6,
+      "lower_80": 120.6
+    },
+    {
+      "timestamp": "2026-04-21T14:14:39.787822Z",
+      "point_forecast_eur_mwh": 142.6,
+      "upper_80": 162.6,
+      "lower_80": 122.6
+    },
+    {
+      "timestamp": "2026-04-21T14:19:39.787822Z",
+      "point_forecast_eur_mwh": 144.37,
+      "upper_80": 164.37,
+      "lower_80": 124.37
+    },
+    {
+      "timestamp": "2026-04-21T14:24:39.787822Z",
+      "point_forecast_eur_mwh": 145.91,
+      "upper_80": 165.91,
+      "lower_80": 125.91
+    },
+    {
+      "timestamp": "2026-04-21T14:29:39.787822Z",
+      "point_forecast_eur_mwh": 147.2,
+      "upper_80": 167.2,
+      "lower_80": 127.2
+    },
+    {
+      "timestamp": "2026-04-21T14:34:39.787822Z",
+      "point_forecast_eur_mwh": 148.25,
+      "upper_80": 168.25,
+      "lower_80": 128.25
+    },
+    {
+      "timestamp": "2026-04-21T14:39:39.787822Z",
+      "point_forecast_eur_mwh": 149.06,
+      "upper_80": 169.06,
+      "lower_80": 129.06
+    },
+    {
+      "timestamp": "2026-04-21T14:44:39.787822Z",
+      "point_forecast_eur_mwh": 149.62,
+      "upper_80": 169.62,
+      "lower_80": 129.62
+    },
+    {
+      "timestamp": "2026-04-21T14:49:39.787822Z",
+      "point_forecast_eur_mwh": 149.93,
+      "upper_80": 169.93,
+      "lower_80": 129.93
+    },
+    {
+      "timestamp": "2026-04-21T14:54:39.787822Z",
+      "point_forecast_eur_mwh": 149.99,
+      "upper_80": 169.99,
+      "lower_80": 129.99
+    },
+    {
+      "timestamp": "2026-04-21T14:59:39.787822Z",
+      "point_forecast_eur_mwh": 149.8,
+      "upper_80": 169.8,
+      "lower_80": 129.8
+    },
+    {
+      "timestamp": "2026-04-21T15:04:39.787822Z",
+      "point_forecast_eur_mwh": 149.36,
+      "upper_80": 169.36,
+      "lower_80": 129.36
+    },
+    {
+      "timestamp": "2026-04-21T15:09:39.787822Z",
+      "point_forecast_eur_mwh": 148.68,
+      "upper_80": 168.68,
+      "lower_80": 128.68
+    },
+    {
+      "timestamp": "2026-04-21T15:14:39.787822Z",
+      "point_forecast_eur_mwh": 147.74,
+      "upper_80": 167.74,
+      "lower_80": 127.74
     }
   ],
   "arbitrage_windows": [
     {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:40:00+00:00",
-      "discharge_end": "2024-01-01T16:05:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 78.0653,
-      "spread_eur_mwh": 54.1742,
-      "estimated_profit_eur": 162.52,
-      "confidence": 0.6523,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:35:00+00:00",
-      "discharge_end": "2024-01-01T16:05:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 78.0599,
-      "spread_eur_mwh": 54.1688,
-      "estimated_profit_eur": 162.51,
-      "confidence": 0.6523,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:35:00+00:00",
-      "discharge_end": "2024-01-01T16:00:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 78.0021,
-      "spread_eur_mwh": 54.111,
-      "estimated_profit_eur": 162.33,
-      "confidence": 0.6529,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:35:00+00:00",
-      "discharge_end": "2024-01-01T16:10:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.9992,
-      "spread_eur_mwh": 54.1081,
-      "estimated_profit_eur": 162.32,
-      "confidence": 0.6517,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:40:00+00:00",
-      "discharge_end": "2024-01-01T16:10:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.9952,
-      "spread_eur_mwh": 54.1041,
-      "estimated_profit_eur": 162.31,
-      "confidence": 0.6518,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:45:00+00:00",
-      "discharge_end": "2024-01-01T16:10:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.8999,
-      "spread_eur_mwh": 54.0088,
-      "estimated_profit_eur": 162.03,
-      "confidence": 0.6521,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:35:00+00:00",
-      "discharge_end": "2024-01-01T16:15:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.8503,
-      "spread_eur_mwh": 53.9592,
-      "estimated_profit_eur": 161.88,
-      "confidence": 0.6512,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:40:00+00:00",
-      "discharge_end": "2024-01-01T16:15:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.8282,
-      "spread_eur_mwh": 53.9371,
-      "estimated_profit_eur": 161.81,
-      "confidence": 0.6512,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:35:00+00:00",
-      "discharge_end": "2024-01-01T16:20:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.7988,
-      "spread_eur_mwh": 53.9077,
-      "estimated_profit_eur": 161.72,
-      "confidence": 0.6505,
-      "buses_required": 17,
-      "horizon_steps": []
-    },
-    {
-      "charge_start": "2024-01-01T00:00:00+00:00",
-      "charge_end": "2024-01-01T00:25:00+00:00",
-      "discharge_start": "2024-01-01T15:40:00+00:00",
-      "discharge_end": "2024-01-01T16:20:00+00:00",
-      "charge_avg_upper_eur_mwh": 23.8911,
-      "discharge_avg_lower_eur_mwh": 77.7735,
-      "spread_eur_mwh": 53.8824,
-      "estimated_profit_eur": 161.65,
-      "confidence": 0.6506,
-      "buses_required": 17,
-      "horizon_steps": []
+      "charge_window": "17:19",
+      "discharge_window": "23:19",
+      "estimated_profit_eur": 450.0,
+      "buses_required": 30
     }
-  ],
-  "meta": {
-    "anchor_price_eur_mwh": 10.0,
-    "anchor_timestamp": "2023-12-31T23:55:00+00:00",
-    "mean_interval_width": 8.6199,
-    "inference_elapsed_s": 1.22,
-    "n_arbitrage_windows": 10,
-    "clean_truth_rows_used": 105120
-  }
+  ]
 }

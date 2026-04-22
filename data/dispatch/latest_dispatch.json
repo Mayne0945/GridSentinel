@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-04-18T08:57:51.854725+00:00",
+  "generated_at": "2026-04-21T13:09:18.325051+00:00",
   "horizon_steps": 48,
   "step_minutes": 5,
   "solver_status": "Optimal",
-  "solve_time_s": 0.784,
-  "objective_value": 17165.6378,
-  "expected_profit_eur": -3.99,
+  "solve_time_s": 0.868,
+  "objective_value": 18726.5783,
+  "expected_profit_eur": -16.67,
   "total_discharge_kw": 0.0,
-  "total_charge_kw": 3999.99,
+  "total_charge_kw": 4000.0,
   "transformer_load_pct": 100.0,
   "commands": [
     {
@@ -62,8 +62,8 @@
     {
       "bus_id": "Bus_008",
       "action": "charge",
-      "power_kw": 65.53,
-      "soc_after": 0.748,
+      "power_kw": 67.09,
+      "soc_after": 0.7485,
       "reason": "departure in 140min \u2014 need +14% SoC"
     },
     {
@@ -321,8 +321,8 @@
     {
       "bus_id": "Bus_045",
       "action": "charge",
-      "power_kw": 98.95,
-      "soc_after": 0.7047,
+      "power_kw": 92.74,
+      "soc_after": 0.7025,
       "reason": "departure in 145min \u2014 need +23% SoC"
     },
     {
@@ -671,8 +671,8 @@
     {
       "bus_id": "Bus_095",
       "action": "charge",
-      "power_kw": 22.88,
-      "soc_after": 0.8212,
+      "power_kw": 27.54,
+      "soc_after": 0.8225,
       "reason": "departure in 230min \u2014 need +11% SoC"
     },
     {
@@ -3082,49 +3082,49 @@
       {
         "step": 0,
         "action": "charge",
-        "charge_kw": 65.53,
+        "charge_kw": 67.09,
         "discharge_kw": 0.0,
-        "soc": 0.748
+        "soc": 0.7485
       },
       {
         "step": 1,
         "action": "charge",
-        "charge_kw": 20.53,
+        "charge_kw": 22.09,
         "discharge_kw": 0.0,
-        "soc": 0.7543
+        "soc": 0.7552
       },
       {
         "step": 2,
         "action": "charge",
-        "charge_kw": 65.53,
+        "charge_kw": 67.09,
         "discharge_kw": 0.0,
-        "soc": 0.7742
+        "soc": 0.7756
       },
       {
         "step": 3,
         "action": "charge",
-        "charge_kw": 110.53,
+        "charge_kw": 112.09,
         "discharge_kw": 0.0,
-        "soc": 0.8078
+        "soc": 0.8097
       },
       {
         "step": 4,
         "action": "charge",
-        "charge_kw": 113.13,
+        "charge_kw": 111.06,
         "discharge_kw": 0.0,
-        "soc": 0.8422
+        "soc": 0.8435
       },
       {
         "step": 5,
         "action": "charge",
-        "charge_kw": 68.13,
+        "charge_kw": 66.06,
         "discharge_kw": 0.0,
-        "soc": 0.863
+        "soc": 0.8636
       },
       {
         "step": 6,
         "action": "charge",
-        "charge_kw": 23.13,
+        "charge_kw": 21.06,
         "discharge_kw": 0.0,
         "soc": 0.87
       },
@@ -5504,42 +5504,42 @@
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 105.0,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7935
+        "soc": 0.8067
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 60.0,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.8111
+        "soc": 0.8508
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 93.78,
+        "charge_kw": 121.26,
         "discharge_kw": 0.0,
-        "soc": 0.8387
+        "soc": 0.8864
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 135.0,
+        "charge_kw": 76.26,
         "discharge_kw": 0.0,
-        "soc": 0.8784
+        "soc": 0.9089
       },
       {
         "step": 12,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 31.26,
         "discharge_kw": 0.0,
-        "soc": 0.9048
+        "soc": 0.918
       },
       {
         "step": 13,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.918
       },
@@ -7863,42 +7863,42 @@
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 145.47,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7317
+        "soc": 0.7332
       },
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 100.47,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7653
+        "soc": 0.7834
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 55.47,
+        "charge_kw": 105.47,
         "discharge_kw": 0.0,
-        "soc": 0.7839
+        "soc": 0.8187
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 60.47,
         "discharge_kw": 0.0,
-        "soc": 0.7989
+        "soc": 0.8389
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 15.47,
         "discharge_kw": 0.0,
-        "soc": 0.829
+        "soc": 0.844
       },
       {
         "step": 12,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.844
       },
@@ -8884,42 +8884,42 @@
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 106.67,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7294
+        "soc": 0.7432
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 61.67,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7491
+        "soc": 0.7911
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 106.67,
+        "charge_kw": 126.67,
         "discharge_kw": 0.0,
-        "soc": 0.7831
+        "soc": 0.8315
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 135.0,
+        "charge_kw": 81.67,
         "discharge_kw": 0.0,
-        "soc": 0.8262
+        "soc": 0.8576
       },
       {
         "step": 12,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 36.67,
         "discharge_kw": 0.0,
-        "soc": 0.8549
+        "soc": 0.8693
       },
       {
         "step": 13,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.8693
       },
@@ -9201,49 +9201,49 @@
       {
         "step": 5,
         "action": "charge",
-        "charge_kw": 135.0,
+        "charge_kw": 142.48,
         "discharge_kw": 0.0,
-        "soc": 0.8528
+        "soc": 0.8551
       },
       {
         "step": 6,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 97.48,
         "discharge_kw": 0.0,
-        "soc": 0.881
+        "soc": 0.8857
       },
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 52.48,
         "discharge_kw": 0.0,
-        "soc": 0.8951
+        "soc": 0.9021
       },
       {
         "step": 8,
-        "action": "hold",
-        "charge_kw": 0.0,
+        "action": "charge",
+        "charge_kw": 7.48,
         "discharge_kw": 0.0,
-        "soc": 0.8951
+        "soc": 0.9044
       },
       {
         "step": 9,
         "action": "hold",
         "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.8951
+        "soc": 0.9044
       },
       {
         "step": 10,
         "action": "hold",
         "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.8951
+        "soc": 0.9044
       },
       {
         "step": 11,
-        "action": "charge",
-        "charge_kw": 29.91,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.9044
       },
@@ -9891,42 +9891,42 @@
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 126.39,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.8543
+        "soc": 0.8615
       },
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 81.39,
+        "charge_kw": 136.04,
         "discharge_kw": 0.0,
-        "soc": 0.8789
+        "soc": 0.9026
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 36.39,
+        "charge_kw": 91.04,
         "discharge_kw": 0.0,
-        "soc": 0.8899
+        "soc": 0.9301
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 46.04,
         "discharge_kw": 0.0,
-        "soc": 0.9035
+        "soc": 0.944
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 1.04,
         "discharge_kw": 0.0,
-        "soc": 0.9307
+        "soc": 0.9443
       },
       {
         "step": 12,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.9443
       },
@@ -15588,35 +15588,35 @@
       {
         "step": 0,
         "action": "charge",
-        "charge_kw": 98.95,
+        "charge_kw": 92.74,
         "discharge_kw": 0.0,
-        "soc": 0.7047
+        "soc": 0.7025
       },
       {
         "step": 1,
         "action": "charge",
-        "charge_kw": 143.95,
+        "charge_kw": 137.74,
         "discharge_kw": 0.0,
-        "soc": 0.7557
+        "soc": 0.7513
       },
       {
         "step": 2,
         "action": "charge",
-        "charge_kw": 135.0,
+        "charge_kw": 139.14,
         "discharge_kw": 0.0,
-        "soc": 0.8034
+        "soc": 0.8005
       },
       {
         "step": 3,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 94.14,
         "discharge_kw": 0.0,
-        "soc": 0.8352
+        "soc": 0.8338
       },
       {
         "step": 4,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 49.14,
         "discharge_kw": 0.0,
         "soc": 0.8512
       },
@@ -18665,56 +18665,56 @@
       {
         "step": 5,
         "action": "charge",
-        "charge_kw": 135.0,
+        "charge_kw": 147.93,
         "discharge_kw": 0.0,
-        "soc": 0.7812
+        "soc": 0.7852
       },
       {
         "step": 6,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 102.93,
         "discharge_kw": 0.0,
-        "soc": 0.8092
+        "soc": 0.8173
       },
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 57.93,
         "discharge_kw": 0.0,
-        "soc": 0.8233
+        "soc": 0.8353
       },
       {
         "step": 8,
-        "action": "hold",
-        "charge_kw": 0.0,
+        "action": "charge",
+        "charge_kw": 12.93,
         "discharge_kw": 0.0,
-        "soc": 0.8233
+        "soc": 0.8394
       },
       {
         "step": 9,
         "action": "hold",
         "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.8233
+        "soc": 0.8394
       },
       {
         "step": 10,
         "action": "hold",
         "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.8233
+        "soc": 0.8394
       },
       {
         "step": 11,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.8373
+        "soc": 0.8394
       },
       {
         "step": 12,
-        "action": "charge",
-        "charge_kw": 6.74,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.8394
       },
@@ -19017,42 +19017,42 @@
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 121.15,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.8277
+        "soc": 0.8375
       },
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 76.15,
+        "charge_kw": 131.15,
         "discharge_kw": 0.0,
-        "soc": 0.8534
+        "soc": 0.8817
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 31.15,
+        "charge_kw": 86.15,
         "discharge_kw": 0.0,
-        "soc": 0.8639
+        "soc": 0.9108
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 41.15,
         "discharge_kw": 0.0,
-        "soc": 0.8791
+        "soc": 0.9247
       },
       {
         "step": 11,
-        "action": "charge",
-        "charge_kw": 90.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.9095
+        "soc": 0.9247
       },
       {
         "step": 12,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.9247
       },
@@ -19996,35 +19996,35 @@
       {
         "step": 2,
         "action": "charge",
-        "charge_kw": 146.99,
+        "charge_kw": 142.84,
         "discharge_kw": 0.0,
-        "soc": 0.7144
+        "soc": 0.7131
       },
       {
         "step": 3,
         "action": "charge",
         "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7611
+        "soc": 0.7598
       },
       {
         "step": 4,
         "action": "charge",
         "charge_kw": 105.0,
         "discharge_kw": 0.0,
-        "soc": 0.7937
+        "soc": 0.7925
       },
       {
         "step": 5,
         "action": "charge",
-        "charge_kw": 87.93,
+        "charge_kw": 90.0,
         "discharge_kw": 0.0,
-        "soc": 0.8211
+        "soc": 0.8205
       },
       {
         "step": 6,
         "action": "charge",
-        "charge_kw": 42.93,
+        "charge_kw": 45.0,
         "discharge_kw": 0.0,
         "soc": 0.8344
       },
@@ -21052,42 +21052,42 @@
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 105.0,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.8171
+        "soc": 0.8324
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 60.0,
+        "charge_kw": 145.74,
         "discharge_kw": 0.0,
-        "soc": 0.8375
+        "soc": 0.8821
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 74.49,
+        "charge_kw": 100.74,
         "discharge_kw": 0.0,
-        "soc": 0.8629
+        "soc": 0.9165
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 119.49,
+        "charge_kw": 55.74,
         "discharge_kw": 0.0,
-        "soc": 0.9037
+        "soc": 0.9355
       },
       {
         "step": 12,
         "action": "charge",
-        "charge_kw": 74.49,
+        "charge_kw": 10.74,
         "discharge_kw": 0.0,
-        "soc": 0.9291
+        "soc": 0.9391
       },
       {
         "step": 13,
-        "action": "charge",
-        "charge_kw": 29.49,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.9391
       },
@@ -23087,42 +23087,42 @@
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 105.0,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7709
+        "soc": 0.7851
       },
       {
         "step": 10,
         "action": "charge",
         "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.8184
+        "soc": 0.8327
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 147.26,
+        "charge_kw": 136.01,
         "discharge_kw": 0.0,
-        "soc": 0.8651
+        "soc": 0.8758
       },
       {
         "step": 12,
         "action": "charge",
-        "charge_kw": 102.26,
+        "charge_kw": 91.01,
         "discharge_kw": 0.0,
-        "soc": 0.8975
+        "soc": 0.9046
       },
       {
         "step": 13,
         "action": "charge",
-        "charge_kw": 57.26,
+        "charge_kw": 46.01,
         "discharge_kw": 0.0,
-        "soc": 0.9156
+        "soc": 0.9192
       },
       {
         "step": 14,
         "action": "charge",
-        "charge_kw": 12.26,
+        "charge_kw": 1.01,
         "discharge_kw": 0.0,
         "soc": 0.9195
       },
@@ -25777,42 +25777,42 @@
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 135.49,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7179
+        "soc": 0.7229
       },
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 90.49,
+        "charge_kw": 142.87,
         "discharge_kw": 0.0,
-        "soc": 0.7489
+        "soc": 0.7718
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 45.49,
+        "charge_kw": 97.87,
         "discharge_kw": 0.0,
-        "soc": 0.7645
+        "soc": 0.8054
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 52.87,
         "discharge_kw": 0.0,
-        "soc": 0.7799
+        "soc": 0.8235
       },
       {
         "step": 11,
         "action": "charge",
-        "charge_kw": 90.0,
+        "charge_kw": 7.87,
         "discharge_kw": 0.0,
-        "soc": 0.8108
+        "soc": 0.8262
       },
       {
         "step": 12,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.8262
       },
@@ -29495,42 +29495,42 @@
       {
         "step": 7,
         "action": "charge",
-        "charge_kw": 115.14,
+        "charge_kw": 150.0,
         "discharge_kw": 0.0,
-        "soc": 0.7904
+        "soc": 0.8007
       },
       {
         "step": 8,
         "action": "charge",
-        "charge_kw": 70.14,
+        "charge_kw": 125.14,
         "discharge_kw": 0.0,
-        "soc": 0.8111
+        "soc": 0.8377
       },
       {
         "step": 9,
         "action": "charge",
-        "charge_kw": 25.14,
+        "charge_kw": 80.14,
         "discharge_kw": 0.0,
-        "soc": 0.8186
+        "soc": 0.8613
       },
       {
         "step": 10,
         "action": "charge",
-        "charge_kw": 45.0,
+        "charge_kw": 35.14,
         "discharge_kw": 0.0,
-        "soc": 0.8318
+        "soc": 0.8717
       },
       {
         "step": 11,
-        "action": "charge",
-        "charge_kw": 90.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
-        "soc": 0.8584
+        "soc": 0.8717
       },
       {
         "step": 12,
-        "action": "charge",
-        "charge_kw": 45.0,
+        "action": "hold",
+        "charge_kw": 0.0,
         "discharge_kw": 0.0,
         "soc": 0.8717
       },
@@ -31819,28 +31819,28 @@
       {
         "step": 1,
         "action": "charge",
-        "charge_kw": 127.85,
+        "charge_kw": 129.92,
         "discharge_kw": 0.0,
-        "soc": 0.7931
+        "soc": 0.7938
       },
       {
         "step": 2,
         "action": "charge",
-        "charge_kw": 82.85,
+        "charge_kw": 84.92,
         "discharge_kw": 0.0,
-        "soc": 0.8197
+        "soc": 0.821
       },
       {
         "step": 3,
         "action": "charge",
-        "charge_kw": 80.9,
+        "charge_kw": 78.83,
         "discharge_kw": 0.0,
-        "soc": 0.8456
+        "soc": 0.8462
       },
       {
         "step": 4,
         "action": "charge",
-        "charge_kw": 125.9,
+        "charge_kw": 123.83,
         "discharge_kw": 0.0,
         "soc": 0.8859
       },
@@ -32488,28 +32488,28 @@
       {
         "step": 0,
         "action": "charge",
-        "charge_kw": 22.88,
+        "charge_kw": 27.54,
         "discharge_kw": 0.0,
-        "soc": 0.8212
+        "soc": 0.8225
       },
       {
         "step": 1,
         "action": "charge",
-        "charge_kw": 43.88,
+        "charge_kw": 46.47,
         "discharge_kw": 0.0,
-        "soc": 0.8335
+        "soc": 0.8356
       },
       {
         "step": 2,
         "action": "charge",
-        "charge_kw": 41.48,
+        "charge_kw": 37.85,
         "discharge_kw": 0.0,
-        "soc": 0.8452
+        "soc": 0.8462
       },
       {
         "step": 3,
         "action": "charge",
-        "charge_kw": 86.48,
+        "charge_kw": 82.85,
         "discharge_kw": 0.0,
         "soc": 0.8695
       },
@@ -34515,9 +34515,9 @@
   },
   "meta": {
     "active_buses": 100,
-    "total_elapsed_s": 1.507,
-    "solve_time_s": 0.784,
-    "price_now_eur_mwh": 11.98,
+    "total_elapsed_s": 1.641,
+    "solve_time_s": 0.868,
+    "price_now_eur_mwh": 50.0,
     "transformer_limit_kw": 4000.0,
     "action_counts": {
       "charge": 31,

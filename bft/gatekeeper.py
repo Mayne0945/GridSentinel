@@ -48,6 +48,10 @@ MPC Mode tagging (v2.1):
 
 from __future__ import annotations
 
+# Path fix — allows both `python bft/gatekeeper.py` and `python -m bft.gatekeeper`
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 import json
 import logging
 import os
@@ -490,3 +494,77 @@ class BFTGatekeeper:
         self._write_to_redis(clean_truth)
 
         return clean_truth
+
+
+if __name__ == "__main__":
+    import argparse
+    import time
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)-8s | %(message)s",
+    )
+
+    parser = argparse.ArgumentParser(description="GridSentinel BFT Gatekeeper")
+    parser.add_argument("--snapshot", default="data/aligned/latest_snapshot.json",
+                        help="Path to aligned snapshot JSON")
+    parser.add_argument("--depot-id", type=int, default=1)
+    parser.add_argument("--watch", action="store_true",
+                        help="Poll continuously every 5 seconds")
+    args = parser.parse_args()
+
+    snapshot_path = Path(args.snapshot)
+    gatekeeper = BFTGatekeeper(depot_id=args.depot_id)
+
+    def run_once() -> None:
+        if not snapshot_path.exists():
+            log.warning("Snapshot not found at %s — generating synthetic snapshot", snapshot_path)
+            # Build a synthetic snapshot from latest dispatch so dashboard has data
+            dispatch_path = Path("data/dispatch/latest_dispatch.json")
+            if not dispatch_path.exists():
+                log.error("No dispatch found either — run mpc/dispatch.py first")
+                return
+
+            dispatch = json.loads(dispatch_path.read_text())
+            commands = dispatch.get("commands", [])
+
+            buses = [
+                {
+                    "bus_id": cmd["bus_id"],
+                    "mean_soc_pct": float(np.random.uniform(30, 90)),
+                    "mean_power_kw": cmd.get("power_kw", 0.0),
+                    "status": cmd.get("action", "hold"),
+                }
+                for cmd in commands
+            ]
+
+            snapshot = {
+                "canonical_timestamp": dispatch.get("timestamp", ""),
+                "spot_price": 50.0,
+                "price_metadata": {"confidence": 1.0},
+                "depot_meter_kw": sum(b["mean_power_kw"] for b in buses),
+                "buses": buses,
+            }
+        else:
+            snapshot = json.loads(snapshot_path.read_text())
+
+        clean_truth = gatekeeper.process(snapshot)
+
+        # Write trust ledger for dashboard
+        trust_path = Path("data/bft/trust_ledger.json")
+        trust_path.parent.mkdir(parents=True, exist_ok=True)
+        ledger = {
+            "timestamp": clean_truth.get("canonical_timestamp", ""),
+            "buses": dict(gatekeeper.trust_scores),
+            "flagged": list(clean_truth.get("flagged_ids", [])),
+        }
+        trust_path.write_text(json.dumps(ledger, indent=2))
+        log.info("Trust ledger written → %s | flagged=%d", trust_path, len(ledger["flagged"]))
+
+    if args.watch:
+        log.info("BFT Gatekeeper watching — polling every 5s")
+        while True:
+            run_once()
+            time.sleep(5)
+    else:
+        run_once()

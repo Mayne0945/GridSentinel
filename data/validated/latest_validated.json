@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-04-18T10:49:49.264702+00:00",
+  "generated_at": "2026-04-21T13:09:24.495662+00:00",
   "validation_method": "ac_newton_raphson",
   "solver_status": "Safe",
-  "validation_time_s": 0.0574,
+  "validation_time_s": 0.0576,
   "v_depot_pu": 0.952969,
   "v_mid_pu": 0.967688,
-  "transformer_load_kw": 3999.99,
+  "transformer_load_kw": 4000.0,
   "transformer_load_pct": 100.0,
   "approved_count": 100,
   "curtailed_count": 0,
   "rejected_count": 0,
   "total_discharge_kw": 0,
-  "total_charge_kw": 3999.99,
-  "expected_profit_eur": -3.99,
+  "total_charge_kw": 4000.0,
+  "expected_profit_eur": -16.67,
   "validations": [
     {
       "bus_id": "Bus_001",
@@ -80,9 +80,9 @@
     {
       "bus_id": "Bus_008",
       "original_action": "charge",
-      "original_power_kw": 65.53,
+      "original_power_kw": 67.09,
       "validated_action": "charge",
-      "validated_power_kw": 65.53,
+      "validated_power_kw": 67.09,
       "outcome": "APPROVED",
       "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
     },
@@ -413,9 +413,9 @@
     {
       "bus_id": "Bus_045",
       "original_action": "charge",
-      "original_power_kw": 98.95,
+      "original_power_kw": 92.74,
       "validated_action": "charge",
-      "validated_power_kw": 98.95,
+      "validated_power_kw": 92.74,
       "outcome": "APPROVED",
       "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
     },
@@ -863,9 +863,9 @@
     {
       "bus_id": "Bus_095",
       "original_action": "charge",
-      "original_power_kw": 22.88,
+      "original_power_kw": 27.54,
       "validated_action": "charge",
-      "validated_power_kw": 22.88,
+      "validated_power_kw": 27.54,
       "outcome": "APPROVED",
       "reason": "Approved - V_depot=0.9673 pu within [0.95,1.05]"
     },
@@ -917,8 +917,8 @@
   ],
   "meta": {
     "original_discharge_kw": 0,
-    "original_charge_kw": 3999.99,
-    "original_net_kw": 3999.99,
+    "original_charge_kw": 4000.0,
+    "original_net_kw": 4000.0,
     "v_limits_pu": [
       0.95,
       1.05

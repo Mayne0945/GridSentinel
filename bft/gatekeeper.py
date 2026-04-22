@@ -51,6 +51,7 @@ from __future__ import annotations
 # Path fix — allows both `python bft/gatekeeper.py` and `python -m bft.gatekeeper`
 import sys
 from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 import json
 import logging
@@ -382,13 +383,15 @@ class BFTGatekeeper:
                 .tag("depot_id", str(self.depot_id))
                 .tag("attack_class", attack_class)
                 .tag("mpc_mode", clean_truth.get("mpc_mode", "normal"))
-                .field("flagged_count",     len(clean_truth.get("flagged_bus_ids", [])))
+                .field("flagged_count", len(clean_truth.get("flagged_bus_ids", [])))
                 .field("blacklisted_count", len(clean_truth.get("blacklisted_ids", [])))
-                .field("clean_bus_count",   clean_truth.get("clean_bus_count", 0))
-                .field("spot_price",        clean_truth.get("spot_price", 0.0))
-                .field("price_confidence",  clean_truth.get("price_metadata", {}).get("confidence", 1.0))
-                .field("temperature_c",     clean_truth.get("temperature_c", 21.0))
-                .field("depot_meter_kw",    clean_truth.get("depot_meter_kw", 0.0))
+                .field("clean_bus_count", clean_truth.get("clean_bus_count", 0))
+                .field("spot_price", clean_truth.get("spot_price", 0.0))
+                .field(
+                    "price_confidence", clean_truth.get("price_metadata", {}).get("confidence", 1.0)
+                )
+                .field("temperature_c", clean_truth.get("temperature_c", 21.0))
+                .field("depot_meter_kw", clean_truth.get("depot_meter_kw", 0.0))
                 .time(ts)
             )
             write_api.write(bucket=bucket, org=org, record=p)
@@ -507,11 +510,13 @@ if __name__ == "__main__":
     )
 
     parser = argparse.ArgumentParser(description="GridSentinel BFT Gatekeeper")
-    parser.add_argument("--snapshot", default="data/aligned/latest_snapshot.json",
-                        help="Path to aligned snapshot JSON")
+    parser.add_argument(
+        "--snapshot",
+        default="data/aligned/latest_snapshot.json",
+        help="Path to aligned snapshot JSON",
+    )
     parser.add_argument("--depot-id", type=int, default=1)
-    parser.add_argument("--watch", action="store_true",
-                        help="Poll continuously every 5 seconds")
+    parser.add_argument("--watch", action="store_true", help="Poll continuously every 5 seconds")
     args = parser.parse_args()
 
     snapshot_path = Path(args.snapshot)

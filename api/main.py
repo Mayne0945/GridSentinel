@@ -25,21 +25,21 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from pydantic_settings import BaseSettings
-
 
 # ── Config ────────────────────────────────────────────────────────────────────
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     redis_host: str = "localhost"
     redis_port: int = 6379
     redis_db: int = 0
-    cache_ttl_seconds: float = 4.0      
-    chaos_ttl_seconds: int = 300        
+    cache_ttl_seconds: float = 4.0
+    chaos_ttl_seconds: int = 300
 
     # V2 standard: ignores ENTSO_E_TOKEN and fixes the deprecation warning
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
 
 settings = Settings()
 
@@ -51,6 +51,7 @@ log = logging.getLogger(__name__)
 
 
 # ── Redis client (optional — degrades gracefully) ─────────────────────────────
+
 
 def _make_redis() -> redis.Redis | None:
     try:
@@ -81,7 +82,8 @@ _chaos_fallback: dict[str, Any] = {"active": False, "pid": None, "attack_type": 
 
 # ── File-read cache (TTL-based) ───────────────────────────────────────────────
 
-_file_cache: dict[str, tuple[float, dict]] = {}   # path → (expires_at, payload)
+_file_cache: dict[str, tuple[float, dict]] = {}  # path → (expires_at, payload)
+
 
 def _load_json(path: Path) -> dict[str, Any]:
     """Read a JSON file with a short TTL cache to avoid per-request disk I/O."""
@@ -90,10 +92,12 @@ def _load_json(path: Path) -> dict[str, Any]:
     expires_at, payload = _file_cache.get(key, (0.0, {}))
 
     if now < expires_at:
-        return payload                          # cache hit
+        return payload  # cache hit
 
     if not path.exists():
-        raise HTTPException(status_code=404, detail=f"{path} not found — pipeline may not have run yet.")
+        raise HTTPException(
+            status_code=404, detail=f"{path} not found — pipeline may not have run yet."
+        )
 
     try:
         payload = json.loads(path.read_text())
@@ -126,20 +130,22 @@ app.add_middleware(
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
+
 def _utcnow() -> str:
     return datetime.utcnow().isoformat() + "Z"
 
+
 # Redis key constants
-_CHAOS_ACTIVE_KEY   = "gridsentinel:chaos:active"
-_CHAOS_PID_KEY      = "gridsentinel:chaos:pid"
-_CHAOS_TYPE_KEY     = "gridsentinel:chaos:attack_type"
+_CHAOS_ACTIVE_KEY = "gridsentinel:chaos:active"
+_CHAOS_PID_KEY = "gridsentinel:chaos:pid"
+_CHAOS_TYPE_KEY = "gridsentinel:chaos:attack_type"
 
 
 def _chaos_get() -> dict[str, Any]:
     if _redis:
         return {
-            "active":      _redis.get(_CHAOS_ACTIVE_KEY) == "true",
-            "pid":         _redis.get(_CHAOS_PID_KEY),
+            "active": _redis.get(_CHAOS_ACTIVE_KEY) == "true",
+            "pid": _redis.get(_CHAOS_PID_KEY),
             "attack_type": _redis.get(_CHAOS_TYPE_KEY),
         }
     return _chaos_fallback.copy()
@@ -148,34 +154,36 @@ def _chaos_get() -> dict[str, Any]:
 def _chaos_set(active: bool, pid: int | None, attack_type: str | None) -> None:
     if _redis:
         ttl = settings.chaos_ttl_seconds
-        _redis.setex(_CHAOS_ACTIVE_KEY,  ttl, "true" if active else "false")
-        _redis.setex(_CHAOS_PID_KEY,     ttl, str(pid) if pid else "")
-        _redis.setex(_CHAOS_TYPE_KEY,    ttl, attack_type or "")
+        _redis.setex(_CHAOS_ACTIVE_KEY, ttl, "true" if active else "false")
+        _redis.setex(_CHAOS_PID_KEY, ttl, str(pid) if pid else "")
+        _redis.setex(_CHAOS_TYPE_KEY, ttl, attack_type or "")
     else:
         _chaos_fallback.update({"active": active, "pid": pid, "attack_type": attack_type})
 
 
 # ── Endpoints — System ────────────────────────────────────────────────────────
 
+
 @app.get("/status", tags=["system"])
 def get_status() -> dict:
     """Liveness check — confirms all pipeline modules are registered."""
     return {
-        "system":    "GridSentinel",
-        "version":   "1.0.0",
+        "system": "GridSentinel",
+        "version": "1.0.0",
         "timestamp": _utcnow(),
-        "phase":     "5 — Chaos Dashboard",
-        "redis":     "connected" if _redis else "unavailable (single-worker fallback)",
+        "phase": "5 — Chaos Dashboard",
+        "redis": "connected" if _redis else "unavailable (single-worker fallback)",
         "pipeline": {
-            "bft":          "active",
-            "forecasting":  "active",
-            "mpc":          "active",
+            "bft": "active",
+            "forecasting": "active",
+            "mpc": "active",
             "digital_twin": "active",
         },
     }
 
 
 # ── Endpoints — Pipeline data ─────────────────────────────────────────────────
+
 
 @app.get("/forecast", tags=["pipeline"])
 def get_forecast() -> dict:
@@ -203,9 +211,9 @@ def get_trust() -> dict:
         # Synthetic ledger when BFT hasn't written yet (dev / cold start)
         return {
             "timestamp": _utcnow(),
-            "note":      "BFT not yet active — showing clean synthetic ledger",
-            "buses":     {f"Bus_{i:03d}": 1.0 for i in range(1, 101)},
-            "flagged":   [],
+            "note": "BFT not yet active — showing clean synthetic ledger",
+            "buses": {f"Bus_{i:03d}": 1.0 for i in range(1, 101)},
+            "flagged": [],
         }
     return _load_json(path)
 
@@ -213,33 +221,34 @@ def get_trust() -> dict:
 @app.get("/metrics", tags=["pipeline"])
 def get_metrics() -> dict:
     """Aggregated dashboard metrics — dispatch summary + Digital Twin outcomes."""
-    dispatch  = _load_json(DATA_DIR / "dispatch"  / "latest_dispatch.json")
+    dispatch = _load_json(DATA_DIR / "dispatch" / "latest_dispatch.json")
     validated = _load_json(DATA_DIR / "validated" / "latest_validated.json")
 
     d_summary = dispatch.get("summary", {})
     v_summary = validated.get("summary", {})
 
     return {
-        "timestamp":            _utcnow(),
-        "total_buses":          d_summary.get("total_buses",          100),
-        "charging_buses":       d_summary.get("charging_buses",         0),
-        "discharging_buses":    d_summary.get("discharging_buses",       0),
-        "holding_buses":        d_summary.get("holding_buses",           0),
-        "total_charge_kw":      d_summary.get("total_charge_kw",         0),
-        "total_discharge_kw":   d_summary.get("total_discharge_kw",      0),
-        "transformer_pct":      d_summary.get("transformer_pct",         0),
-        "approved":             v_summary.get("approved",                 0),
-        "curtailed":            v_summary.get("curtailed",                0),
-        "rejected":             v_summary.get("rejected",                 0),
-        "estimated_profit_eur": d_summary.get("estimated_profit_eur",    0.0),
+        "timestamp": _utcnow(),
+        "total_buses": d_summary.get("total_buses", 100),
+        "charging_buses": d_summary.get("charging_buses", 0),
+        "discharging_buses": d_summary.get("discharging_buses", 0),
+        "holding_buses": d_summary.get("holding_buses", 0),
+        "total_charge_kw": d_summary.get("total_charge_kw", 0),
+        "total_discharge_kw": d_summary.get("total_discharge_kw", 0),
+        "transformer_pct": d_summary.get("transformer_pct", 0),
+        "approved": v_summary.get("approved", 0),
+        "curtailed": v_summary.get("curtailed", 0),
+        "rejected": v_summary.get("rejected", 0),
+        "estimated_profit_eur": d_summary.get("estimated_profit_eur", 0.0),
     }
 
 
 # ── Endpoints — Chaos ─────────────────────────────────────────────────────────
 
+
 class ChaosRequest(BaseModel):
-    attack_type: str  = Field("coordinated", description="flatline | spike | coordinated | replay")
-    pct: float        = Field(0.10, ge=0.01, le=0.5, description="Fraction of fleet to compromise")
+    attack_type: str = Field("coordinated", description="flatline | spike | coordinated | replay")
+    pct: float = Field(0.10, ge=0.01, le=0.5, description="Fraction of fleet to compromise")
 
 
 @app.post("/chaos/inject", tags=["chaos"])
@@ -251,22 +260,24 @@ def inject_chaos(req: ChaosRequest) -> dict:
     state = _chaos_get()
     if state["active"]:
         return {
-            "status":      "already_running",
+            "status": "already_running",
             "attack_type": state["attack_type"],
-            "pid":         state["pid"],
+            "pid": state["pid"],
         }
 
     proc = subprocess.Popen(
         ["python", "chaos/attacker.py", "--attack", req.attack_type, "--pct", str(req.pct)],
     )
     _chaos_set(active=True, pid=proc.pid, attack_type=req.attack_type)
-    log.info("Chaos injected | type=%s | pct=%.0f%% | pid=%d", req.attack_type, req.pct * 100, proc.pid)
+    log.info(
+        "Chaos injected | type=%s | pct=%.0f%% | pid=%d", req.attack_type, req.pct * 100, proc.pid
+    )
 
     return {
-        "status":      "injected",
+        "status": "injected",
         "attack_type": req.attack_type,
-        "fleet_pct":   req.pct,
-        "pid":         proc.pid,
+        "fleet_pct": req.pct,
+        "pid": proc.pid,
     }
 
 

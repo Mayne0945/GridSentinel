@@ -29,8 +29,8 @@ logging.basicConfig(
 )
 log = logging.getLogger(__name__)
 
-DISPATCH_PATH  = Path("data/dispatch/latest_dispatch.json")
-SNAPSHOT_PATH  = Path("data/aligned/latest_snapshot.json")
+DISPATCH_PATH = Path("data/dispatch/latest_dispatch.json")
+SNAPSHOT_PATH = Path("data/aligned/latest_snapshot.json")
 
 
 def _base_buses() -> list[dict]:
@@ -41,30 +41,32 @@ def _base_buses() -> list[dict]:
     dispatch = json.loads(DISPATCH_PATH.read_text())
     return [
         {
-            "bus_id":       cmd["bus_id"],
+            "bus_id": cmd["bus_id"],
             "mean_soc_pct": float(random.uniform(30, 90)),
             "mean_power_kw": cmd.get("power_kw", 0.0),
-            "status":       cmd.get("action", "hold"),
+            "status": cmd.get("action", "hold"),
         }
         for cmd in dispatch.get("commands", [])
     ]
 
+
 def _build_snapshot(buses: list[dict]) -> dict:
     return {
-        "canonical_timestamp":  time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "spot_price":           50.0,
-        "price_metadata":       {"confidence": 1.0, "source": "synthetic"},
-        "depot_meter_kw":       sum(b["mean_power_kw"] for b in buses),
-        "temperature_c":        21.0,
+        "canonical_timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "spot_price": 50.0,
+        "price_metadata": {"confidence": 1.0, "source": "synthetic"},
+        "depot_meter_kw": sum(b["mean_power_kw"] for b in buses),
+        "temperature_c": 21.0,
         "solar_irradiance_wm2": 0.0,
-        "wind_speed_kmh":       10.0,
-        "flagged_bus_ids":      [],
-        "blacklisted_ids":      [],
-        "clean_bus_count":      len(buses),
-        "bft_passed":           False,
-        "mpc_mode":             "normal",
-        "buses":                buses,
+        "wind_speed_kmh": 10.0,
+        "flagged_bus_ids": [],
+        "blacklisted_ids": [],
+        "clean_bus_count": len(buses),
+        "bft_passed": False,
+        "mpc_mode": "normal",
+        "buses": buses,
     }
+
 
 def flatline_attack(buses: list[dict], pct: float) -> list[dict]:
     n = max(1, int(len(buses) * pct))
@@ -73,7 +75,7 @@ def flatline_attack(buses: list[dict], pct: float) -> list[dict]:
     log.warning("FLATLINE attack | %d buses | %s", n, sorted(target_ids)[:5])
     for b in buses:
         if b["bus_id"] in target_ids:
-            b["mean_soc_pct"] = 42.0   # constant, never changes
+            b["mean_soc_pct"] = 42.0  # constant, never changes
     return buses
 
 
@@ -96,8 +98,8 @@ def coordinated_attack(buses: list[dict], pct: float) -> list[dict]:
     for b in buses:
         if b["bus_id"] in target_ids:
             # All lie in the same direction — designed to fool simple averaging
-            b["mean_soc_pct"]  = 95.0
-            b["mean_power_kw"] = -500.0   # claim discharging when not
+            b["mean_soc_pct"] = 95.0
+            b["mean_power_kw"] = -500.0  # claim discharging when not
     return buses
 
 
@@ -107,8 +109,11 @@ def replay_attack(buses: list[dict], pct: float) -> list[dict]:
     target_ids = {b["bus_id"] for b in targets}
     log.warning("REPLAY attack | %d buses | %s", n, sorted(target_ids)[:5])
     # Replay: freeze values from first pass (simulate yesterday's readings)
-    frozen = {b["bus_id"]: (b["mean_soc_pct"], b["mean_power_kw"]) for b in buses
-              if b["bus_id"] in target_ids}
+    frozen = {
+        b["bus_id"]: (b["mean_soc_pct"], b["mean_power_kw"])
+        for b in buses
+        if b["bus_id"] in target_ids
+    }
     for b in buses:
         if b["bus_id"] in target_ids:
             b["mean_soc_pct"], b["mean_power_kw"] = frozen[b["bus_id"]]
@@ -116,36 +121,41 @@ def replay_attack(buses: list[dict], pct: float) -> list[dict]:
 
 
 ATTACKS = {
-    "flatline":    flatline_attack,
-    "spike":       spike_attack,
+    "flatline": flatline_attack,
+    "spike": spike_attack,
     "coordinated": coordinated_attack,
-    "replay":      replay_attack,
+    "replay": replay_attack,
 }
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="GridSentinel Byzantine Attack Injector")
     parser.add_argument("--attack", choices=list(ATTACKS), default="coordinated")
-    parser.add_argument("--pct",    type=float, default=0.10,
-                        help="Fraction of fleet to compromise (0.01–0.50)")
-    parser.add_argument("--cycles", type=int,   default=0,
-                        help="Number of attack cycles (0 = run once)")
-    parser.add_argument("--interval", type=float, default=5.0,
-                        help="Seconds between cycles")
+    parser.add_argument(
+        "--pct", type=float, default=0.10, help="Fraction of fleet to compromise (0.01–0.50)"
+    )
+    parser.add_argument(
+        "--cycles", type=int, default=0, help="Number of attack cycles (0 = run once)"
+    )
+    parser.add_argument("--interval", type=float, default=5.0, help="Seconds between cycles")
     args = parser.parse_args()
 
     attack_fn = ATTACKS[args.attack]
     SNAPSHOT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
     def run_cycle() -> None:
-        buses    = _base_buses()
+        buses = _base_buses()
         if not buses:
             return
         attacked = attack_fn(buses, args.pct)
         snapshot = _build_snapshot(attacked)
         SNAPSHOT_PATH.write_text(json.dumps(snapshot, indent=2))
-        log.info("Snapshot written → %s | attack=%s | compromised=%.0f%%",
-                 SNAPSHOT_PATH, args.attack, args.pct * 100)
+        log.info(
+            "Snapshot written → %s | attack=%s | compromised=%.0f%%",
+            SNAPSHOT_PATH,
+            args.attack,
+            args.pct * 100,
+        )
 
     if args.cycles == 0:
         run_cycle()

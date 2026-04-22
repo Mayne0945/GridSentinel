@@ -1,11 +1,11 @@
 {
-  "canonical_timestamp": "2026-04-22T09:18:33Z",
+  "canonical_timestamp": "2026-04-22T10:06:59Z",
   "spot_price": 50.0,
   "price_metadata": {
     "confidence": 1.0,
     "source": "synthetic"
   },
-  "depot_meter_kw": -1450.0,
+  "depot_meter_kw": -1506.87,
   "temperature_c": 21.0,
   "solar_irradiance_wm2": 0.0,
   "wind_speed_kmh": 10.0,
@@ -17,601 +17,601 @@
   "buses": [
     {
       "bus_id": "Bus_001",
-      "mean_soc_pct": 83.85075258881909,
+      "mean_soc_pct": 75.4559551572808,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_002",
-      "mean_soc_pct": 37.69375864734781,
+      "mean_soc_pct": 56.58870328082723,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_003",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 48.63829509374884,
+      "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_004",
-      "mean_soc_pct": 67.26274928301012,
+      "mean_soc_pct": 48.43890996057789,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_005",
-      "mean_soc_pct": 70.57009452457493,
+      "mean_soc_pct": 77.44313577784644,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_006",
-      "mean_soc_pct": 78.30491224929409,
+      "mean_soc_pct": 83.15645917492017,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_007",
-      "mean_soc_pct": 84.48612530894863,
+      "mean_soc_pct": 83.68974521096243,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_008",
-      "mean_soc_pct": 60.6754668634058,
+      "mean_soc_pct": 37.56273290392518,
       "mean_power_kw": 67.09,
       "status": "charge"
     },
     {
       "bus_id": "Bus_009",
-      "mean_soc_pct": 84.91215002679391,
-      "mean_power_kw": 0.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_010",
-      "mean_soc_pct": 48.43678228697614,
+      "mean_soc_pct": 33.361122259610234,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_011",
-      "mean_soc_pct": 58.63151633357172,
-      "mean_power_kw": 150.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_012",
-      "mean_soc_pct": 83.74152784292832,
+      "mean_soc_pct": 42.822005851408534,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_013",
-      "mean_soc_pct": 75.59251096321293,
+      "mean_soc_pct": 33.64050500587072,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_014",
-      "mean_soc_pct": 85.79255693633479,
+      "mean_soc_pct": 50.40473271252884,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_015",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 69.80268889659845,
+      "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_016",
-      "mean_soc_pct": 40.05806476365723,
+      "mean_soc_pct": 32.90894794721686,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_017",
-      "mean_soc_pct": 33.68007729290665,
+      "mean_soc_pct": 70.84911728276607,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_018",
-      "mean_soc_pct": 53.587842177041125,
+      "mean_soc_pct": 56.113754394453764,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_019",
-      "mean_soc_pct": 86.21615805899151,
+      "mean_soc_pct": 85.73292520151503,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_020",
-      "mean_soc_pct": 60.56639488824729,
+      "mean_soc_pct": 64.98085906922933,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_021",
-      "mean_soc_pct": 63.640981415218846,
+      "mean_soc_pct": 35.4864565848601,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_022",
-      "mean_soc_pct": 88.63849578047765,
+      "mean_soc_pct": 62.40231929573474,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_023",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 74.13513319968881,
+      "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_024",
-      "mean_soc_pct": 33.35272404025746,
+      "mean_soc_pct": 50.04529907934648,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_025",
-      "mean_soc_pct": 70.91464267620523,
-      "mean_power_kw": 150.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_026",
-      "mean_soc_pct": 65.41060573836756,
+      "mean_soc_pct": 66.46524007127951,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_027",
-      "mean_soc_pct": 56.21010044574288,
-      "mean_power_kw": 0.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_028",
-      "mean_soc_pct": 57.06336581485476,
+      "mean_soc_pct": 52.80843600501832,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_029",
-      "mean_soc_pct": 76.28785703699786,
+      "mean_soc_pct": 89.76383951683636,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_030",
-      "mean_soc_pct": 63.56178624569966,
+      "mean_soc_pct": 81.50658097660799,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_031",
-      "mean_soc_pct": 49.663521505361885,
+      "mean_soc_pct": 47.45726268259449,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_032",
-      "mean_soc_pct": 83.20696751965087,
+      "mean_soc_pct": 41.11759369053395,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_033",
-      "mean_soc_pct": 43.117177532549114,
+      "mean_soc_pct": 39.80140330838587,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_034",
-      "mean_soc_pct": 57.79062267983206,
+      "mean_soc_pct": 39.80046064505067,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_035",
-      "mean_soc_pct": 58.768045454811656,
+      "mean_soc_pct": 52.1334836510527,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_036",
-      "mean_soc_pct": 67.18813328306277,
+      "mean_soc_pct": 85.5797260545448,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_037",
-      "mean_soc_pct": 39.24066751628802,
+      "mean_soc_pct": 46.8135974642758,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_038",
-      "mean_soc_pct": 69.21949714653724,
+      "mean_soc_pct": 45.78364771660365,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_039",
-      "mean_soc_pct": 76.27465760998012,
+      "mean_soc_pct": 86.59635501568509,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_040",
-      "mean_soc_pct": 40.69220351039071,
+      "mean_soc_pct": 51.477007099320105,
       "mean_power_kw": 81.57,
       "status": "charge"
     },
     {
       "bus_id": "Bus_041",
-      "mean_soc_pct": 83.98492920905733,
+      "mean_soc_pct": 54.48606910257127,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_042",
-      "mean_soc_pct": 78.08089479824449,
-      "mean_power_kw": 0.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_043",
-      "mean_soc_pct": 89.6633811871296,
+      "mean_soc_pct": 74.32222541535253,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_044",
-      "mean_soc_pct": 78.2565850541342,
-      "mean_power_kw": 0.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_045",
-      "mean_soc_pct": 42.00990656233773,
+      "mean_soc_pct": 77.78619793453502,
       "mean_power_kw": 92.74,
       "status": "charge"
     },
     {
       "bus_id": "Bus_046",
-      "mean_soc_pct": 57.57709952559495,
+      "mean_soc_pct": 63.42425394187808,
       "mean_power_kw": 108.57,
       "status": "charge"
     },
     {
       "bus_id": "Bus_047",
-      "mean_soc_pct": 30.693288406846214,
+      "mean_soc_pct": 35.633753868403396,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_048",
-      "mean_soc_pct": 72.35878679506831,
+      "mean_soc_pct": 71.2608258460313,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_049",
-      "mean_soc_pct": 52.06721863930891,
+      "mean_soc_pct": 33.3692456056087,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_050",
-      "mean_soc_pct": 32.95902992870045,
+      "mean_soc_pct": 83.06888602299257,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_051",
+      "mean_soc_pct": 32.80646949605434,
+      "mean_power_kw": 0.0,
+      "status": "hold"
+    },
+    {
+      "bus_id": "Bus_052",
       "mean_soc_pct": 95.0,
       "mean_power_kw": -500.0,
       "status": "hold"
     },
     {
-      "bus_id": "Bus_052",
-      "mean_soc_pct": 31.505447616660238,
-      "mean_power_kw": 0.0,
-      "status": "hold"
-    },
-    {
       "bus_id": "Bus_053",
-      "mean_soc_pct": 77.46991787949204,
+      "mean_soc_pct": 35.75882007254714,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_054",
-      "mean_soc_pct": 34.36854896946913,
-      "mean_power_kw": 150.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_055",
-      "mean_soc_pct": 32.689762267518674,
+      "mean_soc_pct": 53.18475644866163,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_056",
-      "mean_soc_pct": 70.14574621540305,
+      "mean_soc_pct": 55.42552497167364,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_057",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 30.62399865935076,
+      "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_058",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 50.64274965994521,
+      "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_059",
-      "mean_soc_pct": 36.658748867595776,
+      "mean_soc_pct": 73.31288760700345,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_060",
-      "mean_soc_pct": 54.590409154990425,
+      "mean_soc_pct": 56.3165983281273,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_061",
-      "mean_soc_pct": 83.99308609758052,
+      "mean_soc_pct": 57.01626955593886,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_062",
-      "mean_soc_pct": 75.76879391229001,
+      "mean_soc_pct": 73.90128505146217,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_063",
-      "mean_soc_pct": 33.32450889874343,
+      "mean_soc_pct": 82.36140356641867,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_064",
-      "mean_soc_pct": 32.437718091093636,
-      "mean_power_kw": 56.87,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_065",
-      "mean_soc_pct": 72.01820889460976,
+      "mean_soc_pct": 36.46767527191445,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_066",
-      "mean_soc_pct": 47.336297570657095,
+      "mean_soc_pct": 70.4686840977345,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_067",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 40.98821205951339,
+      "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_068",
-      "mean_soc_pct": 84.55718686089105,
+      "mean_soc_pct": 73.45053311906435,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_069",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 60.09641773127812,
+      "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_070",
-      "mean_soc_pct": 78.13725456156581,
+      "mean_soc_pct": 37.606236882701154,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_071",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 33.870731735804846,
+      "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_072",
-      "mean_soc_pct": 88.64426400987219,
+      "mean_soc_pct": 55.373572801079064,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_073",
-      "mean_soc_pct": 95.0,
-      "mean_power_kw": -500.0,
+      "mean_soc_pct": 37.23406012332593,
+      "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_074",
-      "mean_soc_pct": 72.47109761842168,
+      "mean_soc_pct": 44.990706472015916,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_075",
-      "mean_soc_pct": 45.804652085468874,
+      "mean_soc_pct": 55.890593967323554,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_076",
-      "mean_soc_pct": 64.19606372047261,
+      "mean_soc_pct": 77.80393310698855,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_077",
-      "mean_soc_pct": 79.85436459994614,
+      "mean_soc_pct": 65.45218817879535,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_078",
-      "mean_soc_pct": 84.76557730474025,
+      "mean_soc_pct": 78.60380544569576,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_079",
-      "mean_soc_pct": 67.00593219980047,
+      "mean_soc_pct": 66.9406792054385,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_080",
-      "mean_soc_pct": 47.781509110305564,
+      "mean_soc_pct": 66.1989567237303,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_081",
-      "mean_soc_pct": 59.67656852291995,
+      "mean_soc_pct": 61.50382865383001,
       "mean_power_kw": 27.1,
       "status": "charge"
     },
     {
       "bus_id": "Bus_082",
-      "mean_soc_pct": 44.86559837153079,
+      "mean_soc_pct": 83.11262638323711,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_083",
-      "mean_soc_pct": 32.585014829464605,
+      "mean_soc_pct": 52.277074620614414,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_084",
-      "mean_soc_pct": 41.512630997519445,
+      "mean_soc_pct": 64.87335234205808,
       "mean_power_kw": 91.06,
       "status": "charge"
     },
     {
       "bus_id": "Bus_085",
-      "mean_soc_pct": 53.62814039509064,
+      "mean_soc_pct": 67.06099246823895,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_086",
-      "mean_soc_pct": 86.69231472448799,
+      "mean_soc_pct": 40.18407949586222,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_087",
-      "mean_soc_pct": 44.68631481330286,
+      "mean_soc_pct": 62.137974446571405,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_088",
-      "mean_soc_pct": 81.33877883416929,
+      "mean_soc_pct": 88.09777343572851,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_089",
-      "mean_soc_pct": 60.59890703817575,
+      "mean_soc_pct": 89.10902180836088,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_090",
-      "mean_soc_pct": 80.5080289383942,
+      "mean_soc_pct": 87.29726350041562,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_091",
-      "mean_soc_pct": 69.7553696562685,
+      "mean_soc_pct": 79.46212799388164,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_092",
-      "mean_soc_pct": 36.60885366817474,
-      "mean_power_kw": 0.0,
+      "mean_soc_pct": 95.0,
+      "mean_power_kw": -500.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_093",
-      "mean_soc_pct": 49.37394540978834,
+      "mean_soc_pct": 49.727009937425656,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_094",
-      "mean_soc_pct": 40.42151284533102,
+      "mean_soc_pct": 49.1278585187999,
       "mean_power_kw": 150.0,
       "status": "charge"
     },
     {
       "bus_id": "Bus_095",
-      "mean_soc_pct": 77.2788133954771,
+      "mean_soc_pct": 58.20700804521721,
       "mean_power_kw": 27.54,
       "status": "charge"
     },
     {
       "bus_id": "Bus_096",
-      "mean_soc_pct": 43.61522222578263,
+      "mean_soc_pct": 40.71472981957774,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_097",
-      "mean_soc_pct": 62.73855650837079,
+      "mean_soc_pct": 42.0021492158012,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_098",
-      "mean_soc_pct": 36.76098981028784,
+      "mean_soc_pct": 35.54939679626287,
       "mean_power_kw": 147.46,
       "status": "charge"
     },
     {
       "bus_id": "Bus_099",
-      "mean_soc_pct": 38.45041429913833,
+      "mean_soc_pct": 61.565237638358845,
       "mean_power_kw": 0.0,
       "status": "hold"
     },
     {
       "bus_id": "Bus_100",
-      "mean_soc_pct": 86.65068640069342,
+      "mean_soc_pct": 56.409650906724856,
       "mean_power_kw": 0.0,
       "status": "hold"
     }

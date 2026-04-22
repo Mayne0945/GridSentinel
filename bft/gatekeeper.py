@@ -200,12 +200,26 @@ class BFTGatekeeper:
         mad = np.median(np.abs(readings - med))
 
         if mad < 1e-6:
-            if len(readings) > 5:
-                log.debug(
-                    "depot=%d MAD=0 — possible flatline attack on %d sensors",
-                    self.depot_id,
-                    len(readings),
-                )
+            # MAD=0 means majority of readings are identical.
+            # Fall back to absolute deviation from median.
+            # Any sensor deviating more than epsilon is flagged directly.
+            # This catches coordinated attacks where 10% lie while 90% report identical values.
+            epsilon_soc = 15.0  # % SoC — flag if more than 15% from median
+            epsilon_power = 200.0  # kW   — flag if more than 200 kW from median
+            # Determine epsilon based on value range
+            val_range = float(np.max(readings) - np.min(readings))
+            epsilon = epsilon_power if val_range > 50 else epsilon_soc
+            for bus_id, val in zip(values.keys(), values.values()):
+                if abs(val - med) > epsilon:
+                    flagged[bus_id] = True
+                    log.warning(
+                        "MAD=0 fallback flag | depot=%d | bus=%s | val=%.2f | median=%.2f | dev=%.2f",
+                        self.depot_id,
+                        bus_id,
+                        val,
+                        med,
+                        abs(val - med),
+                    )
             return flagged
 
         scaled_mad = MAD_CONSISTENCY * mad

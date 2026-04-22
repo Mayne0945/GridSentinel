@@ -11,7 +11,7 @@
   &nbsp;
   <img src="https://img.shields.io/badge/XGBoost-Conformal_Prediction-EA580C?style=flat-square" alt="XGBoost" />
   &nbsp;
-  <img src="https://img.shields.io/badge/Solver-PuLP_CBC-6B21A8?style=flat-square" alt="PuLP" />
+  <img src="https://img.shields.io/badge/Solver-cvxpy_OSQP-6B21A8?style=flat-square" alt="cvxpy" />
   &nbsp;
   <img src="https://img.shields.io/badge/Grid-Pandapower-DC2626?style=flat-square" alt="Pandapower" />
   &nbsp;
@@ -195,13 +195,13 @@ Validated against $0.95 \leq V_{depot} \leq 1.05$ p.u. at every dispatch cycle. 
 
 ```bash
 # Coordinated attack: 10% fleet compromise
-python chaos/main.py --attack coordinated --pct 10
+python chaos/attacker.py --attack coordinated --pct 10
 
 # All four adversarial patterns
-python chaos/main.py --attack flatline      # sensors frozen at last reading
-python chaos/main.py --attack spike         # extreme isolated outliers
-python chaos/main.py --attack coordinated   # synchronized multi-bus spoofing
-python chaos/main.py --attack replay        # yesterday's legitimate data, injected today
+python chaos/attacker.py --attack flatline      # sensors frozen at last reading
+python chaos/attacker.py --attack spike         # extreme isolated outliers
+python chaos/attacker.py --attack coordinated   # synchronized multi-bus spoofing
+python chaos/attacker.py --attack replay        # yesterday's legitimate data, injected today
 ```
 
 The coordinated attack is the hardest to detect. Ten buses simultaneously reporting a plausible but fabricated SoC is designed to fool simple averaging. MAD catches it because ten buses lying in the same direction creates asymmetry in the cluster that the median does not share.
@@ -241,7 +241,7 @@ python digital_twin/validate.py --dispatch data/dispatch/latest_dispatch.json
 | Fleet Simulation | Python, stochastic modelling on Rea Vaya and TFL route schedules |
 | BFT Filter | Python, MAD consensus filter, Redis pub/sub |
 | Forecasting | XGBoost, MAPIE (Conformal Prediction), Optuna |
-| MPC Optimizer | PuLP with CBC backend, pure LP formulation |
+| MPC Optimizer | cvxpy with OSQP backend, pure LP formulation |
 | Digital Twin | Pandapower, linearized DistFlow |
 | Storage | InfluxDB for time-series, Redis for real-time clean truth |
 | Observability | Grafana |
@@ -280,7 +280,7 @@ GridSentinel/
 - [x] Phase 3 · LP dispatch with hard departure constraints and degradation cost
 - [x] Phase 4 · Physics-based Digital Twin with DistFlow and AC power flow validation
 - [x] Market safety circuit breaker closing the zero-price vulnerability
-- [ ] Phase 5 · React Chaos Dashboard with live God-View and Chaos Toggle
+- [x] Phase 5 · React Chaos Dashboard with live God-View and Chaos Toggle
 - [ ] Production retrain on full 2023-2024 ENTSO-E data with 50 Optuna trials
 - [ ] Wire BFT fleet output to MPC fleet state replacing synthetic fleet
 

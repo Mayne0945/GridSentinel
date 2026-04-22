@@ -60,7 +60,7 @@ function TruthStream({ trust, metrics }) {
   const buses = trust?.buses ?? {}
   const flagged = new Set(trust?.flagged ?? [])
   const entries = Object.entries(buses)
-  const byzantineCount = flagged.size
+  const byzantineCount = entries.filter(([, s]) => s < 0.5).length + flagged.size
   const cleanCount = entries.length - byzantineCount
 
   // Show flagged first, then lowest-scoring
@@ -95,7 +95,7 @@ function TruthStream({ trust, metrics }) {
         <div className="card-title">Sensor Trust Scores (lowest first)</div>
         {sorted.map(([id, score]) => (
           <div key={id}>
-            <SensorRow id={id} score={score} flagged={flagged.has(id)} />
+            <SensorRow id={id} score={score} flagged={flagged.has(id) || score < 0.5} />
             <TrustBar score={score} />
           </div>
         ))}

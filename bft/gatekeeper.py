@@ -120,6 +120,9 @@ class BFTGatekeeper:
             return None
 
     def _connect_influx(self) -> Any | None:
+        url = os.environ.get("INFLUXDB_URL", "https://influxddb:8086")
+        if url == "disabled":
+            return None
         try:
             from influxdb_client import InfluxDBClient
 
@@ -541,6 +544,8 @@ if __name__ == "__main__":
                 "spot_price": 50.0,
                 "price_metadata": {"confidence": 1.0},
                 "depot_meter_kw": sum(b["mean_power_kw"] for b in buses),
+                "temperature_c": 18.0,
+                "solar_irradiance_wm2": 250.0,
                 "buses": buses,
             }
         else:

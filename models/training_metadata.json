@@ -1,30 +1,30 @@
 {
   "horizon": 288,
   "feature_count": 26,
-  "train_rows": 16992,
+  "train_rows": 96192,
   "cal_rows": 8640,
   "train_start": "2023-01-01",
-  "train_end_cutoff": "2023-02-28",
+  "train_end_cutoff": "2023-11-30",
   "best_params": {
-    "n_estimators": 200,
+    "n_estimators": 150,
     "max_depth": 7,
-    "learning_rate": 0.06054365855469246,
-    "subsample": 0.8832290311184181,
-    "colsample_bytree": 0.608233797718321,
-    "min_child_weight": 10
+    "learning_rate": 0.08960785365368121,
+    "subsample": 0.8394633936788146,
+    "colsample_bytree": 0.6624074561769746,
+    "min_child_weight": 2
   },
-  "best_cv_mae": 2.586,
-  "final_mae": 2.6942,
-  "mae_h1_5min": 2.5958,
-  "mae_h144_12h": 2.617,
-  "mae_h288_24h": 2.6634,
+  "best_cv_mae": 17.8728,
+  "final_mae": 22.3742,
+  "mae_h1_5min": 2.0771,
+  "mae_h144_12h": 23.0914,
+  "mae_h288_24h": 32.591,
   "conformal": {
-    "empirical_coverage": 0.8,
+    "empirical_coverage": 0.800025720164609,
     "target_coverage": 0.8,
-    "mean_interval_width_eur": 8.619933715793824
+    "mean_interval_width_eur": 72.32340365449589
   },
-  "elapsed_s": 2799.9,
-  "n_optuna_trials": 3,
+  "elapsed_s": 13160.2,
+  "n_optuna_trials": 5,
   "n_cv_folds": 3,
-  "saved_at": "2026-04-16T16:09:13.731226+00:00"
+  "saved_at": "2026-04-23T09:08:03.309914+00:00"
 }

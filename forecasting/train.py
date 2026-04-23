@@ -421,7 +421,7 @@ def _make_model(params: dict) -> MultiOutputRegressor:
         random_state=42,
         verbosity=0,
     )
-    return MultiOutputRegressor(xgb, n_jobs=-1)
+    return MultiOutputRegressor(xgb, n_jobs=2)
 
 
 def _mean_horizon_mae(
@@ -458,7 +458,7 @@ def make_optuna_objective(
 
     def objective(trial: optuna.Trial) -> float:
         params = {
-            "n_estimators": trial.suggest_int("n_estimators", 200, 800, step=50),
+            "n_estimators": trial.suggest_int("n_estimators", 100, 300, step=50),
             "max_depth": trial.suggest_int("max_depth", 3, 7),
             "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.20, log=True),
             "subsample": trial.suggest_float("subsample", 0.6, 1.0),

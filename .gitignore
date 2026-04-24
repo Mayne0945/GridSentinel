@@ -8,3 +8,4 @@ data/**/*.parquet
 models/*.joblib
 models/*.npy
 htmlcov/
+logs/

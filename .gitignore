@@ -9,3 +9,4 @@ models/*.joblib
 models/*.npy
 htmlcov/
 logs/
+logs/

@@ -231,7 +231,7 @@ Detection rate across all four patterns: **100%**. The attack is caught within o
 ```bash
 git clone https://github.com/Mayne0945/GridSentinel.git
 cd GridSentinel
-poetry install
+pip install -r requirements.txt
 
 # Full stack with LocalStack Kinesis
 docker-compose up

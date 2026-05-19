@@ -40,6 +40,18 @@ Every sensor reading is treated as potentially compromised until it survives a B
 
 <br />
 
+## Live Demo
+
+[![GridSentinel Chaos Demo](https://img.shields.io/badge/Watch-Live_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/9b7Y-rJQqYI)
+
+The Chaos Toggle injects a coordinated Byzantine attack across 10 buses in real time. Watch the BFT layer detect and neutralise the attack within one 5-minute window while the forecast and dispatch remain completely stable.
+
+<br />
+
+---
+
+<br />
+
 ## The Pipeline
 
 ```
@@ -281,8 +293,8 @@ GridSentinel/
 - [x] Phase 4 · Physics-based Digital Twin with DistFlow and AC power flow validation
 - [x] Market safety circuit breaker closing the zero-price vulnerability
 - [x] Phase 5 · React Chaos Dashboard with live God-View and Chaos Toggle
-- [ ] Production retrain on full 2023-2024 ENTSO-E data with 50 Optuna trials
-- [ ] Wire BFT fleet output to MPC fleet state replacing synthetic fleet
+- [x] Production retrain on full 2023-2024 ENTSO-E data with 50 Optuna trials
+- [x] Wire BFT fleet output to MPC fleet state replacing synthetic fleet
 
 <br />
 
